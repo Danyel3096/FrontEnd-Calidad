@@ -1,0 +1,21 @@
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 1rem;
+    border-right: 1px solid #ddd;
+  }
+
+  .sidebar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    width: 250px; /* Ajusta el ancho según necesites */
+    background-color: #f8f9fa; /* O el color de fondo que prefieras */
+    overflow-y: auto; /* Si quieres permitir scroll dentro del sidebar */
+    border-right: 1px solid #dee2e6; /* Opcional: línea divisoria */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  }

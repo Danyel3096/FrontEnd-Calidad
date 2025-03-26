@@ -1,0 +1,30 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-lg p-4">
+      <div class="text-center">
+        <img src="../../../assets/login1.png" width="100" height="100" alt="Login Icon">
+      </div>
+      <h2 class="text-center mt-3">Inicio de sesión</h2>
+      
+      <form (ngSubmit)="formSubmit()">
+        <!-- Nombre de usuario -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Nombre de usuario</label>
+          <input type="text" class="form-control" id="username" [(ngModel)]="loginData.username" name="username" required placeholder="Digite su nombre de usuario">
+        </div>
+
+        <!-- Contraseña -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="password" [(ngModel)]="loginData.password" name="password" required placeholder="Digite su contraseña">
+        </div>
+
+        <!-- Botones -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+          <button type="reset" class="btn btn-secondary w-100 mt-2">Borrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
