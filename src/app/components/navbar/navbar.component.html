@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">
+      <img src="assets/transport.png" alt="Logo" style="height: 60px;">
+
+    </a>
+
+    <div class="d-flex ms-auto align-items-center">
+      <ng-container *ngIf="!isLoggedIn">
+        <a class="btn btn-warning me-3" routerLink="/admin-dashboard">Admin Dashboard</a>
+        <a class="btn btn-warning me-3" routerLink="/user-dashboard">User Dashboard</a>
+        <a class="btn btn-info me-3" routerLink="/products">Productos</a>
+        <a class="btn btn-info me-3" routerLink="/cart">Carrito</a>
+        <a class="btn btn-light me-3" routerLink="/login">Iniciar sesión</a>
+        <a class="btn btn-outline-light me-3" routerLink="/signup">Registrar</a>
+      </ng-container>
+
+      <ng-container *ngIf="isLoggedIn">
+        <button class="btn btn-outline-light me-3" (click)="logout()">Cerrar sesión</button>
+        <button class="btn btn-light me-3" *ngIf="user">{{ user.username }}</button>
+      </ng-container>
+
+      <div>
+        <button class="relative">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+            <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+            <path d="M17 17h-11v-14h-2" />
+            <path d="M6 5l14 1l-1 7h-13" />
+          </svg>
+  
+          @if (cartState.count() > 0) {
+            <span
+              class="absolute bg-green-600 size-6 rounded-full flex items-center justify-center -right-2"
+              >{{ cartState.count() }}</span
+            >
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+  
