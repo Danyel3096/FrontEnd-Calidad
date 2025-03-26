@@ -1,6 +1,6 @@
 # Repositorio destinado para el FrontEnd de Desarrollo de Software 3
-FrontEnd del proyecto para la asignatura Desarrollo de Software III
-# Repositorio en Slack 
+FrontEnd del proyecto para la asignatura Calidad de Productos de Software
+# Repositorio en GitHub
 ## 1. Introducción  
 Este documento describe la arquitectura inicial del sistema de gestión de órdenes y entregas, incluyendo pero no limitado a:
 * Requisitos funcionales
@@ -9,13 +9,11 @@ Este documento describe la arquitectura inicial del sistema de gestión de órde
 
 Que deben ser consideradas en el diseño del software.
 
-**Equipo:** 8  
 **Integrantes:**   
 | Nombre Completo           | Código de Estudiante     |
 |---------------------------|--------------------------|
-| Diego Alejandro Tolosa    | 2313023                  |
-| Juan Esteban Lopez        | 2313026                  |
-| Joan Sebastian Saavedra   | 2313025                  |
-| Daniel Melendez Ramirez   | 2313024                  |
-| Victor Manuel Alzate      | 2313022                  |
 | Karen Grijalba            | 2259623                  |
+| Juan Manuel Hoyos         | 2380796                  |
+| Juan José Marín           | 2259337                  |
+| Daniel Melendez Ramirez   | 2313024                  |
+| Mateo Zambrano Bacca      | 2160066                  |

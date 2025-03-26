@@ -6,7 +6,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import ProductsListComponent from './pages/products/features/product-list/product-list.component';
-import CartListComponent from './pages/products/cart/cart.component';
+import CartListComponent from './pages/cart/cart.component';
 // Rutas protegidas
 import { NormalGuard } from './services/normal.guard';
 import { AdminGuard } from './services/admin.guard';
