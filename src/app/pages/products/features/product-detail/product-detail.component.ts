@@ -1,7 +1,7 @@
 import { Component, effect, inject, input } from '@angular/core';
 import { ProductDetailSateService } from '../../data-access/product-detail-state.service';
 import { CurrencyPipe } from '@angular/common';
-import { CartStateService } from '../../../shared/data-access/cart-state.service';
+import { CartStateService } from '../../shared/data-access/cart-state.service';
 
 @Component({
   selector: 'app-product-detail',

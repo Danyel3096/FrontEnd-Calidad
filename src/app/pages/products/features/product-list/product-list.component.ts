@@ -15,9 +15,17 @@ export default class ProductsListComponent {
   productsState = inject(ProductsSateService);
   cartState = inject(CartStateService).state;
 
-  changePage() {
+  previousPage() {
+    const page = this.productsState.state.page() - 1;
+    this.productsState.changePage$.next(page);
+  }
+  nextPage() {
     const page = this.productsState.state.page() + 1;
     this.productsState.changePage$.next(page);
+  }
+  
+  pageChanged(page: String) {
+    //const page = this.productsState.state.page();
   }
 
   addToCart(product: Product) {

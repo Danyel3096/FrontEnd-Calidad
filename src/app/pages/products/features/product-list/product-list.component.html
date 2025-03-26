@@ -1,14 +1,10 @@
 <div class="mx-auto max-w-screen-xl">
-  @switch (productsState.state.status()) {
-    @case ("loading") {
-      <p>Loading...</p>
-    }
-    @case ("error") {
-      <p>Error</p>
-    }
-
-    @default {
-      <div class="flex justify-end my-6">
+  @switch (productsState.state.status()) { @case ("loading") {
+  <p>Loading...</p>
+  } @case ("error") {
+  <p>Error</p>
+  } @default {
+  <!-- <div class="flex justify-end my-6">
         <button
           type="button"
           (click)="changePage()"
@@ -16,17 +12,46 @@
         >
           Cambiar pagina
         </button>
-      </div>
+      </div> -->
+      
+  <div class="mx-auto max-w-screen-xl pt-20 pb-16">
+    <div class="grid grid-cols-[repeat(5,300px)] gap-10 justify-center">
+      @for (product of productsState.state().products; track product) {
+      <app-product-card
+        class="block"
+        [product]="product"
+        (addToCart)="addToCart($event)"
+      />
+      }
+    </div>
+  </div>
+  
+  } 
+}
+</div>
 
-      <div class="grid grid-cols-[repeat(4,300px)] gap-6">
-        @for (product of productsState.state().products; track product) {
-          <app-product-card
-            class="block"
-            [product]="product"
-            (addToCart)="addToCart($event)"
-          />
-        }
-      </div>
-    }
-  }
+<div aria-label="Pagination" class="flex justify-center fixed bottom-0 w-screen bg-white py-4 shadow-md">
+  <ul class="pagination">
+    <li class="page-item ">
+      <button
+        type="button"
+        (click)="previousPage()"
+        class="page-link">
+        Previous
+      </button>
+    </li>
+    <li class="page-item active"aria-current="page"><a class="page-link" href="#">1</a></li>
+    <li class="page-item ">
+      <a class="page-link" href="#">2</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <button
+        type="button"
+        (click)="nextPage()"
+        class="page-link">
+        Next
+      </button>
+    </li>
+  </ul>
 </div>
