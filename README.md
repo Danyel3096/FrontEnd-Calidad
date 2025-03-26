@@ -11,7 +11,7 @@ Que deben ser consideradas en el diseño del software.
 
 **Integrantes:**   
 | Nombre Completo           | Código de Estudiante     |
-|---------------------------|--------------------------|
+|---------------------------|--------------------------| 
 | Karen Grijalba            | 2259623                  |
 | Juan Manuel Hoyos         | 2380796                  |
 | Juan José Marín           | 2259337                  |
