@@ -1,0 +1,66 @@
+/* Estilos generales */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Sidebar */
+  .sidebar-fixed {
+    background-color: #343a40;
+    color: white;
+    height: 100vh;
+    padding: 15px;
+  }
+  
+  /* Contenido principal */
+  .main-content {
+    padding: 20px;
+  }
+  
+  /* Estilos de la tabla */
+  #myTable {
+    width: 100% !important;
+    border-collapse: collapse;
+  }
+  
+  #myTable thead th {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+  }
+  
+  #myTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  #myTable tbody tr:hover {
+    background-color: #d4edda;
+  }
+  
+  /* Botones de acción */
+  .btn-info {
+    background-color: #17a2b8;
+    border: none;
+  }
+  .btn-warning {
+    background-color: #ffc107;
+    border: none;
+  }
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+  }
+  
+  /* Estilos de los modales */
+  .modal-content {
+    border-radius: 10px;
+  }
+  .modal-header {
+    background-color: #007bff;
+    color: white;
+    border-radius: 10px 10px 0 0;
+  }
+  .modal-footer {
+    border-top: none;
+  }
+  
