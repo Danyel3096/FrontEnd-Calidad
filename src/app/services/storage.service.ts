@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ProductItemCart } from '../interfaces/product.interface';
+import { ProductItemCart } from '../pages/products/interfaces/product.interface';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
+
 export class StorageService {
+
+  constructor() { }
+
   loadProducts(): Observable<ProductItemCart[]> {
     const rawProducts = localStorage.getItem('products');
 

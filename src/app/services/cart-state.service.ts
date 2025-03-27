@@ -1,5 +1,5 @@
 import { Injectable, Signal, inject } from '@angular/core';
-import { ProductItemCart } from '../interfaces/product.interface';
+import { ProductItemCart } from '../pages/products/interfaces/product.interface';
 import { signalSlice } from 'ngxtension/signal-slice';
 import { StorageService } from './storage.service';
 import { Observable, map } from 'rxjs';
@@ -10,9 +10,13 @@ interface State {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
+
 export class CartStateService {
+
+  constructor() { }
+
   private _storageService = inject(StorageService);
 
   private initialState: State = {

@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { ProductItemCart } from '../../pages/products/shared/interfaces/product.interface';
+import { ProductItemCart } from '../../pages/products/interfaces/product.interface';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({

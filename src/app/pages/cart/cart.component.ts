@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CartItemComponent } from '../../components/cart-item/cart-item.component';
-import { CartStateService } from '../products/shared/data-access/cart-state.service';
-import { ProductItemCart } from '../products/shared/interfaces/product.interface';
+import { CartStateService } from '../../services/cart-state.service';
+import { ProductItemCart } from '../products/interfaces/product.interface';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({

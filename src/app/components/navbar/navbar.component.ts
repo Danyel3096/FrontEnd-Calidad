@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../material/material.module';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
-import { CartStateService } from '../../pages/products/shared/data-access/cart-state.service';
+import { CartStateService } from '../../services/cart-state.service';
 
 
 @Component({

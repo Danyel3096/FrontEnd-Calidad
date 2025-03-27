@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { ProductStateService } from '../../../services/product-state.service';
 import { ProductCardComponent } from '../../../components/product-card/product-card.component';
-import { CartStateService } from '../shared/data-access/cart-state.service';
-import { Product } from '../shared/interfaces/product.interface';
+import { CartStateService } from '../../../services/cart-state.service';
+import { Product } from '../interfaces/product.interface';
 
 @Component({
   selector: 'app-product-list',
