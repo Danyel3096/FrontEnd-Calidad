@@ -6,7 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import ProductsListComponent from './pages/products/features/product-list/product-list.component';
+import ProductsListComponent from './pages/products/product-list/product-list.component';
 import CartListComponent from './pages/cart/cart.component';
 // DEPENDEN DE UN PADRE
 // Rutas protegidas
@@ -36,8 +36,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/user/user.route'),
   },
-  { path: 'settings', component: SettingsComponent, pathMatch: 'full' },
-  { path: 'products', component: ProductsListComponent, pathMatch: 'full' },
+  {
+    path: 'products',
+    loadChildren: () =>
+      import('./pages/products/product.route'),
+  },
   { path: 'cart', component: CartListComponent, pathMatch: 'full' },
   // Páginas protegidas en el dashboard
   { path: 'user-dashboard', title: 'User Dashboard component', component: UserDashboardComponent,
