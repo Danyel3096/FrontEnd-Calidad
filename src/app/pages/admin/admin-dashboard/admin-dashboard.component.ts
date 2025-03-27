@@ -5,10 +5,10 @@ import { SidebarComponent } from './../../../components/sidebar/sidebar.componen
   standalone: true,
   imports: [SidebarComponent],
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  templateUrl: './admin-dashboard.component.html',
+  styleUrls: ['./admin-dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit {
 
   constructor() { }
 
