@@ -2,13 +2,13 @@ import { LoginService } from './../../services/login.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../material/material.module';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { CartStateService } from '../../pages/products/shared/data-access/cart-state.service';
 
 
 @Component({
   standalone:true,
-  imports:[CommonModule,MaterialModule,RouterModule],
+  imports:[CommonModule,MaterialModule,RouterModule, RouterLink, RouterLinkActive],
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']

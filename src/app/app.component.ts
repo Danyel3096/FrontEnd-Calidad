@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
@@ -12,5 +11,5 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 })
 
 export class AppComponent {
-  title = 'frontend';
+  title = 'Frontend Calidad';
 }

@@ -7,12 +7,12 @@
 
     <div class="d-flex ms-auto align-items-center">
       <ng-container *ngIf="!isLoggedIn">
-        <a class="btn btn-warning me-3" routerLink="/admin-dashboard">Admin Dashboard</a>
-        <a class="btn btn-warning me-3" routerLink="/user-dashboard">User Dashboard</a>
-        <a class="btn btn-info me-3" routerLink="/products">Productos</a>
-        <a class="btn btn-info me-3" routerLink="/cart">Carrito</a>
-        <a class="btn btn-light me-3" routerLink="/login">Iniciar sesión</a>
-        <a class="btn btn-outline-light me-3" routerLink="/signup">Registrar</a>
+        <a class="btn btn-warning me-3" routerLink="/admin-dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">Admin Dashboard</a>
+        <a class="btn btn-warning me-3" routerLink="/user-dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">User Dashboard</a>
+        <a class="btn btn-info me-3" routerLink="/products" routerLinkActive="active" ariaCurrentWhenActive="page">Productos</a>
+        <a class="btn btn-info me-3" routerLink="/cart" routerLinkActive="active" ariaCurrentWhenActive="page">Carrito</a>
+        <a class="btn btn-light me-3" routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Iniciar sesión</a>
+        <a class="btn btn-outline-light me-3" routerLink="/signup" routerLinkActive="active" ariaCurrentWhenActive="page">Registrar</a>
       </ng-container>
 
       <ng-container *ngIf="isLoggedIn">
