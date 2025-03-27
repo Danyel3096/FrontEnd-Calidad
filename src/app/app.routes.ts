@@ -5,8 +5,6 @@ import { HomeComponent } from './pages/home/home.component';
 // Rutas de la aplicación
 import { SignupComponent } from './pages/signup/signup.component';
 import { LoginComponent } from './pages/login/login.component';
-import { SettingsComponent } from './pages/settings/settings.component';
-import ProductsListComponent from './pages/products/product-list/product-list.component';
 import CartListComponent from './pages/cart/cart.component';
 // DEPENDEN DE UN PADRE
 // Rutas protegidas
@@ -19,6 +17,7 @@ import { OrdersDashboardComponent } from './pages/orders/orders.component';
 import { ProductsDashboardComponent } from './pages/products/dashboard/dashboard.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { MissingComponent } from './pages/missing/missing.component';
+import { UserRecoverPasswordComponent } from './pages/recover-password/user-recover-password.component';
 
 //2) CREAR UN ARREGLO CON LAS RUTAS DE LA APLICACIÓN
 // Arreglo con las rutas de la aplicación
@@ -28,20 +27,21 @@ export const routes: Routes = [
   //ESPERAR { path: 'home', redirectTo: '', component: HomeComponent, pathMatch: 'full' },
   
   // Paginas de la aplicacion
-  { path: 'signup', component: SignupComponent, pathMatch: 'full' },
+  { path: 'cart', component: CartListComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
+  {
+    path: 'products',
+    loadChildren: () =>
+      import('./pages/products/product.route'),
+  },
+  { path: 'recover-password', component: UserRecoverPasswordComponent, pathMatch: 'full' },
+  { path: 'signup', component: SignupComponent, pathMatch: 'full' },
   //FALTA RECUPRERAR LA CONTRASEÑA
   {
     path: 'user',
     loadChildren: () =>
       import('./pages/user/user.route'),
   },
-  {
-    path: 'products',
-    loadChildren: () =>
-      import('./pages/products/product.route'),
-  },
-  { path: 'cart', component: CartListComponent, pathMatch: 'full' },
   // Páginas protegidas en el dashboard
   { path: 'user-dashboard', title: 'User Dashboard component', component: UserDashboardComponent,
     children: [
