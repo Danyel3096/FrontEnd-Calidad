@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { Product } from '../shared/interfaces/product.interface';
+import { Product } from '../pages/products/shared/interfaces/product.interface';
 import { signalSlice } from 'ngxtension/signal-slice';
-import { ProductsService } from '../../../services/product.service';
+import { ProductsService } from './product.service';
 import { Subject, catchError, map, of, startWith, switchMap } from 'rxjs';
 
 interface State {
@@ -10,8 +10,14 @@ interface State {
   page: number;
 }
 
-@Injectable()
-export class ProductsSateService {
+@Injectable({
+  providedIn: 'root'
+})
+
+export class ProductStateService {
+  
+  constructor() { }
+
   private productsService = inject(ProductsService);
 
   private initialState: State = {

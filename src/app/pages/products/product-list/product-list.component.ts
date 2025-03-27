@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ProductsSateService } from '../data-access/products-state.service';
+import { ProductStateService } from '../../../services/product-state.service';
 import { ProductCardComponent } from '../../../components/product-card/product-card.component';
 import { CartStateService } from '../shared/data-access/cart-state.service';
 import { Product } from '../shared/interfaces/product.interface';
@@ -9,10 +9,10 @@ import { Product } from '../shared/interfaces/product.interface';
   standalone: true,
   imports: [ProductCardComponent],
   templateUrl: './product-list.component.html',
-  providers: [ProductsSateService],
+  providers: [ProductStateService],
 })
 export default class ProductsListComponent {
-  productsState = inject(ProductsSateService);
+  productsState = inject(ProductStateService);
   cartState = inject(CartStateService).state;
 
   changePage() {
