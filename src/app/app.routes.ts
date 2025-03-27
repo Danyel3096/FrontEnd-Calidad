@@ -14,7 +14,7 @@ import { AdminGuard } from './services/admin.guard';
 import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { OrdersDashboardComponent } from './pages/orders/orders.component';
-import { ProductsDashboardComponent } from './pages/products/dashboard/dashboard.component';
+import { ProductsDashboardComponent } from './pages/products/products-dashboard/dashboard.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { MissingComponent } from './pages/missing/missing.component';
 import { UserRecoverPasswordComponent } from './pages/recover-password/user-recover-password.component';
@@ -36,7 +36,6 @@ export const routes: Routes = [
   },
   { path: 'recover-password', component: UserRecoverPasswordComponent, pathMatch: 'full' },
   { path: 'signup', component: SignupComponent, pathMatch: 'full' },
-  //FALTA RECUPRERAR LA CONTRASEÑA
   {
     path: 'user',
     loadChildren: () =>

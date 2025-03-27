@@ -1,9 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
+import { BaseHttpService } from '../pages/products/shared/data-access/base-http.service';
+import { Product } from '../pages/products/shared/interfaces/product.interface';
+
+const LIMIT = 5;
 
 @Injectable({
   providedIn: 'root'
 })
+
+export class ProductsService extends BaseHttpService {
+  getProducts(page: number): Observable<Product[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/products`, {
+      params: {
+        limit: page * LIMIT,
+      },
+    });
+  }
+
+  getProduct(id: string): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/products/${id}`);
+  }
+}
 
 export class ProductService {
 
