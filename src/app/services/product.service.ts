@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
-import { BaseHttpService } from '../pages/products/shared/data-access/base-http.service';
+import { BaseHttpService } from './base-http.service';
 import { Product } from '../pages/products/interfaces/product.interface';
 
 const LIMIT = 5;
