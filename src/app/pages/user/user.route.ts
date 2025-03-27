@@ -9,4 +9,5 @@ export default [
     path: 'settings',
     loadComponent: () => import('./user-settings/user-settings.component').then(m => m.UserSettingsComponent),
   },
+  //{ path: "user/:userId", component: OtherComponent },
 ] as Routes;

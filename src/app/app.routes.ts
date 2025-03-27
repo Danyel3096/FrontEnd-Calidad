@@ -1,16 +1,18 @@
 import { Routes } from '@angular/router'; //OK
-// CON LAZY LOADING
+
 // Ruta por defecto
 import { HomeComponent } from './pages/home/home.component';
+
 // Rutas de la aplicación
 import { SignupComponent } from './pages/signup/signup.component';
 import { LoginComponent } from './pages/login/login.component';
 import CartListComponent from './pages/cart/cart.component';
 import { UserRecoverPasswordComponent } from './pages/recover-password/user-recover-password.component';
-// DEPENDEN DE UN PADRE
+
 // Rutas protegidas
 import { NormalGuard } from './services/normal.guard';
 import { AdminGuard } from './services/admin.guard';
+
 // Rutas del dashboard de administrador
 import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
 import { MetricsAdminDashboardComponent } from './pages/admin/admin-dashboard/metrics-dashboard/metrics-dashboard.component';
@@ -30,25 +32,25 @@ import { MissingComponent } from './pages/missing/missing.component';
 export const routes: Routes = [
   // Por defecto
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  //ESPERAR { path: 'home', redirectTo: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'home', redirectTo: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'admin-dashboard', title: 'Admin Dashboard component', component: AdminDashboardComponent, 
     children: [
       {
-        path: 'metrics',
+        path: 'metrics', // child admin route path
         component: MetricsAdminDashboardComponent, // another child route component that the router renders
       },
       {
-        path: 'products', // child route path
+        path: 'products', // child admin route path
         component: ProductsAdminDashboardComponent, // child route component that the router renders
         pathMatch: 'full', canActivate: [NormalGuard]
       },
       {
-        path: 'orders', // child route path
+        path: 'orders', // child admin route path
         component: OrdersAdminDashboardComponent, // child route component that the router renders
         pathMatch: 'full', canActivate: [NormalGuard]
       },
       {
-        path: 'users', // child route path
+        path: 'users', // child admin route path
         component: UsersAdminDashboardComponent, // child route component that the router renders
         pathMatch: 'full', canActivate: [NormalGuard]
       }
@@ -60,7 +62,12 @@ export const routes: Routes = [
   {
     path: 'products',
     loadChildren: () =>
-      import('./pages/products/product.route'),
+      import('./pages/products/products-list.route'),
+  },
+  {
+    path: 'product',
+    loadChildren: () =>
+      import('./pages/products/product-detail.route'),
   },
   { path: 'recover-password', component: UserRecoverPasswordComponent, pathMatch: 'full' },
   { path: 'signup', component: SignupComponent, pathMatch: 'full' },
@@ -73,14 +80,13 @@ export const routes: Routes = [
   { path: 'user-dashboard', title: 'User Dashboard component', component: UserDashboardComponent,
     children: [
       {
-        path: 'orders', // child route path
+        path: 'orders', // child user route path
         component: OrdersDashboardComponent, // child route component that the router renders
         pathMatch: 'full', canActivate: [NormalGuard]
       }
     ],
     pathMatch: 'full', canActivate: [NormalGuard] },
-  // Páginas del dashboard
-  //{ path: "user/:userId", component: OtherComponent },
+  // Otras páginas
   { path: 'unauthorized', component: UnauthorizedComponent }, // ruta no autorizada
   { path: '**', component: MissingComponent }, // ruta no encontrada
 ];
