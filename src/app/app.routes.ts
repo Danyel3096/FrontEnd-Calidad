@@ -1,5 +1,5 @@
-//1) IMPORTAR LOS COMPONENTES (RUTA...nombre.component)
-import { Routes } from '@angular/router';
+import { Routes } from '@angular/router'; //OK
+// CON LAZY LOADING
 // Ruta por defecto
 import { HomeComponent } from './pages/home/home.component';
 // Rutas de la aplicación
@@ -8,6 +8,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import ProductsListComponent from './pages/products/features/product-list/product-list.component';
 import CartListComponent from './pages/cart/cart.component';
+// DEPENDEN DE UN PADRE
 // Rutas protegidas
 import { NormalGuard } from './services/normal.guard';
 import { AdminGuard } from './services/admin.guard';
@@ -24,10 +25,17 @@ import { MissingComponent } from './pages/missing/missing.component';
 export const routes: Routes = [
   // Por defecto
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'home', redirectTo: '', component: HomeComponent, pathMatch: 'full' },
+  //ESPERAR { path: 'home', redirectTo: '', component: HomeComponent, pathMatch: 'full' },
+  
   // Paginas de la aplicacion
   { path: 'signup', component: SignupComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
+  //FALTA RECUPRERAR LA CONTRASEÑA
+  {
+    path: 'user',
+    loadChildren: () =>
+      import('./pages/user/user.route'),
+  },
   { path: 'settings', component: SettingsComponent, pathMatch: 'full' },
   { path: 'products', component: ProductsListComponent, pathMatch: 'full' },
   { path: 'cart', component: CartListComponent, pathMatch: 'full' },
@@ -44,7 +52,7 @@ export const routes: Routes = [
         component: OrdersDashboardComponent, // child route component that the router renders
         pathMatch: 'full', canActivate: [NormalGuard]
       },
-      {
+      /* {
         path: 'users', // child route path
         component: UsersDashboardComponent, // child route component that the router renders
         pathMatch: 'full', canActivate: [NormalGuard]
@@ -52,7 +60,7 @@ export const routes: Routes = [
       {
         path: 'metrics',
         component: MetricsComponent, // another child route component that the router renders
-      },
+      }, */
     ],
     pathMatch: 'full', canActivate: [NormalGuard] },
   { path: 'admin-dashboard', component: DashboardComponent, pathMatch: 'full', canActivate: [AdminGuard] },

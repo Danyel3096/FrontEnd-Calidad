@@ -71,15 +71,11 @@
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/jquery": "^3.5.32",
-<<<<<<< Updated upstream
-    "@types/node": "^18.18.0",
-=======
     "@types/node": "^18.19.83",
     "angular-eslint": "19.3.0",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.5",
->>>>>>> Stashed changes
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
