@@ -5,33 +5,34 @@
   <hr>
   <ul class="nav flex-column">
     <li class="nav-item">
-      <a routerLink="/user-dashboard/admin" class="nav-link">
+      <a routerLink="/admin-dashboard" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link">
         <i class="fas fa-tachometer-alt"></i> Dashboard
       </a>
     </li>
+    <hr>
     <li>
-      <a routerLink="/user-dashboard/products" class="nav-link">
+      <a routerLink="products" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link">
         <i class="fas fa-box"></i> Productos
       </a>
     </li>
+    <hr>
     <li>
-      <a routerLink="/user-dashboard/orders" class="nav-link">
+      <a routerLink="orders" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link">
         <i class="fas fa-shopping-cart"></i> Órdenes
       </a>
     </li>
+    <hr>
     <li>
-      <a routerLink="/user-dashboard/metrics" class="nav-link">
-        <i class="fas fa-shopping-cart"></i> Métricas
+      <a routerLink="metrics" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link">
+        <i class="fas fa-chart-bar"></i> Métricas
       </a>
     </li>
+    <hr>
     <li>
-      <a routerLink="/settings" class="nav-link">
-        <i class="fas fa-cog"></i> Configuraciones
+      <a routerLink="users" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link">
+        <i class="fas fa-user-cog"></i> Usuarios/Roles
       </a>
     </li>
   </ul>
   <hr>
-  <a routerLink="/logout" class="nav-link logout">
-    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-  </a>
 </div>

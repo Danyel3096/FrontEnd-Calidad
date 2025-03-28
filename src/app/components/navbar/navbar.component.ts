@@ -8,7 +8,7 @@ import { CartStateService } from '../../services/cart-state.service';
 
 @Component({
   standalone:true,
-  imports:[CommonModule,MaterialModule,RouterModule, RouterLink, RouterLinkActive],
+  imports:[CommonModule, MaterialModule, RouterModule, RouterLink, RouterLinkActive],
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']

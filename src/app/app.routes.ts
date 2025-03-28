@@ -42,20 +42,16 @@ export const routes: Routes = [
       {
         path: 'products', // child admin route path
         component: ProductsAdminDashboardComponent, // child route component that the router renders
-        pathMatch: 'full', canActivate: [NormalGuard]
       },
       {
         path: 'orders', // child admin route path
         component: OrdersAdminDashboardComponent, // child route component that the router renders
-        pathMatch: 'full', canActivate: [NormalGuard]
       },
       {
         path: 'users', // child admin route path
         component: UsersAdminDashboardComponent, // child route component that the router renders
-        pathMatch: 'full', canActivate: [NormalGuard]
       }
-    ],
-    pathMatch: 'full', canActivate: [AdminGuard] },
+    ] },
   // Paginas de la aplicacion
   { path: 'cart', component: CartListComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -85,7 +81,7 @@ export const routes: Routes = [
         pathMatch: 'full', canActivate: [NormalGuard]
       }
     ],
-    pathMatch: 'full', canActivate: [NormalGuard] },
+    canActivate: [NormalGuard] },
   // Otras páginas
   { path: 'unauthorized', component: UnauthorizedComponent }, // ruta no autorizada
   { path: '**', component: MissingComponent }, // ruta no encontrada
