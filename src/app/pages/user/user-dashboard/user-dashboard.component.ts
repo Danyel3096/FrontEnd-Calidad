@@ -22,35 +22,34 @@ export class UserDashboardComponent implements OnInit, AfterViewInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
   selectedUser: any = null; // Usuario seleccionado para ver/editar
   modalMode: 'view' | 'edit' = 'view'; // Modo del modal (ver o editar)
   userModal: any; // Referencia al modal
 
   users = [
-    { id: 1, name: 'Juan', description: 'Lorem ipsum A' },
-    { id: 2, name: 'Maria', description: 'Lorem ipsum B' },
-    { id: 3, name: 'Carlos', description: 'Lorem ipsum C' },
-    { id: 4, name: 'Joan', description: 'Lorem ipsum D' },
-    { id: 5, name: 'Sebastian', description: 'Lorem ipsum E' }
+    { id: 1, user: 'Juan', email: 'juan@mail.com', password: '1234', status: 'Activo', creationDate: '2024-03-01' },
+    { id: 2, user: 'Maria', email: 'maria@mail.com', password: 'abcd', status: 'Inactivo', creationDate: '2024-03-05' },
+    { id: 3, user: 'Carlos', email: 'carlos@mail.com', password: '5678', status: 'Activo', creationDate: '2024-03-10' },
+    { id: 4, user: 'Joan', email: 'joan@mail.com', password: 'efgh', status: 'Activo', creationDate: '2024-03-15' },
+    { id: 5, user: 'Sebastian', email: 'sebastian@mail.com', password: 'ijkl', status: 'Inactivo', creationDate: '2024-03-20' }
   ];
+
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.userModal = new Modal(document.getElementById('userModal')!); // Inicializar el modal
     $('#myTable').DataTable({
       dom: 
-      "<'row'<'col-4'l><'col-4 text-center'B><'col-4'f>>" + // l = selector de cantidad de registros, B = botones de exportación, alineados al centro, f = búsqueda
-      "<'row'<'col-12'tr>>" +            // Tabla
-      "<'row'<'col-5'i><'col-7'p>>", // i = información, p = paginación
+      "<'row'<'col-4'l><'col-4 text-center'B><'col-4'f>>" +
+      "<'row'<'col-12'tr>>" +
+      "<'row'<'col-5'i><'col-7'p>>",
       buttons: [
-        { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' }}, // Excluye la columna con clase "no-export" 
-        { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' }}, // Excluye la columna con clase "no-export" 
-        { extend: 'excel', className: 'btn btn-info', exportOptions: { columns: ':not(.no-export)' }}, // Excluye la columna con clase "no-export" 
-        { extend: 'pdf', className: 'btn btn-danger', exportOptions: { columns: ':not(.no-export)' }}, // Excluye la columna con clase "no-export" 
-        { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' }} // Excluye la columna con clase "no-export" 
-      ],  // Activa los botones de exportación
+        { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'excel', className: 'btn btn-info', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'pdf', className: 'btn btn-danger', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } }
+      ],
       columnDefs: [
         { orderable: false, targets: -1 } // Evita ordenar la columna de acciones
       ]
@@ -58,45 +57,39 @@ export class UserDashboardComponent implements OnInit, AfterViewInit {
   }
 
   // Mostrar modal en modo ver
-  seeProduct(user: any) {
-    //console.log('See Product with ID:', user);
-    
+  seeUser(user: any) {
     this.selectedUser = { ...user };
-    
     this.modalMode = 'view';
     this.userModal.show();
   }
 
-   // Mostrar modal en modo editar
-   editProduct(user: any) {
-    console.log('Edit Product with ID:', user.id);
+  // Mostrar modal en modo editar
+  editUser(user: any) {
     this.selectedUser = { ...user };
     this.modalMode = 'edit';
     this.userModal.show();
   }
 
   // Confirmar eliminación con un alert
-  deleteProduct(user: any) {
-    console.log('"Delete" Product with ID:', user.id);
+  deleteUser(user: any) {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: `¿Seguro que deseas eliminar a ${user.name}?`,
+      text: `¿Seguro que deseas eliminar a ${user.user}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.eliminarUsuario(user);
+        this.removeUser(user);
         Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
       }
     });
   }
-  
 
   // Eliminar usuario
-  eliminarUsuario(user: any) {
+  removeUser(user: any) {
     this.users = this.users.filter(u => u.id !== user.id);
   }
-
 }
+

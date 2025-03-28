@@ -16,33 +16,41 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th>Nombre</th>
-              <th>Description</th>
+              <th>Usuario</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Estado</th>
+              <th>Fecha de Creación</th>
               <th class="text-center no-export">Acciones</th> <!-- Columna de botones -->
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let user of users">
               <td>{{ user.id }}</td>
-              <td>{{ user.name }}</td>
-              <td>{{ user.description }}</td>
+              <td>{{ user.user }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.password }}</td>
+              <td>{{ user.status }}</td>
+              <td>{{ user.creationDate }}</td>
               <td class="text-center">
-                <button class="btn btn-info btn-sm mx-1" (click)="seeProduct(user)">
+                <button class="btn btn-info btn-sm mx-1" (click)="seeUser(user)">
                   <i class="fas fa-eye"></i>
                 </button>
-                <button class="btn btn-warning btn-sm mx-1" (click)="editProduct(user)">
+                <button class="btn btn-warning btn-sm mx-1" (click)="editUser(user)">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-danger btn-sm mx-1" (click)="deleteProduct(user)">
+                <button class="btn btn-danger btn-sm mx-1" (click)="deleteUser(user)">
                   <i class="fas fa-trash"></i>
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
     </div>
   </div>
 </div>
+
 <!-- Modal para Ver/Editar Usuario -->
 <div id="userModal" class="modal fade" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -60,12 +68,27 @@
             <input *ngIf="selectedUser?.id" type="text" class="form-control" [value]="selectedUser.id" disabled>
           </div>
           <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input *ngIf="selectedUser" type="text" class="form-control" [(ngModel)]="selectedUser.name" name="name" [disabled]="modalMode === 'view'">
+            <label class="form-label">Usuario</label>
+            <input *ngIf="selectedUser" type="text" class="form-control" [(ngModel)]="selectedUser.user" name="user" [disabled]="modalMode === 'view'">
           </div>
           <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <input *ngIf="selectedUser" type="text" class="form-control" [(ngModel)]="selectedUser.description" name="description" [disabled]="modalMode === 'view'">
+            <label class="form-label">Email</label>
+            <input *ngIf="selectedUser" type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" [disabled]="modalMode === 'view'">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input *ngIf="selectedUser" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" [disabled]="modalMode === 'view'">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <select *ngIf="selectedUser" class="form-control" [(ngModel)]="selectedUser.status" name="status" [disabled]="modalMode === 'view'">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Fecha de Creación</label>
+            <input *ngIf="selectedUser" type="text" class="form-control" [(ngModel)]="selectedUser.creationDate" name="creationDate" disabled>
           </div>
         </form>
       </div>
