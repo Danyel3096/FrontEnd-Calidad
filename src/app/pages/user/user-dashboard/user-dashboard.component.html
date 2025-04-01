@@ -1,113 +1,15 @@
+<p>user-dashboard works!</p>
 <div class="d-flex flex-row flex-shrink-0 row">
-  <div class="col-3 flex-column sidebar-fixed">
-    <!-- Sidebar -->
-    <app-sidebar></app-sidebar>
-  </div>
-  <div class="col-9 flex-column flex-grow-1 p-3">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="text-center">Bienvenido al panel de usuario</h1>
-        <p class="text-center">Este es el panel de administración.</p>
+    <div class="col-3 flex-column sidebar-fixed">
+      <!-- Sidebar -->
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-9 flex-column flex-grow-1 p-3">
+      <div class="row">
+        <div class="col-12">
+          <h1>Bienvenido al panel de usuario</h1>
+          <p>Este es el panel de administración.</p>
+        </div>
       </div>
     </div>
-    
-    <div class="row justify-content-center">
-      <div class="col-8">
-        <table id="myTable" class="display table table-striped table-bordered w-100 custom-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Correo</th>
-              <th>Contraseña</th>
-              <th>Rol</th>
-              <th>Estado</th>
-              <th class="text-center no-export">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of users">
-              <td>{{ user.id }}</td>
-              <td>{{ user.name }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.password }}</td>
-              <td>{{ user.role }}</td>
-              <td>
-                <span [class.text-success]="user.active" [class.text-danger]="!user.active">
-                  {{ user.active ? 'Habilitado' : 'Inhabilitado' }}
-                </span>
-              </td>
-              <td class="text-center">
-                <button class="btn btn-info btn-sm mx-1" (click)="seeProduct(user)">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn btn-warning btn-sm mx-1" (click)="editProduct(user)">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button 
-                  class="btn btn-sm mx-1" 
-                  [ngClass]="user.active ? 'btn-danger' : 'btn-success'" 
-                  (click)="toggleUserStatus(user)">
-                  <i [ngClass]="user.active ? 'fas fa-ban' : 'fas fa-check'"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal para Ver/Editar Usuario -->
-<div id="userModal" class="modal fade" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          {{ modalMode === 'view' ? 'Ver Usuario' : 'Editar Usuario' }}
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <form #userForm="ngForm">
-          <div class="mb-3">
-            <label class="form-label">ID</label>
-            <input *ngIf="selectedUser?.id" type="text" class="form-control" [value]="selectedUser.id" disabled>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input *ngIf="selectedUser" type="text" class="form-control" [(ngModel)]="selectedUser.name" name="name" [disabled]="modalMode === 'view'">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Correo</label>
-            <input *ngIf="selectedUser" type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" [disabled]="modalMode === 'view'">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Contraseña</label>
-            <input *ngIf="selectedUser" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" [disabled]="modalMode === 'view'">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Rol</label>
-            <select *ngIf="selectedUser" class="form-select" [(ngModel)]="selectedUser.role" name="role" [disabled]="modalMode === 'view'">
-              <option value="Admin">Admin</option>
-              <option value="Usuario">Usuario</option>
-              <option value="Editor">Editor</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Estado</label>
-            <select *ngIf="selectedUser" class="form-select" [(ngModel)]="selectedUser.active" name="active" [disabled]="modalMode === 'view'">
-              <option [value]="true">Habilitado</option>
-              <option [value]="false">Inhabilitado</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button *ngIf="modalMode === 'edit'" type="button" class="btn btn-primary" (click)="saveChanges()">Guardar Cambios</button>
-      </div>
-    </div>
-  </div>
 </div>

@@ -1,11 +1,11 @@
-/* Ajusta el sidebar para que no se superponga */
-.sidebar-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px; /* Ajusta el ancho según tu diseño */
-    height: 100vh; /* Asegura que ocupa toda la altura */
-    background-color: #343a40; /* Color del sidebar */
+/* Estilos generales */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Sidebar */
+  .sidebar-fixed {
     color: white;
     padding-top: 20px;
     z-index: 1000; /* Asegura que quede por debajo del navbar */
