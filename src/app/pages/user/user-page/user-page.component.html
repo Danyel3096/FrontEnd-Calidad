@@ -1,1 +1,120 @@
 <p>user-page works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <img src="assets/no-user-img.png" class="rounded mx-auto d-block img-thumbnail w-25" alt="...">
+        </div>
+    </div>
+    <div class="row flex">
+        <form class="row g-3 needs-validation" novalidate (submit)="onSubmit($event, form)" #form="ngForm" ngNativeValidate>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">Nombres</label>
+                    <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                    <label for="validationCustom02" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationCustomUsername" class="form-label">Correo</label>
+                        <div class="input-group has-validation">
+                            <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                            <div class="invalid-feedback">
+                                Please choose a username.
+                            </div>
+                            <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
+                            <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." required>
+                            <datalist id="datalistOptions">
+                                <option value="hotmail.com">
+                                <option value="hotmail.es">
+                                <option value="gmail.com">
+                                <option value="outlook.com">
+                                <option value="outlook.es">
+                                <option value="yahoo.com">
+                                <option value="yahoo.es">
+                                <option value="aol.com">
+                                <option value="gmx.com">
+                                <option value="proton.me">
+                                <option value="mail.com">
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    <label for="validationCustom03" class="form-label">Fecha de creación</label>
+                    <input type="text" class="form-control" id="validationCustom03" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid city.
+                    </div>
+                    </div>
+                    <div class="col-md-3">
+                    <label for="validationCustom04" class="form-label">Rol</label>
+                    <select class="form-select" id="validationCustom04" disabled required>
+                        <option selected value="">Choose...</option>
+                        <option>...</option>
+                    </select>
+                        <div class="invalid-feedback">
+                            Please select a valid state.
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="validationCustom05" class="form-label">Zip</label>
+                        <input type="text" class="form-control" id="validationCustom05" required>
+                        <div class="invalid-feedback">
+                            Please provide a valid zip.
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Default file input example</label>
+                        <input class="form-control" type="file" id="formFile">
+                        </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                        <label class="form-check-label" for="invalidCheck">
+                        Agree to terms and conditions
+                        </label>
+                        <div class="invalid-feedback">
+                        You must agree before submitting.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary" type="submit">Edit profile</button>      
+                </div>
+            </div>
+        </form>
+        <button class="btn btn-success" id="showToast">Mostrar Toast</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" title="Pending, redirect edit button to user settings page when its done.">
+            Hover para ver Tooltip
+          </button>
+          
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            Pending, redirect edit button to user settings page when its done.
+          </div>
+        </div>
+    </div>
+</div>

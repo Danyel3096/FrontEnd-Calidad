@@ -15,9 +15,11 @@ import { AdminGuard } from './services/admin.guard';
 
 // Rutas del dashboard de administrador
 import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
+import { CategoriesAdminDashboardComponent } from './pages/admin/admin-dashboard/categories-dashboard/categories-dashboard.component';
 import { MetricsAdminDashboardComponent } from './pages/admin/admin-dashboard/metrics-dashboard/metrics-dashboard.component';
 import { OrdersAdminDashboardComponent } from './pages/admin/admin-dashboard/orders-dashboard/orders-dashboard.component';
 import { ProductsAdminDashboardComponent } from './pages/admin/admin-dashboard/products-dashboard/products-dashboard.component';
+import { RolesAdminDashboardComponent } from './pages/admin/admin-dashboard/roles-dashboard/roles-dashboard.component';
 import { UsersAdminDashboardComponent } from './pages/admin/admin-dashboard/users-dashboard/users-dashboard.component';
 
 // Rutas del dashboard de usuario
@@ -36,6 +38,10 @@ export const routes: Routes = [
   { path: 'admin-dashboard', title: 'Admin Dashboard component', component: AdminDashboardComponent, 
     children: [
       {
+        path: 'categories', // child admin route path
+        component: CategoriesAdminDashboardComponent, // another child route component that the router renders
+      },
+      {
         path: 'metrics', // child admin route path
         component: MetricsAdminDashboardComponent, // another child route component that the router renders
       },
@@ -46,6 +52,10 @@ export const routes: Routes = [
       {
         path: 'orders', // child admin route path
         component: OrdersAdminDashboardComponent, // child route component that the router renders
+      },
+      {
+        path: 'roles', // child admin route path
+        component: RolesAdminDashboardComponent, // child route component that the router renders
       },
       {
         path: 'users', // child admin route path

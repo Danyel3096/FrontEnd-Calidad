@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminGuard } from '../../services/admin.guard';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AdminGuard] }, // /admin/dashboard
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] }, // /admin/dashboard
 ];
 
 @NgModule({
