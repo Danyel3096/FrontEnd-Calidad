@@ -1,66 +1,42 @@
-/* Estilos generales */
-body {
-    background-color: #f8f9fa;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Sidebar */
-  .sidebar-fixed {
-    background-color: #343a40;
+/* Ajusta el sidebar para que no se superponga */
+.sidebar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px; /* Ajusta el ancho según tu diseño */
+    height: 100vh; /* Asegura que ocupa toda la altura */
+    background-color: #343a40; /* Color del sidebar */
     color: white;
-    height: 100vh;
-    padding: 15px;
-  }
-  
-  /* Contenido principal */
-  .main-content {
+    padding-top: 20px;
+    z-index: 1000; /* Asegura que quede por debajo del navbar */
+}
+
+/* Ajusta el contenido principal para que no quede debajo del sidebar */
+.main-content {
+    margin-left: 250px; /* Debe coincidir con el ancho del sidebar */
     padding: 20px;
-  }
-  
-  /* Estilos de la tabla */
-  #myTable {
-    width: 100% !important;
-    border-collapse: collapse;
-  }
-  
-  #myTable thead th {
-    background-color: #007bff;
+    width: calc(100% - 250px);
+}
+
+/* Ajusta la tabla para moverla más a la derecha */
+
+
+/* Estilos del menú en el sidebar */
+.nav-item .nav-link {
+    display: flex;
+    align-items: center;
     color: white;
-    text-align: center;
-  }
-  
-  #myTable tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  #myTable tbody tr:hover {
-    background-color: #d4edda;
-  }
-  
-  /* Botones de acción */
-  .btn-info {
-    background-color: #17a2b8;
+    padding: 10px;
+}
+
+.nav-item .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Corrige el menú dropdown en el sidebar */
+.sidebar-fixed .nav .nav-item .dropdown-menu {
+    position: relative;
+    width: 100%;
+    background: #343a40;
     border: none;
-  }
-  .btn-warning {
-    background-color: #ffc107;
-    border: none;
-  }
-  .btn-danger {
-    background-color: #dc3545;
-    border: none;
-  }
-  
-  /* Estilos de los modales */
-  .modal-content {
-    border-radius: 10px;
-  }
-  .modal-header {
-    background-color: #007bff;
-    color: white;
-    border-radius: 10px 10px 0 0;
-  }
-  .modal-footer {
-    border-top: none;
-  }
-  
+}

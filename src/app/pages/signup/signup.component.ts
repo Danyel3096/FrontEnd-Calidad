@@ -1,4 +1,4 @@
-import  Swal  from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
@@ -6,8 +6,8 @@ import { MaterialModule } from '../../material/material.module';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  standalone:true,
-  imports:[MaterialModule,FormsModule],
+  standalone: true,
+  imports: [MaterialModule, FormsModule],
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
@@ -15,26 +15,49 @@ import { FormsModule } from '@angular/forms';
 export class SignupComponent implements OnInit {
 
   public user = {
-    username : '',
-    password : '',
-    nombre : '',
-    apellido : '',
-    email : '',
-    telefono : ''
-  }
+    username: '',
+    password: '',
+    nombre: '',
+    apellido: '',
+    email: '',
+    telefono: ''
+  };
 
-  constructor(private userService:UserService,private snack:MatSnackBar) { }
+  public errores = {
+    username: false,
+    password: false,
+    nombre: false,
+    apellido: false,
+    email: false,
+    telefono: false
+  };
 
-  ngOnInit(): void {
-  }
+  constructor(private userService: UserService, private snack: MatSnackBar) { }
 
-  formSubmit(){
-    console.log(this.user);
-    if(this.user.username == '' || this.user.username == null){
-      this.snack.open('El nombre de usuario es requerido !!','Aceptar',{
-        duration : 3000,
-        verticalPosition : 'top',
-        horizontalPosition : 'right'
+  ngOnInit(): void { }
+
+  formSubmit() {
+    let camposVacios = false;
+
+    // Verificar cada campo y marcar los que están vacíos
+    for (let campo in this.user) {
+      if ((this.user as any)[campo].trim() === '') {
+        (this.errores as any)[campo] = true;
+        camposVacios = true;
+      } else {
+        (this.errores as any)[campo] = false;
+      }
+    }
+
+    if (camposVacios) {
+      Swal.fire({
+        icon: 'warning',
+        title: '¡Campos vacíos!',
+        html: `<p style="font-size: 16px; color: #555;">Por favor, completa todos los campos.</p>`,
+        confirmButtonText: 'Entendido',
+        customClass: {
+          popup: 'animated fadeInDown'
+        }
       });
       return;
     }
@@ -42,14 +65,46 @@ export class SignupComponent implements OnInit {
     this.userService.añadirUsuario(this.user).subscribe(
       (data) => {
         console.log(data);
-        Swal.fire('Usuario guardado','Usuario registrado con exito en el sistema','success');
-      },(error) => {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Registro exitoso!',
+          html: `<p style="font-size: 16px; color: #555;">Tu cuenta ha sido creada correctamente.</p>`,
+          confirmButtonText: 'Continuar',
+          customClass: {
+            popup: 'animated fadeInDown'
+          }
+        });
+
+        // Reiniciar los campos y errores después del registro exitoso
+        this.user = {
+          username: '',
+          password: '',
+          nombre: '',
+          apellido: '',
+          email: '',
+          telefono: ''
+        };
+        this.errores = {
+          username: false,
+          password: false,
+          nombre: false,
+          apellido: false,
+          email: false,
+          telefono: false
+        };
+      },
+      (error) => {
         console.log(error);
-        this.snack.open('Ha ocurrido un error en el sistema !!','Aceptar',{
-          duration : 3000
+        Swal.fire({
+          icon: 'error',
+          title: '¡Error en el registro!',
+          html: `<p style="font-size: 16px; color: #555;">Ha ocurrido un problema en el sistema. Intenta de nuevo más tarde.</p>`,
+          confirmButtonText: 'Cerrar',
+          customClass: {
+            popup: 'animated shake'
+          }
         });
       }
-    )
+    );
   }
-
 }

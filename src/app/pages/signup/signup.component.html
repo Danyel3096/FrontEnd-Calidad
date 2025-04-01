@@ -1,46 +1,50 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="text-center mb-4">
-        <img src="assets/login1.png" width="100" height="100" alt="Logo">
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-lg p-4">
+      <div class="text-center mb-3">
+        <img src="assets/login1.png" width="100" height="100" alt="Logo" class="logo">
       </div>
 
-      <h2 class="text-center">Registrarse aquí</h2>
+      <h2 class="text-center mb-3">Registrarse aquí</h2>
 
       <form (ngSubmit)="formSubmit()">
-        <div class="mb-3">
-          <label for="username" class="form-label">Nombre de usuario</label>
-          <input type="text" id="username" class="form-control" [(ngModel)]="user.username" name="username" required placeholder="Digite su nombre de usuario">
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-user"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="user.username" name="username" required placeholder="Nombre de usuario">
         </div>
 
-        <div class="mb-3">
-          <label for="password" class="form-label">Contraseña</label>
-          <input type="password" id="password" class="form-control" [(ngModel)]="user.password" name="password" required placeholder="Digite su contraseña">
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-lock"></i></span>
+          <input type="password" class="form-control" [(ngModel)]="user.password" name="password" required placeholder="Contraseña">
         </div>
 
-        <div class="mb-3">
-          <label for="nombre" class="form-label">Nombre</label>
-          <input type="text" id="nombre" class="form-control" [(ngModel)]="user.nombre" name="nombre" required placeholder="Digite su nombre">
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="user.nombre" name="nombre" required placeholder="Nombre">
         </div>
 
-        <div class="mb-3">
-          <label for="apellido" class="form-label">Apellido</label>
-          <input type="text" id="apellido" class="form-control" [(ngModel)]="user.apellido" name="apellido" required placeholder="Digite su apellido">
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="user.apellido" name="apellido" required placeholder="Apellido">
         </div>
 
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" id="email" class="form-control" [(ngModel)]="user.email" name="email" required placeholder="Digite su email">
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+          <input type="email" class="form-control" [(ngModel)]="user.email" name="email" required placeholder="Correo electrónico">
         </div>
 
-        <div class="mb-3">
-          <label for="telefono" class="form-label">Teléfono</label>
-          <input type="text" id="telefono" class="form-control" [(ngModel)]="user.telefono" name="telefono" required placeholder="Digite su teléfono">
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-phone"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="user.telefono" name="telefono" required placeholder="Teléfono">
         </div>
 
         <div class="text-center">
-          <button type="submit" class="btn btn-primary">Registrar</button>
-          <button type="reset" class="btn btn-secondary ms-3">Borrar</button>
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-user-plus"></i> Registrarse
+          </button>
+          <button type="reset" class="btn btn-secondary w-100 mt-2">
+            <i class="fas fa-eraser"></i> Borrar
+          </button>
         </div>
       </form>
     </div>

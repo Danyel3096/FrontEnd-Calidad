@@ -1,13 +1,13 @@
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from './../../services/login.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Component, OnInit } from '@angular/core';
-import { MaterialModule } from '../../material/material.module';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';  
+import * as bootstrap from 'bootstrap';
 
 @Component({
-  standalone:true,
-  imports:[MaterialModule,FormsModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule],
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -15,60 +15,67 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   loginData = {
-    "username" : '',
-    "password" : '',
-  }
+    username: '',
+    password: '',
+  };
 
-  constructor(private snack:MatSnackBar,private loginService:LoginService,private router:Router) { }
+  inputError = {
+    username: false,
+    password: false
+  };
 
-  ngOnInit(): void {
-  }
+  constructor(private loginService: LoginService, private router: Router) { }
 
-  formSubmit(){
-    if(this.loginData.username.trim() == '' || this.loginData.username.trim() == null){
-      this.snack.open('El nombre de usuario es requerido !!','Aceptar',{
-        duration:3000
-      })
-      return;
-    }
+  ngOnInit(): void { }
 
-    if(this.loginData.password.trim() == '' || this.loginData.password.trim() == null){
-      this.snack.open('La contraseña es requerida !!','Aceptar',{
-        duration:3000
-      })
+  formSubmit() {
+    this.inputError.username = this.loginData.username.trim() === '';
+    this.inputError.password = this.loginData.password.trim() === '';
+
+    if (this.inputError.username || this.inputError.password) {
+      this.showAlert();
       return;
     }
 
     this.loginService.generateToken(this.loginData).subscribe(
-      (data:any) => {
+      (data: any) => {
         console.log(data);
         this.loginService.loginUser(data.token);
-        this.loginService.getCurrentUser().subscribe((user:any) => {
+        this.loginService.getCurrentUser().subscribe((user: any) => {
           this.loginService.setUser(user);
           console.log(user);
 
-          if(this.loginService.getUserRole() == 'ADMIN'){
-            //dashboard admin
-            //window.location.href = '/admin';
+          if (this.loginService.getUserRole() == 'ADMIN') {
             this.router.navigate(['admin']);
             this.loginService.loginStatusSubjec.next(true);
-          }
-          else if(this.loginService.getUserRole() == 'NORMAL'){
-            //user dashboard
-            //window.location.href = '/user-dashboard';
+          } else if (this.loginService.getUserRole() == 'NORMAL') {
             this.router.navigate(['user-dashboard']);
             this.loginService.loginStatusSubjec.next(true);
-          }
-          else{
+          } else {
             this.loginService.logout();
           }
-        })
-      },(error) => {
+        });
+      }, (error) => {
         console.log(error);
-        this.snack.open('Detalles inválidos , vuelva a intentar !!','Aceptar',{
-          duration:3000
-        })
+        this.showAlert('Credenciales inválidas, intente nuevamente.');
       }
-    )
+    );
+  }
+
+  showAlert(message: string = 'Por favor, completa todos los campos.') {
+    const modalElement = document.getElementById('alertModal');
+    if (modalElement) {
+      (modalElement.querySelector('.modal-body p') as HTMLElement).innerText = message;
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  // ✅ Función corregida para limpiar los campos al hacer clic en "Borrar"
+  resetFields() {
+    this.loginData.username = '';
+    this.loginData.password = '';
+    this.inputError.username = false;
+    this.inputError.password = false;
   }
 }
