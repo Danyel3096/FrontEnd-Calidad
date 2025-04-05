@@ -1,76 +1,117 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Modal } from 'bootstrap'; // Importamos Modal de Bootstrap
+import { Modal } from 'bootstrap';
 import $ from 'jquery';
 import 'datatables.net-bs5';
-import 'datatables.net-buttons-bs5';
-import 'datatables.net-buttons/js/buttons.html5';
-import 'datatables.net-buttons/js/buttons.print';
-import 'datatables.net-buttons/js/buttons.colVis';
 import Swal from 'sweetalert2';
 
 @Component({
   standalone: true,
   imports: [CommonModule, FormsModule],
-  selector: 'app-users-dashboard',
+  selector: 'app-roles-dashboard',
   templateUrl: './roles-dashboard.component.html',
   styleUrls: ['./roles-dashboard.component.css']
 })
 export class RolesAdminDashboardComponent implements OnInit, AfterViewInit {
 
-  constructor() { }
+  selectedUser: any = null;
+  modalMode: 'view' | 'edit' = 'view';
+  userModal: any;
+  dataTable: any;
 
-  selectedUser: any = null; // Usuario seleccionado para ver/editar
-  modalMode: 'view' | 'edit' = 'view'; // Modo del modal (ver o editar)
-  userModal: any; // Referencia al modal
-
+  users2 = [
+    { id: 1, user: 'Juan', email: 'juan@mail.com', password: '1234', status: 'Activo', creationDate: '2024-03-01' },
+    { id: 2, user: 'Maria', email: 'maria@mail.com', password: 'abcd', status: 'Inactivo', creationDate: '2024-03-05' },
+    { id: 3, user: 'Carlos', email: 'carlos@mail.com', password: '5678', status: 'Activo', creationDate: '2024-03-10' },
+    { id: 4, user: 'Joan', email: 'joan@mail.com', password: 'efgh', status: 'Activo', creationDate: '2024-03-15' },
+    { id: 5, user: 'Sebastian', email: 'sebastian@mail.com', password: 'ijkl', status: 'Inactivo', creationDate: '2024-03-20' }
+  ];
   users = [
-    { id: 1, user: 'Juan', email: 'juan@mail.com', password: '1234', status: 'Activo', creationDate: '2024-03-01', role: 'Administrador' },
-    { id: 2, user: 'Maria', email: 'maria@mail.com', password: 'abcd', status: 'Inactivo', creationDate: '2024-03-05', role: 'Vendedor'  },
-    { id: 3, user: 'Carlos', email: 'carlos@mail.com', password: '5678', status: 'Activo', creationDate: '2024-03-10', role: 'Cliente'  },
-    { id: 4, user: 'Joan', email: 'joan@mail.com', password: 'efgh', status: 'Activo', creationDate: '2024-03-15', role: 'Cliente'  },
-    { id: 5, user: 'Sebastian', email: 'sebastian@mail.com', password: 'ijkl', status: 'Inactivo', creationDate: '2024-03-20', role: 'Cliente'  }
+    { id: 1, user: 'Juan', email: 'juan@mail.com', status: 'Activo', creationDate: '2024-03-01', role: 'Administrador' },
+    { id: 2, user: 'Maria', email: 'maria@mail.com', status: 'Inactivo', creationDate: '2024-03-05', role: 'Vendedor'  },
+    { id: 3, user: 'Carlos', email: 'carlos@mail.com', status: 'Activo', creationDate: '2024-03-10', role: 'Cliente'  },
+    { id: 4, user: 'Joan', email: 'joan@mail.com', status: 'Activo', creationDate: '2024-03-15', role: 'Cliente'  },
+    { id: 5, user: 'Sebastian', email: 'sebastian@mail.com', status: 'Inactivo', creationDate: '2024-03-20', role: 'Cliente'  }
   ];
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.userModal = new Modal(document.getElementById('userModal')!); // Inicializar el modal
-    $('#myTable').DataTable({
-      dom: 
-      "<'row'<'col-4'l><'col-4 text-center'B><'col-4'f>>" +
-      "<'row'<'col-12'tr>>" +
-      "<'row'<'col-5'i><'col-7'p>>",
-      buttons: [
-        { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'excel', className: 'btn btn-info', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'pdf', className: 'btn btn-danger', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } }
+    this.userModal = new Modal(document.getElementById('userModal')!);
+    this.initDataTable();
+  }
+
+  initDataTable(): void {
+    this.dataTable = $('#usersTable').DataTable({
+      data: this.users,
+      columns: [
+        { data: 'id' },
+        { data: 'user' },
+        { data: 'email' },
+        { data: 'status' },
+        { data: 'creationDate' },
+        { data: 'role' },
+        {
+          data: null,
+          orderable: false,
+          render: (data: any, type: any, row: any) => `
+            <div class="text-center"><button class="btn btn-sm btn-info btn-see-user" data-id="${row.id}"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-warning btn-edit-user" data-id="${row.id}"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger btn-delete-user" data-id="${row.id}"><i class="fas fa-trash"></i></button></div>
+          `
+        }
       ],
-      columnDefs: [
-        { orderable: false, targets: -1 } // Evita ordenar la columna de acciones
-      ]
+      initComplete: () => {
+        this.bindTableActions();
+      }
     });
   }
 
-  // Mostrar modal en modo ver
-  seeUser(user: any) {
+  redrawTable(): void {
+    this.dataTable.clear();
+    this.dataTable.rows.add(this.users);
+    this.dataTable.draw();
+    this.bindTableActions();
+  }
+
+  bindTableActions(): void {
+    $('#usersTable').off('click', '.btn-see-user');
+    $('#usersTable').off('click', '.btn-edit-user');
+    $('#usersTable').off('click', '.btn-delete-user');
+
+    $('#usersTable').on('click', '.btn-see-user', (e) => {
+      const id = +$(e.currentTarget).data('id');
+      const user = this.users.find(u => u.id === id);
+      if (user) this.seeUser(user);
+    });
+
+    $('#usersTable').on('click', '.btn-edit-user', (e) => {
+      const id = +$(e.currentTarget).data('id');
+      const user = this.users.find(u => u.id === id);
+      if (user) this.editUser(user);
+    });
+
+    $('#usersTable').on('click', '.btn-delete-user', (e) => {
+      const id = +$(e.currentTarget).data('id');
+      const user = this.users.find(u => u.id === id);
+      if (user) this.deleteUser(user);
+    });
+  }
+
+  seeUser(user: any): void {
     this.selectedUser = { ...user };
     this.modalMode = 'view';
     this.userModal.show();
   }
 
-  // Mostrar modal en modo editar
-  editUser(user: any) {
+  editUser(user: any): void {
     this.selectedUser = { ...user };
     this.modalMode = 'edit';
     this.userModal.show();
   }
 
-  // Confirmar eliminación con un alert
-  deleteUser(user: any) {
+  deleteUser(user: any): void {
     Swal.fire({
       title: '¿Estás seguro?',
       text: `¿Seguro que deseas eliminar a ${user.user}?`,
@@ -80,14 +121,22 @@ export class RolesAdminDashboardComponent implements OnInit, AfterViewInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.removeUser(user);
+        this.users = this.users.filter(u => u.id !== user.id);
+        this.redrawTable();
         Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
       }
     });
   }
 
-  // Eliminar usuario
-  removeUser(user: any) {
-    this.users = this.users.filter(u => u.id !== user.id);
+  saveUserChanges(): void {
+    if (!this.selectedUser) return;
+
+    const index = this.users.findIndex(u => u.id === this.selectedUser.id);
+    if (index !== -1) {
+      this.users[index] = { ...this.selectedUser };
+      this.redrawTable();
+    }
+
+    this.userModal.hide();
   }
 }

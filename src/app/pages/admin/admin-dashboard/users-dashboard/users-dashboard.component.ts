@@ -48,9 +48,9 @@ export class UsersAdminDashboardComponent implements OnInit, AfterViewInit {
           data: null,
           orderable: false,
           render: (data: any, type: any, row: any) => `
-            <button class="btn btn-sm btn-info btn-see-user" data-id="${row.id}">Ver</button>
-            <button class="btn btn-sm btn-warning btn-edit-user" data-id="${row.id}">Editar</button>
-            <button class="btn btn-sm btn-danger btn-delete-user" data-id="${row.id}">Eliminar</button>
+            <div class="text-center"><button class="btn btn-sm btn-info btn-see-user" data-id="${row.id}"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-warning btn-edit-user" data-id="${row.id}"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger btn-delete-user" data-id="${row.id}"><i class="fas fa-trash"></i></button></div>
           `
         }
       ],
