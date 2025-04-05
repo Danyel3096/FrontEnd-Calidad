@@ -9,7 +9,7 @@ import 'datatables.net-bs5';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './products-dashboard.component.html',
   styleUrls: ['./products-dashboard.component.css']
 })

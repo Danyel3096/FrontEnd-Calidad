@@ -1,11 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import { ProductItemCart } from '../../pages/products/interfaces/product.interface';
 import { CurrencyPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart-item',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe,RouterLink],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss',
 })
