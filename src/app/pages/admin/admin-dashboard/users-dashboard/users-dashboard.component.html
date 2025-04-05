@@ -1,45 +1,20 @@
 <div class="d-flex flex-row flex-shrink-0 row">
-    <div class="col-12 flex-column flex-grow-1 p-3">
-      <div class="row">
-        <div class="col-12">
-          <table id="myTable" class="display table table-striped table-bordered w-100">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Usuario</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Estado</th>
-                <th>Fecha de Creación</th>
-                <th class="text-center no-export">Acciones</th> <!-- Columna de botones -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of users">
-                <td>{{ user.id }}</td>
-                <td>{{ user.user }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.status }}</td>
-                <td>{{ user.creationDate }}</td>
-                <td class="text-center">
-                  <button class="btn btn-info btn-sm mx-1" (click)="seeUser(user)">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                  <button class="btn btn-warning btn-sm mx-1" (click)="editUser(user)">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="btn btn-danger btn-sm mx-1" (click)="deleteUser(user)">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+  <div class="col-12 flex-column flex-grow-1 p-3">
+    <table id="usersTable" class="display table table-striped table-bordered w-100">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Estado</th>
+          <th>Fecha de Creación</th>
+          <th class="text-center no-export">Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
+</div>
   
   <!-- Modal para Ver/Editar Usuario -->
   <div id="userModal" class="modal fade" tabindex="-1" aria-hidden="true">
@@ -54,7 +29,7 @@
         <div class="modal-body">
           <form #userForm="ngForm">
             <div class="mb-3">
-              <label class="form-label">ID</label>
+              <label class="form-label">id</label>
               <input *ngIf="selectedUser?.id" type="text" class="form-control" [value]="selectedUser.id" disabled>
             </div>
             <div class="mb-3">
@@ -84,7 +59,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button *ngIf="modalMode === 'edit'" type="button" class="btn btn-primary">Guardar Cambios</button>
+          <button *ngIf="modalMode === 'edit'" type="button" class="btn btn-primary" (click)="saveUserChanges()">Guardar Cambios</button>
         </div>
       </div>
     </div>
