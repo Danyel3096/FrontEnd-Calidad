@@ -10,7 +10,7 @@ import { Product } from '../pages/products/interfaces/product.interface';
 })
 export class ProductsService extends BaseHttpService {
   getProducts(page: number, limit: number): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/products`, {
+    return this.http.get<Product[]>(`${this.apiUrlProducts}`, {
       params: {
         limit: limit.toString(), //  Se pasa el límite desde afuera
         page: page.toString(),   // El backend puede usarlo para paginar
@@ -19,20 +19,20 @@ export class ProductsService extends BaseHttpService {
   }
 
   getProduct(id: string): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/products/${id}`);
+    return this.http.get<Product>(`${this.apiUrlProducts}/${id}`);
   }
 }
 
-//  Servicio simulado (por si estás en modo pruebas)
+//  Servicio simulado (por si estás en modo pruebas)+¿
 @Injectable({
   providedIn: 'root'
 })
 export class MockProductService {
   private suppliers: Products[] = [
-    { id: 1, name: 'Product A', description: 'Lorem ipsum 1' },
-    { id: 2, name: 'Product B', description: 'Lorem ipsum 2' },
-    { id: 3, name: 'Product C', description: 'Lorem ipsum 3' },
-    { id: 4, name: 'Product D', description: 'Lorem ipsum 4' },
+    { id: 1, name: 'Product A', description: 'Lorem ipsum 1', category:'Ropa' },
+    { id: 2, name: 'Product B', description: 'Lorem ipsum 2', category:'Hogar'},
+    { id: 3, name: 'Product C', description: 'Lorem ipsum 3', category:'Electronia' },
+    { id: 4, name: 'Product D', description: 'Lorem ipsum 4', category:'Ropa' },
   ];
 
   getProductsList(): Observable<Products[]> {
@@ -45,4 +45,5 @@ export interface Products {
   id: number;
   name: string;
   description: string;
+  category: string;
 }

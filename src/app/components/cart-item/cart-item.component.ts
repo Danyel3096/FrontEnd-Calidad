@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [CurrencyPipe,RouterLink],
   templateUrl: './cart-item.component.html',
-  styleUrl: './cart-item.component.scss',
+  styleUrl: './cart-item.component.css',
 })
 export class CartItemComponent {
   productCartItem = input.required<ProductItemCart>();

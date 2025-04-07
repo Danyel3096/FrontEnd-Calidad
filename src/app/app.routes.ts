@@ -5,7 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 
 // Rutas de la aplicación
 import { SignupComponent } from './pages/signup/signup.component';
-import { LoginComponent } from './pages/login/login.component';
+import {LoginComponent} from './pages/login/login.component';
 import CartListComponent from './pages/cart/cart.component';
 import { UserRecoverPasswordComponent } from './pages/recover-password/user-recover-password.component';
 

@@ -1,13 +1,18 @@
-<div class="mx-auto max-w-screen-xl pt-20 pb-16">
-  <div class="grid grid-cols-[repeat(3,400px)] gap-10 justify-center">
-    <app-product-card
-      *ngFor="let product of paginatedProducts; trackBy: trackById"
-      class="block"
-      [product]="product"
-      (addToCart)="addToCart(product)"
-    ></app-product-card>
-  </div>
+<!-- Mostramos el componente de categorías -->
+<div class="mb-4">
+
 </div>
+
+<!-- Resto del contenido: listado de productos -->
+<div class="grid grid-cols-[repeat(3,400px)] gap-10 justify-center">
+  <app-product-card
+    *ngFor="let product of paginatedProducts; trackBy: trackById"
+    class="block"
+    [product]="product"
+    (addToCart)="addToCart(product)"
+  ></app-product-card>
+</div>
+
 
 <!-- Paginación -->
 <div *ngIf="totalPages > 1" class="flex justify-center fixed bottom-0 w-screen bg-white py-4 shadow-md z-50">
