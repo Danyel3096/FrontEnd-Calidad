@@ -10,17 +10,19 @@
 NOTA: Este archivo es para el entorno de desarrollo. Si quieres cambiar la URL de la API, puedes hacerlo aquí.
 Puedes cambiar la URL de la API en el archivo environment.ts para producción cuando tengamos los endpoints del backend.
 */
+const API_URL_BASE = 'https://fakestoreapi.com';
+
 export const environment = {
   production: false,
-  API_URL: 'https://fakestoreapi.com',
+  API_URL: API_URL_BASE, // ✅ agrega esta línea
   API_URL_PRODUCTO_CREATE: '',
-  API_URL_PRODUCTO_READALL: '',
+  API_URL_PRODUCTO_READALL: `${API_URL_BASE}/products`,
   API_URL_PRODUCTO_READBYID: '',
   API_URL_PRODUCTO_READBYCATEGORY: '',
   API_URL_PRODUCTO_UPDATE: '',
   API_URL_PRODUCTO_DELETELOGICALLY: '',
   API_URL_CATEGORIA_CREATE: '',
-  API_URL_CATEGORIA_READALL: '',
+  API_URL_CATEGORIA_READALL:  `${API_URL_BASE}/products/categories`,
   API_URL_CATEGORIA_READBYID: '',
   API_URL_CATEGORIA_UPDATE: '',
   API_URL_CATEGORIA_DELETELOGICALLY: '',
@@ -28,6 +30,5 @@ export const environment = {
   API_URL_USUARIO_CREATEORDER: '',
   API_URL_USUARIO_READPRODUCTS: '',
   API_URL_USUARIO_READORDERS: '',
-  //API_URL_ADMIN_READORDERS: '',
-  //apiUrl: 'http://localhost:8080',  // URL de tu API
+  API_URL_USUARIO_LOGIN: `${API_URL_BASE}/auth/login`
 };

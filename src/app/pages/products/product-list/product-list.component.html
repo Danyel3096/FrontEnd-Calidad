@@ -1,67 +1,60 @@
-<div class="mx-auto max-w-screen-xl">
-  @switch (productsState.state.status()) { @case ("loading") {
-  <p>Loading...</p>
-  } @case ("error") {
-  <p>Error</p>
-  } @default {
-  <!-- <div class="flex justify-end my-6">
-        <button
-          type="button"
-          (click)="changePage()"
-          class="text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-blue-800"
-        >
-          Cambiar pagina
-        </button>
-      </div> -->
-      
-  <div class="mx-auto max-w-screen-xl pt-20 pb-16">
-    <div class="grid grid-cols-[repeat(5,300px)] gap-10 justify-center">
-      @for (product of productsState.state().products; track product) {
-      <app-product-card
-        class="block"
-        [product]="product"
-        (addToCart)="addToCart($event)"
-      />
-      }
-    </div>
-  </div>
-  
-  } 
-}
+<!-- Mostramos el componente de categorías -->
+<div class="mb-4">
+
 </div>
 
-<div aria-label="Pagination" class="flex justify-center fixed bottom-0 w-screen bg-white py-4 shadow-md">
-  <ul class="pagination">
-    <!-- Botón para ir a la página anterior -->
-    <li class="page-item">
+<!-- Resto del contenido: listado de productos -->
+<div class="grid grid-cols-[repeat(3,400px)] gap-10 justify-center">
+  <app-product-card
+    *ngFor="let product of paginatedProducts; trackBy: trackById"
+    class="block"
+    [product]="product"
+    (addToCart)="addToCart(product)"
+  ></app-product-card>
+</div>
+
+
+<!-- Paginación -->
+<div *ngIf="totalPages > 1" class="flex justify-center fixed bottom-0 w-screen bg-white py-4 shadow-md z-50">
+  <ul class="pagination flex gap-2">
+    <li>
       <button
-        type="button"
         (click)="pageChanged('previous')"
-        class="page-link"
-        [disabled]="productsState.state.page() === 1">
-        Previous
+        [disabled]="currentPage === 1"
+        [ngClass]="{
+          'px-3 py-1 rounded': true,
+          'bg-gray-200 hover:bg-gray-300': currentPage !== 1,
+          'opacity-50 cursor-not-allowed bg-gray-200': currentPage === 1
+        }"
+      >
+        Anterior
       </button>
     </li>
 
-    <!-- Páginas numeradas -->
-    <li class="page-item" *ngFor="let n of [1,2,3]">
+    <li *ngFor="let n of [].constructor(totalPages); let i = index">
       <button
-        type="button"
-        (click)="pageChanged(n.toString())"
-        class="page-link"
-        [ngClass]="{'active': productsState.state.page()===n}">
-        {{n}}
+        (click)="pageChanged((i + 1).toString())"
+        [ngClass]="{
+          'px-3 py-1 rounded': true,
+          'bg-blue-500 text-white': currentPage === i + 1,
+          'bg-gray-200 hover:bg-blue-300': currentPage !== i + 1
+        }"
+      >
+        {{ i + 1 }}
       </button>
     </li>
 
-    <!-- Botón para ir a la siguiente página -->
-    <li class="page-item">
+    <li>
       <button
-        id = "next"
-        type="button"
         (click)="pageChanged('next')"
-        class="page-link">
-        Next
+        [disabled]="currentPage === totalPages"
+        [ngClass]="{
+          'px-3 py-1 rounded': true,
+          'bg-gray-200 hover:bg-gray-300': currentPage !== totalPages,
+          'opacity-50 cursor-not-allowed bg-gray-200': currentPage === totalPages
+        }"
+      >
+        Siguiente
       </button>
     </li>
   </ul>

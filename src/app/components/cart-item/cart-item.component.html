@@ -4,11 +4,14 @@
   <div
     class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0"
   >
-    <a href="#" class="shrink-0 md:order-1">
+    <a
+      [routerLink]="['/product', productCartItem().product.id]"
+      class="shrink-0 md:order-1"
+    >
       <img
         class="h-20 w-20"
         [src]="productCartItem().product.image"
-        alt="imac image"
+        alt="Product image"
       />
     </a>
 
@@ -20,7 +23,7 @@
           id="decrement-button"
           data-input-counter-decrement="counter-input"
           class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-          (click)="onDecrease.emit(productCartItem())"
+          (click)="productCartItem().quantity > 0 ? onDecrease.emit(productCartItem()) : null"
         >
           <svg
             class="h-2.5 w-2.5 text-gray-900 dark:text-white"
@@ -42,7 +45,7 @@
           type="text"
           id="counter-input"
           data-input-counter
-          class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 "
+          class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
           placeholder=""
           [value]="productCartItem().quantity"
           disabled
@@ -81,10 +84,18 @@
 
     <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
       <a
-        href="#"
-        class="text-base font-medium text-gray-900 hover:underline dark:text-white"
-        >{{ productCartItem().product.title }}</a
+        [routerLink]="['/product', productCartItem().product.id]"
+        class="text-base font-medium hover:underline text-gray-900 dark:text-black"
       >
+        {{ productCartItem().product.title }}
+      </a>
+
+      <p
+        class="truncate-description text-base text-gray-800 dark:text-black"
+        [title]="productCartItem().product.description"
+      >
+        {{ productCartItem().product.description }}
+      </p>
 
       <div class="flex items-center gap-4">
         <button

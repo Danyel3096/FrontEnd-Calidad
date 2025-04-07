@@ -1,49 +1,30 @@
 <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="text-center mb-4">
-          <img src="assets/login1.png" width="100" height="100" alt="Logo">
-        </div>
-  
-        <h2 class="text-center">Iniciar Sesión</h2>
-  
-        <form (ngSubmit)="formSubmit()">
-          <div class="mb-3">
-            <label for="username" class="form-label">Nombre de usuario</label>
-            <input type="text" id="username" class="form-control" [(ngModel)]="loginData.username" name="username" 
-                   [ngClass]="{'is-invalid': inputError.username}" placeholder="Digite su nombre de usuario">
-          </div>
-  
-          <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" id="password" class="form-control" [(ngModel)]="loginData.password" name="password" 
-                   [ngClass]="{'is-invalid': inputError.password}" placeholder="Digite su contraseña">
-          </div>
-  
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-            <button type="button" class="btn btn-secondary ms-3" (click)="resetFields()">Borrar</button>
-          </div>
-        </form>
+  <h2 class="mb-4">Iniciar sesión</h2>
+  <form (ngSubmit)="formSubmit()">
+    <div class="mb-3">
+      <label for="username" class="form-label">Usuario</label>
+      <input type="text" id="username" [(ngModel)]="loginData.username" name="username" class="form-control" [class.is-invalid]="inputError.username">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña</label>
+      <input type="password" id="password" [(ngModel)]="loginData.password" name="password" class="form-control" [class.is-invalid]="inputError.password">
+    </div>
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="resetFields()">Borrar</button>
+  </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">Error</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p></p>
       </div>
     </div>
   </div>
-  
-  <!-- Modal de Alerta -->
-  <div class="modal fade" id="alertModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">¡Campos Vacíos!</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <p>Por favor, completa todos los campos.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+</div>
