@@ -1,61 +1,49 @@
-<!-- Mostramos el componente de categorías -->
-<div class="mb-4">
-
+<!-- Filtro por categorías -->
+<div class="mb-4 flex flex-wrap gap-3 justify-center">
+  <button
+    *ngFor="let category of categories"
+    (click)="onCategoryChange(category)"
+    [ngClass]="{
+      'bg-blue-600 text-white': selectedCategory === category,
+      'bg-gray-200 text-black': selectedCategory !== category
+    }"
+    class="px-4 py-2 rounded hover:bg-blue-500 transition"
+  >
+    {{ category | titlecase }}
+  </button>
 </div>
 
-<!-- Resto del contenido: listado de productos -->
-<div class="grid grid-cols-[repeat(3,400px)] gap-10 justify-center">
+<!-- Listado de productos -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
   <app-product-card
     *ngFor="let product of paginatedProducts; trackBy: trackById"
-    class="block"
     [product]="product"
-    (addToCart)="addToCart(product)"
-  ></app-product-card>
+    (addToCart)="addToCart($event)"
+  />
 </div>
 
-
 <!-- Paginación -->
-<div *ngIf="totalPages > 1" class="flex justify-center fixed bottom-0 w-screen bg-white py-4 shadow-md z-50">
-  <ul class="pagination flex gap-2">
-    <li>
-      <button
-        (click)="pageChanged('previous')"
-        [disabled]="currentPage === 1"
-        [ngClass]="{
-          'px-3 py-1 rounded': true,
-          'bg-gray-200 hover:bg-gray-300': currentPage !== 1,
-          'opacity-50 cursor-not-allowed bg-gray-200': currentPage === 1
-        }"
-      >
-        Anterior
-      </button>
-    </li>
-
-    <li *ngFor="let n of [].constructor(totalPages); let i = index">
-      <button
-        (click)="pageChanged((i + 1).toString())"
-        [ngClass]="{
-          'px-3 py-1 rounded': true,
-          'bg-blue-500 text-white': currentPage === i + 1,
-          'bg-gray-200 hover:bg-blue-300': currentPage !== i + 1
-        }"
-      >
-        {{ i + 1 }}
-      </button>
-    </li>
-
-    <li>
-      <button
-        (click)="pageChanged('next')"
-        [disabled]="currentPage === totalPages"
-        [ngClass]="{
-          'px-3 py-1 rounded': true,
-          'bg-gray-200 hover:bg-gray-300': currentPage !== totalPages,
-          'opacity-50 cursor-not-allowed bg-gray-200': currentPage === totalPages
-        }"
-      >
-        Siguiente
-      </button>
-    </li>
-  </ul>
+<div class="flex justify-center mt-6 space-x-2">
+  <button
+    class="px-3 py-1 border rounded"
+    (click)="pageChanged('previous')"
+    [disabled]="currentPage === 1"
+  >
+    «
+  </button>
+  <button
+    *ngFor="let page of [].constructor(totalPages); let i = index"
+    class="px-3 py-1 border rounded"
+    [class.font-bold]="currentPage === i + 1"
+    (click)="pageChanged((i + 1).toString())"
+  >
+    {{ i + 1 }}
+  </button>
+  <button
+    class="px-3 py-1 border rounded"
+    (click)="pageChanged('next')"
+    [disabled]="currentPage === totalPages"
+  >
+    »
+  </button>
 </div>

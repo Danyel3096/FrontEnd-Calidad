@@ -1,4 +1,3 @@
-// src/app/pages/login/login.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from './../../services/login.service';
@@ -16,7 +15,7 @@ import * as bootstrap from 'bootstrap';
 export class LoginComponent implements OnInit {
 
   loginData = {
-    username: 'mor_2314',  // Puedes precargar estos datos para pruebas
+    username: 'mor_2314',
     password: '83r5^_'
   };
 
@@ -40,22 +39,22 @@ export class LoginComponent implements OnInit {
 
     this.loginService.generateToken(this.loginData).subscribe(
       (data: any) => {
-        console.log('Token recibido:', data);
         this.loginService.loginUser(data.token);
 
-        // Como fakestore no devuelve el usuario, simulamos uno
         const fakeUser = {
           username: this.loginData.username,
-          authorities: [{ authority: 'NORMAL' }]  // Puedes cambiar a 'ADMIN' si lo necesitas
+          authorities: [{ authority: 'NORMAL' }]
         };
 
         this.loginService.setUser(fakeUser);
         const role = this.loginService.getUserRole();
 
+        this.showSuccess(); // ✅ Muestra modal de éxito
+
         if (role === 'ADMIN') {
           this.router.navigate(['admin-dashboard']);
         } else if (role === 'NORMAL') {
-          this.router.navigate(['user-dashboard']);
+          this.router.navigate(['admin-dashboard']);
         }
 
         this.loginService.loginStatusSubject.next(true);
@@ -71,6 +70,14 @@ export class LoginComponent implements OnInit {
     const modalElement = document.getElementById('alertModal');
     if (modalElement) {
       (modalElement.querySelector('.modal-body p') as HTMLElement).innerText = message;
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  showSuccess() {
+    const modalElement = document.getElementById('successModal');
+    if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     }
