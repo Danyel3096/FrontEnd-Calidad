@@ -5,9 +5,6 @@ import { CartStateService } from '../../../services/cart-state.service';
 import { ProductsService } from '../../../services/product.service';
 import { Product } from '../interfaces/product.interface';
 
-
-
-
 @Component({
   selector: 'app-product-list',
   standalone: true,
@@ -21,20 +18,47 @@ export default class ProductsListComponent implements OnInit {
   allProducts: Product[] = [];
   paginatedProducts: Product[] = [];
 
+  categories: string[] = [];
+  selectedCategory: string = 'all';
+
   itemsPerPage = 6;
   currentPage = 1;
   totalPages = 1;
 
   ngOnInit(): void {
+    this.loadCategories();
     this.loadAllProducts();
   }
 
-  loadAllProducts(): void {
-    this.productsService.getProducts(1, 1000).subscribe((res: Product[]) => {
-      this.allProducts = res;
-      this.totalPages = Math.ceil(this.allProducts.length / this.itemsPerPage);
-      this.setPaginatedProducts();
+  loadCategories(): void {
+    this.productsService.getCategories().subscribe((res: string[]) => {
+      this.categories = ['all', ...res];
     });
+  }
+
+  loadAllProducts(): void {
+    this.productsService.getAllProducts().subscribe((res: Product[]) => {
+      this.allProducts = res;
+      this.updatePagination();
+    });
+  }
+
+  loadProductsByCategory(category: string): void {
+    if (category === 'all') {
+      this.loadAllProducts();
+      return;
+    }
+
+    this.productsService.getProductsByCategory(category).subscribe((res: Product[]) => {
+      this.allProducts = res;
+      this.updatePagination();
+    });
+  }
+
+  updatePagination(): void {
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.allProducts.length / this.itemsPerPage);
+    this.setPaginatedProducts();
   }
 
   setPaginatedProducts(): void {
@@ -56,6 +80,11 @@ export default class ProductsListComponent implements OnInit {
     }
 
     this.setPaginatedProducts();
+  }
+
+  onCategoryChange(category: string): void {
+    this.selectedCategory = category;
+    this.loadProductsByCategory(category);
   }
 
   addToCart(product: Product): void {
