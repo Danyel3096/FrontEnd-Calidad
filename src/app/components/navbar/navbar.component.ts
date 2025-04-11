@@ -6,6 +6,7 @@ import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { CartStateService } from '../../services/cart-state.service';
 import { DynamicButtonComponent } from '../dynamic-button/dynamic-button.component';
+import { DynamicThemeService } from '../../services/dynamic-theme.service'; // ajusta el path si es necesario
 import * as bootstrap from 'bootstrap';
 
 @Component({
@@ -16,11 +17,15 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  navbarColor = {
+    background: '#1E3A8A',
+    text: '#FFFFFF'
+  };
 
   isLoggedIn = false;
   user: any = null;
 
-  constructor(public login: LoginService) {}
+  constructor(public login: LoginService, private dynamicThemeService: DynamicThemeService) {}
 
   ngOnInit(): void {
     this.isLoggedIn = this.login.isLoggedIn();
@@ -29,6 +34,10 @@ export class NavbarComponent implements OnInit {
     this.login.loginStatusSubject.asObservable().subscribe(() => {
       this.isLoggedIn = this.login.isLoggedIn();
       this.user = this.login.getUser();
+    });
+
+    this.dynamicThemeService.getThemeColors().subscribe((data) => {
+      this.navbarColor = data.navbar;
     });
   }
 
