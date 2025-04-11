@@ -1,12 +1,13 @@
-// src/app/components/navbar/navbar.component.ts
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../material/material.module';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { CartStateService } from '../../services/cart-state.service';
 import { DynamicButtonComponent } from '../dynamic-button/dynamic-button.component';
-import { DynamicThemeService } from '../../services/dynamic-theme.service'; // ajusta el path si es necesario
+import { DynamicThemeService } from '../../services/dynamic-theme.service';
+import { CompanyService } from '../../services/company.service';
+import { Collapse } from 'bootstrap';
 import * as bootstrap from 'bootstrap';
 
 @Component({
@@ -17,8 +18,13 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  company = inject(CompanyService).getCompany();
+
   hoveredDropdownItem: number | string | null = null;
-  
+
+  @ViewChild('navbarToggler', { static: false }) navbarToggler!: ElementRef;
+  @ViewChild('navbarCollapse', { static: false }) navbarCollapse!: ElementRef;
+
   isLoggedIn = false;
   user: any = null;
 
@@ -52,5 +58,16 @@ export class NavbarComponent implements OnInit {
 
   cartState = inject(CartStateService).state;
 
+  closeNavbar(): void {
+    const navbarElement = document.getElementById('navbarSupportedContent');
+    const bsCollapse = bootstrap.Collapse.getInstance(navbarElement!) || new bootstrap.Collapse(navbarElement!, { toggle: false });
+    bsCollapse.hide();
+  }
+
+  toggleNavbar() {
+    const collapseElement = this.navbarCollapse.nativeElement;
+    const bsCollapse = Collapse.getOrCreateInstance(collapseElement);
   
+    bsCollapse.toggle();
+  }
 }

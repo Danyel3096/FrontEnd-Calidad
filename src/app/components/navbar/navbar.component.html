@@ -1,64 +1,63 @@
 <nav class="navbar navbar-expand-lg" [ngStyle]="{ backgroundColor: navbarColor.background, color: navbarColor.text }"><!-- tw -->
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">
-      <img src="assets/transport.png" alt="Logo" style="height: 60px;">
-      <!-- FALTA UN SERVICIO PARA TRAER LA INFO DE LA APLICATION AQUÍ VA EL NOMBRE DE LA APP -->
+    <a class="navbar-brand fw-bold" routerLink="/" *ngIf="company() as companyData">
+      <img [src]="companyData.logo" alt="Logo" style="height: 60px;">
+      {{ companyData.name }}
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button #navbarToggler class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <app-dynamic-button
-            label="Inicio"
-            routerLink="/home"
-            routerLinkActive="active">
-          </app-dynamic-button>
-        </li>
+    <div #navbarCollapse class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0  align-items-center">
         <li class="nav-item">
           <app-dynamic-button
             label="Productos"
             routerLink="/products"
-            routerLinkActive="active">
+            routerLinkActive="active"
+            (click)="closeNavbar()">
           </app-dynamic-button>
         </li>
         <li class="nav-item">
           <app-dynamic-button
             label="Ayuda"
             routerLink="/help"
-            routerLinkActive="active">
+            routerLinkActive="active"
+            (click)="closeNavbar()">
           </app-dynamic-button>
         </li>
         <li class="nav-item">
           <app-dynamic-button
             label="Admin Dashboard"
             routerLink="/admin-dashboard"
-            routerLinkActive="active">
+            routerLinkActive="active"
+            (click)="closeNavbar()">
           </app-dynamic-button>
         </li>
         <li class="nav-item">
           <app-dynamic-button
             label="User Dashboard"
             routerLink="/user-dashboard"
-            routerLinkActive="active">
+            routerLinkActive="active"
+            (click)="closeNavbar()">
           </app-dynamic-button>
         </li>
       </ul>
-      <ul class="navbar-nav me-0 mb-2 mb-lg-0">
+      <ul class="navbar-nav me-0 mb-2 mb-lg-0  align-items-center">
         <ng-container *ngIf="!isLoggedIn">
           <li class="nav-item">
             <app-dynamic-button
               label="Inicia sesión"
               routerLink="/login"
-              routerLinkActive="active">
+              routerLinkActive="active"
+              (click)="closeNavbar()">
             </app-dynamic-button>
           </li>
           <li class="nav-item">
             <app-dynamic-button
               label="Registrar"
               routerLink="/signup"
-              routerLinkActive="active">
+              routerLinkActive="active"
+              (click)="closeNavbar()">
             </app-dynamic-button>
           </li>
         </ng-container>
@@ -112,12 +111,21 @@
           <li class="nav-item">
             <app-dynamic-button
               label="Cerrar sesión"
-              (click)="logout()">
+              (click)="logout()"
+              (click)="closeNavbar()">
             </app-dynamic-button>
           </li>
         </ng-container>
-        <div class="position-relative me-3 d-flex ms-auto align-items-center">
-          <a routerLink="/cart" class="nav-link p-0 d-flex" aria-label="Carrito">
+        <div class="position-relative me-3 d-flex ms-auto">
+          <a routerLink="/cart"
+            class="btn nav-link p-0 d-flex"
+            [ngStyle]="{
+              backgroundColor: hoveredDropdownItem === 'cart' ? navbarColor.fondoHover : navbarColor.background,
+              color: hoveredDropdownItem === 'cart' ? navbarColor.textoHover : navbarColor.text
+            }"
+            (mouseenter)="hoveredDropdownItem = 'cart'"
+            (mouseleave)="hoveredDropdownItem = null"
+            aria-label="Carrito">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="28"
