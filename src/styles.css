@@ -1,7 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
 
-html, body { height: 100%; }
+
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -52,5 +55,14 @@ body {
   margin-left: 70px !important;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Encapsulá todas las clases dentro de `.tw` */
+.tw {
+  @import "tailwindcss";
+}
+
+/*.btn-outline-light, .btn-outline-light:hover {*/
+nav > div > div > a,
+nav > div > div > div > button {
+  --bs-btn-border-color: transparent !important;
+  border-color: transparent !important;
+}

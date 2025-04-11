@@ -5,10 +5,12 @@ import { MaterialModule } from '../../material/material.module';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { CartStateService } from '../../services/cart-state.service';
+import { DynamicButtonComponent } from '../dynamic-button/dynamic-button.component';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MaterialModule, RouterModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, MaterialModule, RouterModule, RouterLink, RouterLinkActive, DynamicButtonComponent],
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
@@ -36,4 +38,6 @@ export class NavbarComponent implements OnInit {
   }
 
   cartState = inject(CartStateService).state;
+
+  
 }
