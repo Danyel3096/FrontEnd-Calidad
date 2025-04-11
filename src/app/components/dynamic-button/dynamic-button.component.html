@@ -1,0 +1,14 @@
+<!-- <p>dynamic-button works!</p> -->
+<button
+  class="btn me-3"
+  [routerLink]="routerLink"
+  [routerLinkActive]="routerLinkActive"
+  [ngStyle]="{
+    backgroundColor: isHovered ? color.fondoHover : color.fondo,
+    color: isHovered ? color.textoHover : color.texto
+  }"
+  (mouseenter)="isHovered = true"
+  (mouseleave)="isHovered = false"
+>
+{{ label }}
+</button>
