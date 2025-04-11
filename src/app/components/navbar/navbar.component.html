@@ -1,14 +1,17 @@
-<nav class="navbar navbar-expand-lg" [ngStyle]="{ backgroundColor: navbarColor.background, color: navbarColor.text }"><!-- tw -->
+<nav class="navbar navbar-expand-lg" [ngStyle]="{ backgroundColor: navbarColor.background, color: navbarColor.text }">
   <div class="container-fluid">
+    <!-- Logo y nombre -->
     <a class="navbar-brand fw-bold" routerLink="/" *ngIf="company() as companyData">
       <img [src]="companyData.logo" alt="Logo" style="height: 60px;">
       {{ companyData.name }}
     </a>
-    <button #navbarToggler class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
+    <!-- Botón responsive -->
+    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="!isNavbarCollapsed" aria-label="Toggle navigation" (click)="toggleNavbar()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div #navbarCollapse class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0  align-items-center">
+    <!-- Contenido del navbar -->
+    <div class="navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isNavbarCollapsed">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
         <li class="nav-item">
           <app-dynamic-button
             label="Productos"
@@ -42,7 +45,8 @@
           </app-dynamic-button>
         </li>
       </ul>
-      <ul class="navbar-nav me-0 mb-2 mb-lg-0  align-items-center">
+      <!-- Lado derecho del navbar -->
+      <ul class="navbar-nav me-0 mb-2 mb-lg-0 align-items-center">
         <ng-container *ngIf="!isLoggedIn">
           <li class="nav-item">
             <app-dynamic-button
@@ -62,23 +66,23 @@
           </li>
         </ng-container>
         <ng-container *ngIf="isLoggedIn">
-          <li class="nav-item dropdown">
+          <!-- Dropdown del usuario -->
+          <li class="nav-item dropdown" ngbDropdown>
             <a class="btn nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            *ngIf="user"
-            [ngStyle]="{
-              backgroundColor: hoveredDropdownItem === 'userToggle' ? navbarColor.fondoHover : navbarColor.background,
-              color: hoveredDropdownItem === 'userToggle' ? navbarColor.textoHover : navbarColor.text
-            }"
-            (mouseenter)="hoveredDropdownItem = 'userToggle'"
-            (mouseleave)="hoveredDropdownItem = null">
+               ngbDropdownToggle
+               role="button"
+               *ngIf="user"
+               [ngStyle]="{
+                 backgroundColor: hoveredDropdownItem === 'userToggle' ? navbarColor.fondoHover : navbarColor.background,
+                 color: hoveredDropdownItem === 'userToggle' ? navbarColor.textoHover : navbarColor.text
+               }"
+               (mouseenter)="hoveredDropdownItem = 'userToggle'"
+               (mouseleave)="hoveredDropdownItem = null">
               {{ user.username }}
             </a>
-            <ul class="dropdown-menu" [ngStyle]="{ backgroundColor: navbarColor.background }">
-              <li><a class="dropdown-item"
+            <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" [ngStyle]="{ backgroundColor: navbarColor.background }">
+              <li>
+                <a class="dropdown-item"
                 routerLink="/user"
                 routerLinkActive="active"
                 [ngStyle]="{
@@ -86,7 +90,10 @@
                   color: hoveredDropdownItem === 0 ? navbarColor.textoHover : navbarColor.text
                 }"
                 (mouseenter)="hoveredDropdownItem = 0"
-                (mouseleave)="hoveredDropdownItem = null">Mi perfil</a></li>
+                (mouseleave)="hoveredDropdownItem = null">
+                  Mi perfil
+                </a>
+              </li>
               <li><a class="dropdown-item"
                 routerLink="/user/settings"
                 routerLinkActive="active"
@@ -95,7 +102,10 @@
                   color: hoveredDropdownItem === 1 ? navbarColor.textoHover : navbarColor.text
                 }"
                 (mouseenter)="hoveredDropdownItem = 1"
-                (mouseleave)="hoveredDropdownItem = null">Settings</a></li>
+                (mouseleave)="hoveredDropdownItem = null">
+                  Settings
+                </a>
+              </li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item"
                 routerLink="/recover-password"
@@ -105,7 +115,10 @@
                   color: hoveredDropdownItem === 2 ? navbarColor.textoHover : navbarColor.text
                 }"
                 (mouseenter)="hoveredDropdownItem = 2"
-                (mouseleave)="hoveredDropdownItem = null">Recuperar contraseña</a></li>
+                (mouseleave)="hoveredDropdownItem = null">
+                  Recuperar contraseña
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -116,51 +129,49 @@
             </app-dynamic-button>
           </li>
         </ng-container>
-        <div class="position-relative me-3 d-flex ms-auto">
-          <a routerLink="/cart"
-            class="btn nav-link p-0 d-flex"
-            [ngStyle]="{
-              backgroundColor: hoveredDropdownItem === 'cart' ? navbarColor.fondoHover : navbarColor.background,
-              color: hoveredDropdownItem === 'cart' ? navbarColor.textoHover : navbarColor.text
-            }"
-            (mouseenter)="hoveredDropdownItem = 'cart'"
-            (mouseleave)="hoveredDropdownItem = null"
-            aria-label="Carrito">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="icon icon-tabler icon-tabler-shopping-cart"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-              <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-              <path d="M17 17h-11v-14h-2" />
-              <path d="M6 5l14 1l-1 7h-13" />
-            </svg>
-        
-            @if (cartState.count() > 0) {
-              <span
-                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
-                style="font-size: 0.75rem;"
+        <li class="nav-item">
+          <div class="position-relative me-3 d-flex ms-auto">
+            <a routerLink="/cart"
+              class="btn nav-link p-0 d-flex"
+              [ngStyle]="{
+                backgroundColor: hoveredDropdownItem === 'cart' ? navbarColor.fondoHover : navbarColor.background,
+                color: hoveredDropdownItem === 'cart' ? navbarColor.textoHover : navbarColor.text
+              }"
+              (mouseenter)="hoveredDropdownItem = 'cart'"
+              (mouseleave)="hoveredDropdownItem = null"
+              aria-label="Carrito">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icon-tabler-shopping-cart"
               >
-                {{ cartState.count() }}
-              </span>
-            }
-          </a>
-        </div>
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                <path d="M17 17h-11v-14h-2" />
+                <path d="M6 5l14 1l-1 7h-13" />
+              </svg>
+          
+              @if (cartState.count() > 0) {
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
+                  style="font-size: 0.75rem;"
+                >
+                  {{ cartState.count() }}
+                </span>
+              }
+            </a>
+          </div>
+        </li>
       </ul>
-    </div>
-    <div class="d-flex ms-auto align-items-center">
-      <!-- <a class="btn hover:!bg-[#FFFFFF40] text-white hover:!text-black" routerLink="/recover-password" routerLinkActive="active" ariaCurrentWhenActive="page">
-        Recover Pass
-      </a> -->
     </div>
   </div>
 </nav>
+

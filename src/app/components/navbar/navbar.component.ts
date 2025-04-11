@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../material/material.module';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
@@ -7,23 +7,20 @@ import { CartStateService } from '../../services/cart-state.service';
 import { DynamicButtonComponent } from '../dynamic-button/dynamic-button.component';
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { CompanyService } from '../../services/company.service';
-import { Collapse } from 'bootstrap';
-import * as bootstrap from 'bootstrap';
+import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MaterialModule, RouterModule, RouterLink, RouterLinkActive, DynamicButtonComponent],
+  imports: [CommonModule, MaterialModule, RouterModule, RouterLink, RouterLinkActive, NgbCollapseModule, NgbDropdownModule, DynamicButtonComponent],
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
+
 export class NavbarComponent implements OnInit {
   company = inject(CompanyService).getCompany();
 
   hoveredDropdownItem: number | string | null = null;
-
-  @ViewChild('navbarToggler', { static: false }) navbarToggler!: ElementRef;
-  @ViewChild('navbarCollapse', { static: false }) navbarCollapse!: ElementRef;
 
   isLoggedIn = false;
   user: any = null;
@@ -35,7 +32,9 @@ export class NavbarComponent implements OnInit {
     textoHover: ''
   };
 
-  constructor(public login: LoginService, private dynamicThemeService: DynamicThemeService) {}
+  isNavbarCollapsed = true; // Controla el estado del colapso
+
+  constructor(public login: LoginService, private dynamicThemeService: DynamicThemeService, private cartStateService: CartStateService) {}
 
   ngOnInit(): void {
     this.isLoggedIn = this.login.isLoggedIn();
@@ -59,15 +58,10 @@ export class NavbarComponent implements OnInit {
   cartState = inject(CartStateService).state;
 
   closeNavbar(): void {
-    const navbarElement = document.getElementById('navbarSupportedContent');
-    const bsCollapse = bootstrap.Collapse.getInstance(navbarElement!) || new bootstrap.Collapse(navbarElement!, { toggle: false });
-    bsCollapse.hide();
+    this.isNavbarCollapsed = true;
   }
 
-  toggleNavbar() {
-    const collapseElement = this.navbarCollapse.nativeElement;
-    const bsCollapse = Collapse.getOrCreateInstance(collapseElement);
-  
-    bsCollapse.toggle();
+  toggleNavbar(): void {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 }
