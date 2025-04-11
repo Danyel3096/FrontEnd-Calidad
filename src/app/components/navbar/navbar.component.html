@@ -20,28 +20,28 @@
           <app-dynamic-button
             label="Productos"
             routerLink="/products"
-            routerLinkActive="active"><!-- <a ariaCurrentWhenActive="page">Productos</a> -->
+            routerLinkActive="active">
           </app-dynamic-button>
         </li>
         <li class="nav-item">
           <app-dynamic-button
             label="Ayuda"
             routerLink="/help"
-            routerLinkActive="active"><!-- <a ariaCurrentWhenActive="page">Productos</a> -->
+            routerLinkActive="active">
           </app-dynamic-button>
         </li>
         <li class="nav-item">
           <app-dynamic-button
             label="Admin Dashboard"
             routerLink="/admin-dashboard"
-            routerLinkActive="active"><!-- <a ariaCurrentWhenActive="page">Productos</a> -->
+            routerLinkActive="active">
           </app-dynamic-button>
         </li>
         <li class="nav-item">
           <app-dynamic-button
             label="User Dashboard"
             routerLink="/user-dashboard"
-            routerLinkActive="active"><!-- <a ariaCurrentWhenActive="page">Productos</a> -->
+            routerLinkActive="active">
           </app-dynamic-button>
         </li>
       </ul>
@@ -51,46 +51,84 @@
             <app-dynamic-button
               label="Inicia sesión"
               routerLink="/login"
-              routerLinkActive="active"><!-- <a ariaCurrentWhenActive="page">Productos</a> -->
+              routerLinkActive="active">
             </app-dynamic-button>
           </li>
           <li class="nav-item">
             <app-dynamic-button
               label="Registrar"
               routerLink="/signup"
-              routerLinkActive="active"><!-- <a ariaCurrentWhenActive="page">Productos</a> -->
+              routerLinkActive="active">
             </app-dynamic-button>
           </li>
         </ng-container>
         <ng-container *ngIf="isLoggedIn">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" *ngIf="user">
+            <a class="btn nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            *ngIf="user"
+            [ngStyle]="{
+              backgroundColor: hoveredDropdownItem === 'userToggle' ? navbarColor.fondoHover : navbarColor.background,
+              color: hoveredDropdownItem === 'userToggle' ? navbarColor.textoHover : navbarColor.text
+            }"
+            (mouseenter)="hoveredDropdownItem = 'userToggle'"
+            (mouseleave)="hoveredDropdownItem = null">
               {{ user.username }}
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" routerLink="/user" routerLinkActive="active" ariaCurrentWhenActive="page">Mi perfil</a></li>
-              <li><a class="dropdown-item" routerLink="/user/settings" routerLinkActive="active" ariaCurrentWhenActive="page">Settings</a></li>
+            <ul class="dropdown-menu" [ngStyle]="{ backgroundColor: navbarColor.background }">
+              <li><a class="dropdown-item"
+                routerLink="/user"
+                routerLinkActive="active"
+                [ngStyle]="{
+                  backgroundColor: hoveredDropdownItem === 0 ? navbarColor.fondoHover : navbarColor.background,
+                  color: hoveredDropdownItem === 0 ? navbarColor.textoHover : navbarColor.text
+                }"
+                (mouseenter)="hoveredDropdownItem = 0"
+                (mouseleave)="hoveredDropdownItem = null">Mi perfil</a></li>
+              <li><a class="dropdown-item"
+                routerLink="/user/settings"
+                routerLinkActive="active"
+                [ngStyle]="{
+                  backgroundColor: hoveredDropdownItem === 1 ? navbarColor.fondoHover : navbarColor.background,
+                  color: hoveredDropdownItem === 1 ? navbarColor.textoHover : navbarColor.text
+                }"
+                (mouseenter)="hoveredDropdownItem = 1"
+                (mouseleave)="hoveredDropdownItem = null">Settings</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" routerLink="/recover-password" routerLinkActive="active" ariaCurrentWhenActive="page">Recuperar contraseña</a></li>
+              <li><a class="dropdown-item"
+                routerLink="/recover-password"
+                routerLinkActive="active"
+                [ngStyle]="{
+                  backgroundColor: hoveredDropdownItem === 2 ? navbarColor.fondoHover : navbarColor.background,
+                  color: hoveredDropdownItem === 2 ? navbarColor.textoHover : navbarColor.text
+                }"
+                (mouseenter)="hoveredDropdownItem = 2"
+                (mouseleave)="hoveredDropdownItem = null">Recuperar contraseña</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <button class="btn btn-outline-light me-3" (click)="logout()">Cerrar sesión</button>
+            <app-dynamic-button
+              label="Cerrar sesión"
+              (click)="logout()">
+            </app-dynamic-button>
           </li>
         </ng-container>
-        <div class="tw">
-          <button class="relative me-3" routerLink="/cart" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <div class="position-relative me-3 d-flex ms-auto align-items-center">
+          <a routerLink="/cart" class="nav-link p-0 d-flex" aria-label="Carrito">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="28"
+              height="28"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart"
+              class="icon icon-tabler icon-tabler-shopping-cart"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
@@ -98,14 +136,16 @@
               <path d="M17 17h-11v-14h-2" />
               <path d="M6 5l14 1l-1 7h-13" />
             </svg>
-    
+        
             @if (cartState.count() > 0) {
               <span
-                class="absolute bg-green-600 size-6 rounded-full flex items-center justify-center -right-2"
-                >{{ cartState.count() }}</span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
+                style="font-size: 0.75rem;"
               >
+                {{ cartState.count() }}
+              </span>
             }
-          </button>
+          </a>
         </div>
       </ul>
     </div>
@@ -116,5 +156,3 @@
     </div>
   </div>
 </nav>
-
-  

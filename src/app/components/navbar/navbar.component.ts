@@ -17,13 +17,17 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  navbarColor = {
-    background: '#1E3A8A',
-    text: '#FFFFFF'
-  };
-
+  hoveredDropdownItem: number | string | null = null;
+  
   isLoggedIn = false;
   user: any = null;
+
+  navbarColor = {
+    background: '',
+    text: '',
+    fondoHover: '',
+    textoHover: ''
+  };
 
   constructor(public login: LoginService, private dynamicThemeService: DynamicThemeService) {}
 

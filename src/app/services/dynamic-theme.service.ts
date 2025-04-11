@@ -11,6 +11,8 @@ export class DynamicThemeService {
       navbar: {
         background: '#1E3A8A',
         text: '#FFFFFF',
+        fondoHover: '#FFFFFF40',
+        textoHover: '#000000'
       },
       button: {
         fondo: '#1E3A8A',
