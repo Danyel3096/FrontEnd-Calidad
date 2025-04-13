@@ -9,6 +9,8 @@ import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { CompanyService } from '../../services/company.service';
 import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
+import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   standalone: true,

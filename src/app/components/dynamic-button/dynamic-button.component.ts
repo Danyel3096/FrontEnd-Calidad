@@ -3,16 +3,18 @@ import { CommonModule } from '@angular/common';
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ButtonColors } from '../../interfaces/dynamic-colors.interface';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   standalone: true,
   selector: 'app-dynamic-button',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule],
   templateUrl: './dynamic-button.component.html',
   styleUrls: ['./dynamic-button.component.css']  // corregido
 })
 
 export class DynamicButtonComponent implements OnInit {
+  @Input() icon?: string;
   @Input() label = ''; 
   @Input() routerLink = ''; 
   @Input() routerLinkActive = 'active'; 
