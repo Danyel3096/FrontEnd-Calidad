@@ -69,7 +69,8 @@ nav > div > div > div > button {
 }
 
 #navbarSupportedContent > ul > li > app-dynamic-button > button,
-#navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0 > li > button {
+#navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0 > li > button,
+#navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0.align-items-center > li > div > app-dynamic-button > button {
   --bs-btn-border-color: transparent !important;
   border-color: transparent !important;
 }

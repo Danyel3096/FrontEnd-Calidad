@@ -18,9 +18,7 @@ export class SidebarComponent implements OnInit {
 
   sidebarColor: ThemeColors['sidebar'] = {
     background: '#007bff',  // valores por defecto
-    text: '#ffffff',
-    fondoHover: 'rgba(255,255,255,0.2)',
-    textoHover: '#ffffff'
+    text: '#ffffff'
   };
 
   ngOnInit(): void {

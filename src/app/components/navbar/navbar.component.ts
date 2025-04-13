@@ -8,7 +8,7 @@ import { DynamicButtonComponent } from '../dynamic-button/dynamic-button.compone
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { CompanyService } from '../../services/company.service';
 import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { NavbarColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
+import { NavbarButtonsColors, NavbarColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
 import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -45,15 +45,21 @@ export class NavbarComponent implements OnInit {
   //navbarColor!: ThemeColors['navbar'];  // ahora tipado para la sección navbar
 
   isNavbarCollapsed = true; // Controla el estado del colapso
+  isHovered = false;
 
   constructor(private dynamicThemeService: DynamicThemeService, /* … */) {}
 
   navbarColor: ThemeColors['navbar'] = {
     background: '',
-    text: '',
-    fondoHover: '',
-    textoHover: ''
+    text: ''
   };
+
+  color: NavbarButtonsColors = {
+      fondo: '#ccc',
+      texto: '#000',
+      fondoHover: '#bbb',
+      textoHover: '#111'
+    };
 
   ngOnInit(): void {
     // Estado de login
@@ -67,6 +73,11 @@ export class NavbarComponent implements OnInit {
     // SUSCRÍBETE a la sección 'navbar' del tema activo
     this.dynamicThemeService.getSection('navbar').subscribe(colors => {
       this.navbarColor = colors;
+      console.log('Navbar colors:', this.navbarColor);
+    });
+
+    this.dynamicThemeService.getSection('navbarButtons').subscribe(colors => {
+      this.color = colors;
       console.log('Navbar colors:', this.navbarColor);
     });
 

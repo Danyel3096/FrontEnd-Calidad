@@ -1,8 +1,6 @@
 export interface NavbarColors {
     background: string;
     text: string;
-    fondoHover: string;
-    textoHover: string;
 }
   
 export interface NavbarButtonsColors {
@@ -15,8 +13,6 @@ export interface NavbarButtonsColors {
 export interface SidebarColors {
     background: string;
     text: string;
-    fondoHover: string;
-    textoHover: string;
 }
 
 export interface SidebarButtonsColors {

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg" [ngStyle]="{ backgroundColor: navbarColor.background, color: navbarColor.text }">
   <div class="container-fluid">
     <!-- Logo y nombre -->
-    <a class="navbar-brand fw-bold" routerLink="/" *ngIf="company() as companyData">
+    <a class="navbar-brand fw-bold" routerLink="/" *ngIf="company() as companyData" [ngStyle]="{ backgroundColor: navbarColor.background, color: navbarColor.text }">
       <img [src]="companyData.logo" alt="Logo" style="height: 60px;">
       {{ companyData.name }}
     </a>
@@ -68,26 +68,27 @@
         <ng-container *ngIf="isLoggedIn">
           <!-- Dropdown del usuario -->
           <li class="nav-item dropdown" ngbDropdown>
-            <a class="btn nav-link dropdown-toggle"
+            <a class="btn nav-link dropdown-toggle me-3"
                ngbDropdownToggle
                role="button"
                *ngIf="user"
                [ngStyle]="{
-                 backgroundColor: hoveredDropdownItem === 'userToggle' ? navbarColor.fondoHover : navbarColor.background,
-                 color: hoveredDropdownItem === 'userToggle' ? navbarColor.textoHover : navbarColor.text
-               }"
-               (mouseenter)="hoveredDropdownItem = 'userToggle'"
-               (mouseleave)="hoveredDropdownItem = null">
+                  backgroundColor: hoveredDropdownItem === 'userToggle' ? color.fondoHover : color.fondo,
+                  color: hoveredDropdownItem === 'userToggle' ? color.textoHover : color.texto
+                }"
+                (mouseenter)="hoveredDropdownItem = 'userToggle'"
+                (mouseleave)="hoveredDropdownItem = null"
+               >
               {{ user.username }}
             </a>
-            <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" [ngStyle]="{ backgroundColor: navbarColor.background }">
+            <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" [ngStyle]="{ backgroundColor: color.fondo }">
               <li>
                 <a class="dropdown-item"
                 routerLink="/user"
                 routerLinkActive="active"
                 [ngStyle]="{
-                  backgroundColor: hoveredDropdownItem === 0 ? navbarColor.fondoHover : navbarColor.background,
-                  color: hoveredDropdownItem === 0 ? navbarColor.textoHover : navbarColor.text
+                  backgroundColor: hoveredDropdownItem === 0 ? color.fondoHover : color.fondo,
+                  color: hoveredDropdownItem === 0 ? color.textoHover : color.texto
                 }"
                 (mouseenter)="hoveredDropdownItem = 0"
                 (mouseleave)="hoveredDropdownItem = null">
@@ -98,12 +99,12 @@
                 routerLink="/user/settings"
                 routerLinkActive="active"
                 [ngStyle]="{
-                  backgroundColor: hoveredDropdownItem === 1 ? navbarColor.fondoHover : navbarColor.background,
-                  color: hoveredDropdownItem === 1 ? navbarColor.textoHover : navbarColor.text
+                  backgroundColor: hoveredDropdownItem === 1 ? color.fondoHover : color.fondo,
+                  color: hoveredDropdownItem === 1 ? color.textoHover : color.texto
                 }"
                 (mouseenter)="hoveredDropdownItem = 1"
                 (mouseleave)="hoveredDropdownItem = null">
-                  Settings
+                  Configuración
                 </a>
               </li>
               <li><hr class="dropdown-divider"></li>
@@ -111,8 +112,8 @@
                 routerLink="/recover-password"
                 routerLinkActive="active"
                 [ngStyle]="{
-                  backgroundColor: hoveredDropdownItem === 2 ? navbarColor.fondoHover : navbarColor.background,
-                  color: hoveredDropdownItem === 2 ? navbarColor.textoHover : navbarColor.text
+                  backgroundColor: hoveredDropdownItem === 2 ? color.fondoHover : color.fondo,
+                  color: hoveredDropdownItem === 2 ? color.textoHover : color.texto
                 }"
                 (mouseenter)="hoveredDropdownItem = 2"
                 (mouseleave)="hoveredDropdownItem = null">
@@ -130,51 +131,24 @@
           </li>
         </ng-container>
         <li class="nav-item">
-          <div class="position-relative me-3 d-flex ms-auto">
-            <a routerLink="/cart"
-              class="btn nav-link p-0 d-flex"
-              [ngStyle]="{
-                backgroundColor: hoveredDropdownItem === 'cart' ? navbarColor.fondoHover : navbarColor.background,
-                color: hoveredDropdownItem === 'cart' ? navbarColor.textoHover : navbarColor.text
-              }"
+          <!-- carrito de compras -->
+          <div class="position-relative d-flex ms-auto p-0 d-flex align-items-center">
+            <app-dynamic-button
+              icon="cart-shopping"
+              routerLink="/cart"
+              routerLinkActive="active"
               (mouseenter)="hoveredDropdownItem = 'cart'"
               (mouseleave)="hoveredDropdownItem = null"
-              aria-label="Carrito">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icon-tabler-shopping-cart"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                <path d="M17 17h-11v-14h-2" />
-                <path d="M6 5l14 1l-1 7h-13" />
-              </svg>
-          
-              @if (cartState.count() > 0) {
-                <span
-                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
-                  style="font-size: 0.75rem;"
-                >
-                  {{ cartState.count() }}
-                </span>
-              }
-            </a>
+              (click)="closeNavbar()">
+            </app-dynamic-button>
           </div>
         </li>
         <li class="nav-item">
           <app-dynamic-button
             icon="circle-half-stroke"
             label="Cambiar tema"
-            (buttonClick)="toggleTheme()">
+            (buttonClick)="toggleTheme()"
+            (click)="closeNavbar()">
           </app-dynamic-button>
         </li>
       </ul>

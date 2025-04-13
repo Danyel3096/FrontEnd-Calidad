@@ -33,8 +33,8 @@
     "navbarButtons": {
       "fondo": "#1eaf36",
       "texto": "#FFFFFF",
-      "fondoHover": "#FFFFFF40",
-      "textoHover": "#FFFFFF"
+      "fondoHover": "#FFFFFF80",
+      "textoHover": "#000000"
     },
     "sidebar": {
       "background": "#8c96a3",
