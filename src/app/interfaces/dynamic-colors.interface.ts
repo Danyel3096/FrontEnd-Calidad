@@ -31,8 +31,8 @@ export interface ThemeColors {
     navbarButtons: NavbarButtonsColors;
     sidebar: SidebarColors;
     sidebarButtons: SidebarButtonsColors;
-    title: TitleColors;
-    background: string;
+    titleNavbar: TitleColors;
+    backgroundPage: string;
 }
   
 export interface ThemeConfig {

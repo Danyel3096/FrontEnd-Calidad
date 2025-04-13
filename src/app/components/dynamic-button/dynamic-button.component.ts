@@ -18,6 +18,7 @@ export class DynamicButtonComponent implements OnInit {
   @Input() label = ''; 
   @Input() routerLink = ''; 
   @Input() routerLinkActive = 'active'; 
+  @Input() isButtonOnly = false; // nueva bandera
   @Output() click = new EventEmitter<Event>();
   @Output() buttonClick = new EventEmitter<void>();
 
@@ -43,6 +44,10 @@ export class DynamicButtonComponent implements OnInit {
   }
 
   handleClick(event: Event): void {
+    if (!this.routerLink) {
+      event.preventDefault();
+    }
+    
     this.click.emit(event);
     this.buttonClick.emit();
   }

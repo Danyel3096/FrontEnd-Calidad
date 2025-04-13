@@ -19,20 +19,20 @@ export class DynamicThemeService {
   /** Configuración de temas cargada desde JSON o fallback */
   private fallbackConfig: ThemeConfig = {
     light: {
+      backgroundPage: '#F3F4F6',
+      titleNavbar: { color: '#1E40AF' },
       navbar: { background: '#1E3A8A', text: '#FFFFFF' },
       navbarButtons: { fondo: '#1E3A8A', texto: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#000000' },
       sidebar: { background: '#3d5891', text: '#FFFFFF' },
-      sidebarButtons: { background: '#1E3A8A', text: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#000000' },
-      title: { color: '#1E40AF' },
-      background: '#F3F4F6'
+      sidebarButtons: { background: '#1E3A8A', text: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#000000' }
     },
     dark: {
+      backgroundPage: '#1F2937',
+      titleNavbar: { color: '#93C5FD' },
       navbar: { background: '#111827', text: '#FFFFFF' },
       navbarButtons: { fondo: '#1E40AF', texto: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#FFFFFF' },
       sidebar: { background: '#1F2937', text: '#FFFFFF' },
-      sidebarButtons: { background: '#1E40AF', text: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#FFFFFF' },
-      title: { color: '#93C5FD' },
-      background: '#1F2937'
+      sidebarButtons: { background: '#1E40AF', text: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#FFFFFF' }
     }
   };
 

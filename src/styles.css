@@ -74,3 +74,10 @@ nav > div > div > div > button {
   --bs-btn-border-color: transparent !important;
   border-color: transparent !important;
 }
+
+/* Estilos para evitar fondo negro en la cantidad de págs y buscador de DataTables */
+#dt-length-0, #dt-length-6, #dt-search-0, #dt-search-6 {
+  background-color: #FFFFFF !important;
+  border-color: #7a7474;
+  border-style: solid;
+}

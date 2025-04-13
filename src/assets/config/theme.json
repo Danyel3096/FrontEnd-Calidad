@@ -1,5 +1,9 @@
 {
   "light": {
+    "backgroundPage": "#9bbbe8",
+    "titleNavbar": {
+      "color": "#1E40AF"
+    },
     "navbar": {
       "background": "#1E3A8A",
       "text": "#FFFFFF"
@@ -19,13 +23,13 @@
       "texto": "#FFFFFF",
       "fondoHover": "#34dceb",
       "textoHover": "#e534eb"
-    },
-    "title": {
-      "color": "#1E40AF"
-    },
-    "background": "#F3F4F6"
+    }
   },
   "dark": {
+    "backgroundPage": "#627da3",
+    "titleNavbar": {
+      "color": "#93C5FD"
+    },
     "navbar": {
       "background": "#111827",
       "text": "#FFFFFF"
@@ -45,10 +49,6 @@
       "texto": "#FFFFFF",
       "fondoHover": "#e534eb",
       "textoHover": "#34dceb"
-    },
-    "title": {
-      "color": "#93C5FD"
-    },
-    "background": "#1F2937"
+    }
   }
 }

@@ -1,5 +1,58 @@
+<!-- Botón simple -->
 <button
+  *ngIf="isButtonOnly; else linkTpl"
   class="btn me-3"
+  [ngStyle]="{
+    backgroundColor: isHovered ? color.fondoHover : color.fondo,
+    color: isHovered ? color.textoHover : color.texto
+  }"
+  (click)="handleClick($event)"
+  (mouseenter)="isHovered = true"
+  (mouseleave)="isHovered = false"
+>
+  <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
+  {{ label }}
+</button>
+
+<!-- Enlace (routerLink) -->
+<ng-template #linkTpl>
+  <a
+    *ngIf="routerLink; else noLinkTpl"
+    [routerLink]="routerLink"
+    routerLinkActive="active"
+    [attr.aria-current]="isActiveRoute() ? 'page' : null"
+    class="btn nav-link me-3"
+    [ngStyle]="{
+      backgroundColor: isHovered ? color.fondoHover : color.fondo,
+      color: isHovered ? color.textoHover : color.texto
+    }"
+    (click)="handleClick($event)"
+    (mouseenter)="isHovered = true"
+    (mouseleave)="isHovered = false"
+  >
+    <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
+    {{ label }}
+  </a>
+
+  <ng-template #noLinkTpl>
+    <button
+      class="btn me-3"
+      [ngStyle]="{
+        backgroundColor: isHovered ? color.fondoHover : color.fondo,
+        color: isHovered ? color.textoHover : color.texto
+      }"
+      (click)="handleClick($event)"
+      (mouseenter)="isHovered = true"
+      (mouseleave)="isHovered = false"
+    >
+      <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
+      {{ label }}
+    </button>
+  </ng-template>
+</ng-template>
+
+<!--<button
+  class="btn"
   [routerLink]="routerLink"
   routerLinkActive="active"
   [attr.aria-current]="isActiveRoute() ? 'page' : null"
@@ -13,4 +66,4 @@
 >
 <fa-icon *ngIf="icon" [icon]="icon"></fa-icon>
 {{ label }}
-</button>
+</button>-->

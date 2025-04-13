@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg" [ngStyle]="{ backgroundColor: navbarColor.background, color: navbarColor.text }">
   <div class="container-fluid">
     <!-- Logo y nombre -->
-    <a class="navbar-brand fw-bold" routerLink="/" *ngIf="company() as companyData" [ngStyle]="{ backgroundColor: navbarColor.background, color: navbarColor.text }">
+    <a class="navbar-brand fw-bold" routerLink="/" *ngIf="company() as companyData" [ngStyle]="{ backgroundColor: navbarColor.background, color: titleColor.color }">
       <img [src]="companyData.logo" alt="Logo" style="height: 60px;">
       {{ companyData.name }}
     </a>
@@ -144,9 +144,11 @@
           </div>
         </li>
         <li class="nav-item">
+          <!-- Cambiar tema -->
           <app-dynamic-button
             icon="circle-half-stroke"
             label="Cambiar tema"
+            [isButtonOnly]="true"
             (buttonClick)="toggleTheme()"
             (click)="closeNavbar()">
           </app-dynamic-button>

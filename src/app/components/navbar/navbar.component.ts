@@ -48,7 +48,9 @@ export class NavbarComponent implements OnInit {
   isHovered = false;
 
   constructor(private dynamicThemeService: DynamicThemeService, /* … */) {}
-
+  
+  titleColor: ThemeColors['titleNavbar'] = { color: '#000' };  // valor por defecto
+  
   navbarColor: ThemeColors['navbar'] = {
     background: '',
     text: ''
@@ -81,7 +83,11 @@ export class NavbarComponent implements OnInit {
       console.log('Navbar colors:', this.navbarColor);
     });
 
-    // Paleta completa (si la necesitas)
+    this.dynamicThemeService.getSection('titleNavbar').subscribe(c => {
+      this.titleColor = c;
+    });
+
+    // Paleta completa (si la necesitas) //SIN USO ACTUALMENTE, SE UTILIZA CADA SECCIÓN POR SEPARADO
     this.themeService.getActivePalette().subscribe(palette => {
       this.activePalette = palette;
     });
