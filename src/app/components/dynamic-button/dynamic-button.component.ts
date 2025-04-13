@@ -11,11 +11,13 @@ import { ButtonColors } from '../../interfaces/dynamic-colors.interface';
   templateUrl: './dynamic-button.component.html',
   styleUrls: ['./dynamic-button.component.css']  // corregido
 })
+
 export class DynamicButtonComponent implements OnInit {
   @Input() label = ''; 
   @Input() routerLink = ''; 
   @Input() routerLinkActive = 'active'; 
   @Output() click = new EventEmitter<Event>();
+  @Output() buttonClick = new EventEmitter<void>();
 
   isHovered = false;
   //color!: ButtonColors;
@@ -40,6 +42,7 @@ export class DynamicButtonComponent implements OnInit {
 
   handleClick(event: Event): void {
     this.click.emit(event);
+    this.buttonClick.emit();
   }
 
   isActiveRoute(): boolean {

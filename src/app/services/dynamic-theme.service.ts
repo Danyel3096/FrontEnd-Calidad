@@ -103,4 +103,10 @@ export class DynamicThemeService {
       map(([cfg, isDark]) => cfg[isDark ? 'dark' : 'light'][section])
     );
   }
+
+  /** Cambia el modo oscuro y claro con el botón y lo guarda */
+  toggleTheme(): void {
+    const current = this.isDarkMode$.getValue();
+    this.setDarkMode(!current);
+  }
 }

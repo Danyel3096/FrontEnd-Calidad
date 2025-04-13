@@ -86,4 +86,8 @@ export class NavbarComponent implements OnInit {
     this.login.logout();
     window.location.reload();
   }
+
+  toggleTheme(): void {
+    this.dynamicThemeService.toggleTheme();
+  }
 }

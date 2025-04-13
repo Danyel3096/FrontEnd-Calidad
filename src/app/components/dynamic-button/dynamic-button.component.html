@@ -1,17 +1,15 @@
-<ng-container *ngIf="color">
-  <button
-    class="btn me-3"
-    [routerLink]="routerLink"
-    routerLinkActive="active"
-    [attr.aria-current]="isActiveRoute() ? 'page' : null"
-    [ngStyle]="{
-      backgroundColor: isHovered ? color.fondoHover : color.fondo,
-      color: isHovered ? color.textoHover : color.texto
-    }"
-    (click)="handleClick($event)"
-    (mouseenter)="isHovered = true"
-    (mouseleave)="isHovered = false"
-  >
-  {{ label }}
-  </button>
-</ng-container>
+<button
+  class="btn me-3"
+  [routerLink]="routerLink"
+  routerLinkActive="active"
+  [attr.aria-current]="isActiveRoute() ? 'page' : null"
+  [ngStyle]="{
+    backgroundColor: isHovered ? color.fondoHover : color.fondo,
+    color: isHovered ? color.textoHover : color.texto
+  }"
+  (click)="handleClick($event)"
+  (mouseenter)="isHovered = true"
+  (mouseleave)="isHovered = false"
+>
+{{ label }}
+</button>
