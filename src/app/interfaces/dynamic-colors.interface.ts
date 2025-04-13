@@ -18,6 +18,13 @@ export interface SidebarColors {
     fondoHover: string;
     textoHover: string;
 }
+
+export interface SidebarButtonsColors {
+    background: string;
+    text: string;
+    fondoHover: string;
+    textoHover: string;
+}
   
 export interface TitleColors {
     color: string;
@@ -27,6 +34,7 @@ export interface ThemeColors {
     navbar: NavbarColors;
     button: ButtonColors;
     sidebar: SidebarColors;
+    sidebarButtons: SidebarButtonsColors;
     title: TitleColors;
     background: string;
 }

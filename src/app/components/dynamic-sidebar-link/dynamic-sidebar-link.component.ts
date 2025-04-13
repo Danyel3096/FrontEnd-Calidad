@@ -21,7 +21,7 @@ export class DynamicSidebarLinkComponent implements OnInit {
 
   public router = inject(Router);
 
-  color: ThemeColors['sidebar'] = {
+  color: ThemeColors['sidebarButtons'] = {
     background: '#007bff',
     text: '#ffffff',
     fondoHover: 'rgba(255,255,255,0.2)',
@@ -33,7 +33,7 @@ export class DynamicSidebarLinkComponent implements OnInit {
   constructor(private themeService: DynamicThemeService) {}
 
   ngOnInit(): void {
-    this.themeService.getSection('sidebar').subscribe(colors => {
+    this.themeService.getSection('sidebarButtons').subscribe(colors => {
       this.color = colors;
     });
   }

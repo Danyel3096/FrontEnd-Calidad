@@ -2,9 +2,7 @@
   "light": {
     "navbar": {
       "background": "#1E3A8A",
-      "text": "#FFFFFF",
-      "fondoHover": "#FFFFFF40",
-      "textoHover": "#000000"
+      "text": "#FFFFFF"
     },
     "button": {
       "fondo": "#1E3A8A",
@@ -14,7 +12,11 @@
     },
     "sidebar": {
       "background": "#3d5891",
-      "text": "#FFFFFF",
+      "text": "#FFFFFF"
+    },
+    "sidebarButtons": {
+      "fondo": "#1E3A8A",
+      "texto": "#FFFFFF",
       "fondoHover": "#34dceb",
       "textoHover": "#e534eb"
     },
@@ -26,9 +28,7 @@
   "dark": {
     "navbar": {
       "background": "#111827",
-      "text": "#FFFFFF",
-      "fondoHover": "#FFFFFF40",
-      "textoHover": "#FFFFFF"
+      "text": "#FFFFFF"
     },
     "button": {
       "fondo": "#1eaf36",
@@ -38,7 +38,11 @@
     },
     "sidebar": {
       "background": "#8c96a3",
-      "text": "#FFFFFF",
+      "text": "#FFFFFF"
+    },
+    "sidebarButtons": {
+      "fondo": "#1eaf36",
+      "texto": "#FFFFFF",
       "fondoHover": "#e534eb",
       "textoHover": "#34dceb"
     },
