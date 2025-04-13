@@ -2,7 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output, inject } from '@angular
 import { CommonModule } from '@angular/common';
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { ButtonColors } from '../../interfaces/dynamic-colors.interface';
+import { NavbarButtonsColors } from '../../interfaces/dynamic-colors.interface';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -27,7 +27,7 @@ export class DynamicButtonComponent implements OnInit {
   private themeService = inject(DynamicThemeService);
   public router = inject(Router);
 
-  color: ButtonColors = {
+  color: NavbarButtonsColors = {
     fondo: '#ccc',
     texto: '#000',
     fondoHover: '#bbb',
@@ -36,7 +36,7 @@ export class DynamicButtonComponent implements OnInit {
 
   ngOnInit(): void {
     // Suscribirse a la sección 'button' de la paleta activa
-    this.themeService.getSection('button').subscribe(colors => {
+    this.themeService.getSection('navbarButtons').subscribe(colors => {
       console.log('Button colors:', colors);
       this.color = colors;
     });

@@ -4,7 +4,7 @@
       "background": "#1E3A8A",
       "text": "#FFFFFF"
     },
-    "button": {
+    "navbarButtons": {
       "fondo": "#1E3A8A",
       "texto": "#FFFFFF",
       "fondoHover": "#FFFFFF40",
@@ -30,7 +30,7 @@
       "background": "#111827",
       "text": "#FFFFFF"
     },
-    "button": {
+    "navbarButtons": {
       "fondo": "#1eaf36",
       "texto": "#FFFFFF",
       "fondoHover": "#FFFFFF40",
