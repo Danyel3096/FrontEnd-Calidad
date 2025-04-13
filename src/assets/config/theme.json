@@ -1,4 +1,5 @@
 {
+  "light": {
     "navbar": {
       "background": "#1E3A8A",
       "text": "#FFFFFF",
@@ -19,5 +20,27 @@
       "color": "#1E40AF"
     },
     "background": "#F3F4F6"
+  },
+  "dark": {
+    "navbar": {
+      "background": "#111827",
+      "text": "#FFFFFF",
+      "fondoHover": "#FFFFFF40",
+      "textoHover": "#FFFFFF"
+    },
+    "button": {
+      "fondo": "#1eaf36",
+      "texto": "#FFFFFF",
+      "fondoHover": "#FFFFFF40",
+      "textoHover": "#FFFFFF"
+    },
+    "sidebar": {
+      "background": "#1F2937",
+      "text": "#FFFFFF"
+    },
+    "title": {
+      "color": "#93C5FD"
+    },
+    "background": "#1F2937"
   }
-  
+}

@@ -8,10 +8,20 @@ import { DynamicButtonComponent } from '../dynamic-button/dynamic-button.compone
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { CompanyService } from '../../services/company.service';
 import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MaterialModule, RouterModule, RouterLink, RouterLinkActive, NgbCollapseModule, NgbDropdownModule, DynamicButtonComponent],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    RouterModule,
+    RouterLink,
+    RouterLinkActive,
+    NgbCollapseModule,
+    NgbDropdownModule,
+    DynamicButtonComponent
+  ],
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
@@ -19,49 +29,61 @@ import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap
 
 export class NavbarComponent implements OnInit {
   company = inject(CompanyService).getCompany();
+  cartState = inject(CartStateService).state;
+  login = inject(LoginService);
+  themeService = inject(DynamicThemeService);
 
   hoveredDropdownItem: number | string | null = null;
-
   isLoggedIn = false;
   user: any = null;
 
-  navbarColor = {
+  // Tipado con interfaces
+  //navbarColor!: NavbarColors;
+  activePalette!: ThemeColors;
+  //navbarColor!: ThemeColors['navbar'];  // ahora tipado para la sección navbar
+
+  isNavbarCollapsed = true; // Controla el estado del colapso
+
+  constructor(private dynamicThemeService: DynamicThemeService, /* … */) {}
+
+  navbarColor: ThemeColors['navbar'] = {
     background: '',
     text: '',
     fondoHover: '',
     textoHover: ''
   };
 
-  isNavbarCollapsed = true; // Controla el estado del colapso
-
-  constructor(public login: LoginService, private dynamicThemeService: DynamicThemeService, private cartStateService: CartStateService) {}
-
   ngOnInit(): void {
+    // Estado de login
     this.isLoggedIn = this.login.isLoggedIn();
     this.user = this.login.getUser();
-
-    this.login.loginStatusSubject.asObservable().subscribe(() => {
+    this.login.loginStatusSubject.subscribe(() => {
       this.isLoggedIn = this.login.isLoggedIn();
       this.user = this.login.getUser();
     });
 
-    this.dynamicThemeService.getThemeColors().subscribe((data) => {
-      this.navbarColor = data.navbar;
+    // SUSCRÍBETE a la sección 'navbar' del tema activo
+    this.dynamicThemeService.getSection('navbar').subscribe(colors => {
+      this.navbarColor = colors;
+      console.log('Navbar colors:', this.navbarColor);
+    });
+
+    // Paleta completa (si la necesitas)
+    this.themeService.getActivePalette().subscribe(palette => {
+      this.activePalette = palette;
     });
   }
 
-  public logout() {
-    this.login.logout();
-    window.location.reload();
+  toggleNavbar(): void {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
-
-  cartState = inject(CartStateService).state;
 
   closeNavbar(): void {
     this.isNavbarCollapsed = true;
   }
 
-  toggleNavbar(): void {
-    this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  logout(): void {
+    this.login.logout();
+    window.location.reload();
   }
 }
