@@ -15,6 +15,8 @@ export interface ButtonColors {
 export interface SidebarColors {
     background: string;
     text: string;
+    fondoHover: string;
+    textoHover: string;
 }
   
 export interface TitleColors {

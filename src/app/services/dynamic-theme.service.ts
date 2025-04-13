@@ -21,14 +21,14 @@ export class DynamicThemeService {
     light: {
       navbar: { background: '#1E3A8A', text: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#000000' },
       button: { fondo: '#1E3A8A', texto: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#000000' },
-      sidebar: { background: '#111827', text: '#FFFFFF' },
+      sidebar: { background: '#3d5891', text: '#FFFFFF', fondoHover: "#e534eb", textoHover: "#34dceb" },
       title: { color: '#1E40AF' },
       background: '#F3F4F6'
     },
     dark: {
       navbar: { background: '#111827', text: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#FFFFFF' },
       button: { fondo: '#1E40AF', texto: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#FFFFFF' },
-      sidebar: { background: '#1F2937', text: '#FFFFFF' },
+      sidebar: { background: '#1F2937', text: '#FFFFFF', fondoHover: "#e534eb", textoHover: "#34dceb" },
       title: { color: '#93C5FD' },
       background: '#1F2937'
     }

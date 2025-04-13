@@ -13,8 +13,10 @@
       "textoHover": "#000000"
     },
     "sidebar": {
-      "background": "#111827",
-      "text": "#FFFFFF"
+      "background": "#3d5891",
+      "text": "#FFFFFF",
+      "fondoHover": "#34dceb",
+      "textoHover": "#e534eb"
     },
     "title": {
       "color": "#1E40AF"
@@ -35,8 +37,10 @@
       "textoHover": "#FFFFFF"
     },
     "sidebar": {
-      "background": "#1F2937",
-      "text": "#FFFFFF"
+      "background": "#8c96a3",
+      "text": "#FFFFFF",
+      "fondoHover": "#e534eb",
+      "textoHover": "#34dceb"
     },
     "title": {
       "color": "#93C5FD"

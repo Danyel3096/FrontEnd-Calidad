@@ -1,13 +1,14 @@
-<div class="sidebar-fixed">
+<div class="sidebar-fixed" [ngStyle]="{
+  background: sidebarColor.background,
+  color: sidebarColor.text
+}">
   <a routerLink="/admin-dashboard" class="sidebar-brand">
     <span>Admin / User Panel</span>
   </a>
   <hr>
   <ul class="nav flex-column">
     <li class="nav-item">
-      <a routerLink="/admin-dashboard" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link">
-        <i class="fas fa-tachometer-alt"></i> Dashboard
-      </a>
+      <app-dynamic-sidebar-link routerLink="/admin-dashboard" routerLinkActive="active" label="Dashboard" icon="fas fa-tachometer-alt"></app-dynamic-sidebar-link>
     </li>
     <hr>
     <li>

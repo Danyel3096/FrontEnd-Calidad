@@ -1,0 +1,16 @@
+<a
+    class="nav-link"
+    [routerLink]="routerLink"
+    routerLinkActive="active"
+    ariaCurrentWhenActive="page"
+    (mouseenter)="isHovered = true"
+    (mouseleave)="isHovered = false"
+    [ngStyle]="{
+    backgroundColor: isHovered ? color.fondoHover : color.background,
+    color: isHovered ? color.textoHover : color.text
+    }"
+    [ngClass]="{ 'hovered': isHovered }">
+    <!-- <fa-icon *ngIf="icon" [icon]="icon"></fa-icon> -->
+    <i [class]="icon"></i>
+    {{ label }}
+</a>
