@@ -3,10 +3,10 @@
     <!-- Sidebar -->
     <app-sidebar></app-sidebar>
   </div>
-  <div class="col-auto flex-fill p-3">
+  <div class="col-auto flex-fill p-3" [ngStyle]="{ 'background-color': backgroundSecondary, 'color': textBodyColor }">
     <!-- Contenido del Dashboard -->
-    <h1>Dashboard</h1>
-    <h1>Bienvenido al panel de administrador</h1>
+    <h1 [style.color]="textTitleColor">Dashboard</h1>
+    <h1 [style.color]="textTitleColor">Bienvenido al panel de administrador</h1>
     <p>Este es el panel de administración.</p>
     
     <router-outlet></router-outlet>

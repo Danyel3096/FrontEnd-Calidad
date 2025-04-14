@@ -5,6 +5,7 @@ import { DynamicThemeService } from './services/dynamic-theme.service';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
+import { ThemeColors } from './interfaces/dynamic-colors.interface';
 
 @Component({
   standalone: true,
@@ -15,7 +16,12 @@ import { CommonModule } from '@angular/common';
 })
 
 export class AppComponent implements OnInit {
-  backgroundPage = '#fff';
+  pageColors: ThemeColors['pageContent'] = {
+      backgroundPage: '',
+      backgroundSecondary: '',
+      textTitle: '',
+      textBody: ''
+    };
 
   constructor(private themeService: DynamicThemeService, library: FaIconLibrary) {
     library.addIconPacks(fas); // Agrega todos los íconos sólidos
@@ -28,7 +34,8 @@ export class AppComponent implements OnInit {
     });
 
     this.themeService.getSection('pageContent').subscribe(colors => {
-      this.backgroundPage = colors.backgroundPage;
+      console.log('AppComponent detectó pageContent:', colors);
+      this.pageColors = colors;
     });
   }
 }
