@@ -27,8 +27,8 @@ export class AppComponent implements OnInit {
       document.documentElement.classList.toggle('dark', isDark);
     });
 
-    this.themeService.getSection('backgroundPage').subscribe(color => {
-      this.backgroundPage = color;
+    this.themeService.getSection('pageContent').subscribe(colors => {
+      this.backgroundPage = colors.backgroundPage;
     });
   }
 }

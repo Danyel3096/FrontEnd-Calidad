@@ -1,54 +1,64 @@
 {
   "light": {
-    "backgroundPage": "#9bbbe8",
+    "content": {
+      "backgroundPage": "#f1f5f9",
+      "backgroundSecondary": "#ffffff",
+      "textTitle": "#0f172a",
+      "textBody": "#334155"
+    },
     "titleNavbar": {
-      "color": "#1E40AF"
+      "color": "#0f172a"
     },
     "navbar": {
-      "background": "#1E3A8A",
-      "text": "#FFFFFF"
+      "background": "#587ab0",
+      "text": "#f8fafc"
     },
     "navbarButtons": {
-      "fondo": "#1E3A8A",
-      "texto": "#FFFFFF",
-      "fondoHover": "#FFFFFF40",
-      "textoHover": "#000000"
+      "fondo": "#3b82f6",       
+      "texto": "#ffffff",
+      "fondoHover": "#60a5fa",  
+      "textoHover": "#ffffff"
     },
     "sidebar": {
-      "background": "#3d5891",
-      "text": "#FFFFFF"
+      "background": "#e2e8f0",
+      "text": "#1e293b"
     },
     "sidebarButtons": {
-      "fondo": "#1E3A8A",
-      "texto": "#FFFFFF",
-      "fondoHover": "#34dceb",
-      "textoHover": "#e534eb"
+      "fondo": "#10b981",       
+      "texto": "#ffffff",
+      "fondoHover": "#34d399",  
+      "textoHover": "#ffffff"
     }
   },
   "dark": {
-    "backgroundPage": "#627da3",
+    "content": {
+      "backgroundPage": "#0f172a",
+      "backgroundSecondary": "#1e293b",
+      "textTitle": "#f8fafc",
+      "textBody": "#cbd5e1"
+    },
     "titleNavbar": {
-      "color": "#93C5FD"
+      "color": "#f1f5f9"
     },
     "navbar": {
-      "background": "#111827",
-      "text": "#FFFFFF"
+      "background": "#1e293b",
+      "text": "#f8fafc"
     },
     "navbarButtons": {
-      "fondo": "#1eaf36",
-      "texto": "#FFFFFF",
-      "fondoHover": "#FFFFFF80",
-      "textoHover": "#000000"
+      "fondo": "#f59e0b",       
+      "texto": "#1e293b",
+      "fondoHover": "#fbbf24",  
+      "textoHover": "#1e293b"
     },
     "sidebar": {
-      "background": "#8c96a3",
-      "text": "#FFFFFF"
+      "background": "#1e293b",
+      "text": "#f8fafc"
     },
     "sidebarButtons": {
-      "fondo": "#1eaf36",
-      "texto": "#FFFFFF",
-      "fondoHover": "#e534eb",
-      "textoHover": "#34dceb"
+      "fondo": "#ec4899",       
+      "texto": "#ffffff",
+      "fondoHover": "#f472b6",  
+      "textoHover": "#1e293b"
     }
   }
 }

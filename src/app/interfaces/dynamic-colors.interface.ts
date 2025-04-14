@@ -22,8 +22,15 @@ export interface SidebarButtonsColors {
     textoHover: string;
 }
   
-export interface TitleColors {
+export interface TitleNavbarColors {
     color: string;
+}
+
+export interface PageColors {
+    backgroundPage: string;
+    backgroundSecondary: string;
+    textTitle: string;
+    textBody: string;
 }
   
 export interface ThemeColors {
@@ -31,8 +38,8 @@ export interface ThemeColors {
     navbarButtons: NavbarButtonsColors;
     sidebar: SidebarColors;
     sidebarButtons: SidebarButtonsColors;
-    titleNavbar: TitleColors;
-    backgroundPage: string;
+    titleNavbar: TitleNavbarColors;
+    pageContent: PageColors;
 }
   
 export interface ThemeConfig {

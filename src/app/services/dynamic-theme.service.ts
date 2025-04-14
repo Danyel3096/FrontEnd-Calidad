@@ -19,7 +19,7 @@ export class DynamicThemeService {
   /** Configuración de temas cargada desde JSON o fallback */
   private fallbackConfig: ThemeConfig = {
     light: {
-      backgroundPage: '#F3F4F6',
+      pageContent: { backgroundPage: "#f1f5f9", backgroundSecondary: "#ffffff", textTitle: "#0f172a", textBody: "#334155" },//backgroundPage: '#F3F4F6',
       titleNavbar: { color: '#1E40AF' },
       navbar: { background: '#1E3A8A', text: '#FFFFFF' },
       navbarButtons: { fondo: '#1E3A8A', texto: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#000000' },
@@ -27,7 +27,7 @@ export class DynamicThemeService {
       sidebarButtons: { background: '#1E3A8A', text: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#000000' }
     },
     dark: {
-      backgroundPage: '#1F2937',
+      pageContent: { backgroundPage: "#0f172a", backgroundSecondary: "#1e293b", textTitle: "#f8fafc", textBody: "#cbd5e1" },//backgroundPage: '#1F2937',
       titleNavbar: { color: '#93C5FD' },
       navbar: { background: '#111827', text: '#FFFFFF' },
       navbarButtons: { fondo: '#1E40AF', texto: '#FFFFFF', fondoHover: '#FFFFFF40', textoHover: '#FFFFFF' },

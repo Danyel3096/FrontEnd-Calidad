@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductCardComponent } from '../../../components/product-card/product-card.component';
 import { CartStateService } from '../../../services/cart-state.service';
 import { ProductsService } from '../../../services/product.service';
-import { Product } from '../interfaces/product.interface';
+import { Product } from '../../../interfaces/product.interface';
 
 @Component({
   selector: 'app-product-list',
