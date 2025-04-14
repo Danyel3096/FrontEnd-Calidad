@@ -3,8 +3,8 @@
   *ngIf="isButtonOnly; else linkTpl"
   class="btn me-3"
   [ngStyle]="{
-    backgroundColor: isHovered ? color.fondoHover : color.fondo,
-    color: isHovered ? color.textoHover : color.texto
+    backgroundColor: isHovered ? color.hoverBackground : color.background,
+    color: isHovered ? color.hoverText : color.text
   }"
   (click)="handleClick($event)"
   (mouseenter)="isHovered = true"
@@ -23,8 +23,8 @@
     [attr.aria-current]="isActiveRoute() ? 'page' : null"
     class="btn nav-link me-3"
     [ngStyle]="{
-      backgroundColor: isHovered ? color.fondoHover : color.fondo,
-      color: isHovered ? color.textoHover : color.texto
+      backgroundColor: isHovered ? color.hoverBackground : color.background,
+      color: isHovered ? color.hoverText : color.text
     }"
     (click)="handleClick($event)"
     (mouseenter)="isHovered = true"
@@ -38,8 +38,8 @@
     <button
       class="btn me-3"
       [ngStyle]="{
-        backgroundColor: isHovered ? color.fondoHover : color.fondo,
-        color: isHovered ? color.textoHover : color.texto
+        backgroundColor: isHovered ? color.hoverBackground : color.background,
+        color: isHovered ? color.hoverText : color.text
       }"
       (click)="handleClick($event)"
       (mouseenter)="isHovered = true"
@@ -57,8 +57,8 @@
   routerLinkActive="active"
   [attr.aria-current]="isActiveRoute() ? 'page' : null"
   [ngStyle]="{
-    backgroundColor: isHovered ? color.fondoHover : color.fondo,
-    color: isHovered ? color.textoHover : color.texto
+    backgroundColor: isHovered ? color.hoverBackground : color.background,
+    color: isHovered ? color.hoverText : color.text
   }"
   (click)="handleClick($event)"
   (mouseenter)="isHovered = true"

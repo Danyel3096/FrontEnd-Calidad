@@ -24,8 +24,8 @@ export class DynamicSidebarLinkComponent implements OnInit {
   color: ThemeColors['sidebarButtons'] = {
     background: '#007bff',
     text: '#ffffff',
-    fondoHover: 'rgba(255,255,255,0.2)',
-    textoHover: '#ffffff'
+    hoverBackground: 'rgba(255,255,255,0.2)',
+    hoverText: '#ffffff'
   };
 
   isHovered = false;

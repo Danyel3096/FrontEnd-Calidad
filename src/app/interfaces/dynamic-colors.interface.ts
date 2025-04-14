@@ -4,10 +4,10 @@ export interface NavbarColors {
 }
   
 export interface NavbarButtonsColors {
-    fondo: string;
-    texto: string;
-    fondoHover: string;
-    textoHover: string;
+    background: string;
+    text: string;
+    hoverBackground: string;
+    hoverText: string;
 }
   
 export interface SidebarColors {
@@ -18,8 +18,8 @@ export interface SidebarColors {
 export interface SidebarButtonsColors {
     background: string;
     text: string;
-    fondoHover: string;
-    textoHover: string;
+    hoverBackground: string;
+    hoverText: string;
 }
   
 export interface TitleNavbarColors {

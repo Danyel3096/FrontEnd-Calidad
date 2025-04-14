@@ -57,10 +57,10 @@ export class NavbarComponent implements OnInit {
   };
 
   color: NavbarButtonsColors = {
-      fondo: '#ccc',
-      texto: '#000',
-      fondoHover: '#bbb',
-      textoHover: '#111'
+      background: '#ccc',
+      text: '#000',
+      hoverBackground: '#bbb',
+      hoverText: '#111'
     };
 
   ngOnInit(): void {

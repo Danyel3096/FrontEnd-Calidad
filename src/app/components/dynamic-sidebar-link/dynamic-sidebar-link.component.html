@@ -6,8 +6,8 @@
     (mouseenter)="isHovered = true"
     (mouseleave)="isHovered = false"
     [ngStyle]="{
-    backgroundColor: isHovered ? color.fondoHover : color.background,
-    color: isHovered ? color.textoHover : color.text
+    backgroundColor: isHovered ? color.hoverBackground : color.background,
+    color: isHovered ? color.hoverText : color.text
     }"
     [ngClass]="{ 'hovered': isHovered }">
     <!-- <fa-icon *ngIf="icon" [icon]="icon"></fa-icon> -->

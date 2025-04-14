@@ -73,22 +73,22 @@
                role="button"
                *ngIf="user"
                [ngStyle]="{
-                  backgroundColor: hoveredDropdownItem === 'userToggle' ? color.fondoHover : color.fondo,
-                  color: hoveredDropdownItem === 'userToggle' ? color.textoHover : color.texto
+                  backgroundColor: hoveredDropdownItem === 'userToggle' ? color.hoverBackground : color.background,
+                  color: hoveredDropdownItem === 'userToggle' ? color.hoverText : color.text
                 }"
                 (mouseenter)="hoveredDropdownItem = 'userToggle'"
                 (mouseleave)="hoveredDropdownItem = null"
                >
               {{ user.username }}
             </a>
-            <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" [ngStyle]="{ backgroundColor: color.fondo }">
+            <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" [ngStyle]="{ backgroundColor: color.background }">
               <li>
                 <a class="dropdown-item"
                 routerLink="/user"
                 routerLinkActive="active"
                 [ngStyle]="{
-                  backgroundColor: hoveredDropdownItem === 0 ? color.fondoHover : color.fondo,
-                  color: hoveredDropdownItem === 0 ? color.textoHover : color.texto
+                  backgroundColor: hoveredDropdownItem === 0 ? color.hoverBackground : color.background,
+                  color: hoveredDropdownItem === 0 ? color.hoverText : color.text
                 }"
                 (mouseenter)="hoveredDropdownItem = 0"
                 (mouseleave)="hoveredDropdownItem = null">
@@ -99,8 +99,8 @@
                 routerLink="/user/settings"
                 routerLinkActive="active"
                 [ngStyle]="{
-                  backgroundColor: hoveredDropdownItem === 1 ? color.fondoHover : color.fondo,
-                  color: hoveredDropdownItem === 1 ? color.textoHover : color.texto
+                  backgroundColor: hoveredDropdownItem === 1 ? color.hoverBackground : color.background,
+                  color: hoveredDropdownItem === 1 ? color.hoverText : color.text
                 }"
                 (mouseenter)="hoveredDropdownItem = 1"
                 (mouseleave)="hoveredDropdownItem = null">
@@ -112,8 +112,8 @@
                 routerLink="/recover-password"
                 routerLinkActive="active"
                 [ngStyle]="{
-                  backgroundColor: hoveredDropdownItem === 2 ? color.fondoHover : color.fondo,
-                  color: hoveredDropdownItem === 2 ? color.textoHover : color.texto
+                  backgroundColor: hoveredDropdownItem === 2 ? color.hoverBackground : color.background,
+                  color: hoveredDropdownItem === 2 ? color.hoverText : color.text
                 }"
                 (mouseenter)="hoveredDropdownItem = 2"
                 (mouseleave)="hoveredDropdownItem = null">
