@@ -16,7 +16,7 @@ import { ThemeColors } from './interfaces/dynamic-colors.interface';
 })
 
 export class AppComponent implements OnInit {
-  pageColors: ThemeColors['pageContent'] = {
+  pageContentColors: ThemeColors['pageContent'] = {
       backgroundPage: '',
       backgroundSecondary: '',
       textTitle: '',
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
     this.themeService.getSection('pageContent').subscribe(colors => {
       console.log('AppComponent detectó pageContent:', colors);
-      this.pageColors = colors;
+      this.pageContentColors = colors;
     });
   }
 }

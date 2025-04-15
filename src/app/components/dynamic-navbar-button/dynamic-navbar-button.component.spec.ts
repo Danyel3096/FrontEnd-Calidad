@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThemeToggleComponent } from './theme-toggle.component';
+import { DynamicButtonComponent } from './dynamic-navbar-button.component';
 
-describe('ThemeToggleComponent', () => {
-  let component: ThemeToggleComponent;
-  let fixture: ComponentFixture<ThemeToggleComponent>;
+describe('DynamicButtonComponent', () => {
+  let component: DynamicButtonComponent;
+  let fixture: ComponentFixture<DynamicButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ThemeToggleComponent]
+      imports: [DynamicButtonComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ThemeToggleComponent);
+    fixture = TestBed.createComponent(DynamicButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
