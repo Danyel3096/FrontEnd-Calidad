@@ -1,9 +1,11 @@
 {
   "light": {
     "homePage": {
-      "background": "#ffffff",
-      "textTitle": "#0f172a",
-      "textBody": "#334155"
+      "backgroundPrimary": "#ffffff",
+      "backgroundSecondary": "#ffffff",
+      "backgroundTertiary": "#ffffff",
+      "fontFamily": "Arial, sans-serif",
+      "fontSize": "16px"
     },
     "pageContent": {
       "backgroundPage": "#f1f5f9",
@@ -39,7 +41,9 @@
   },
   "dark": {
     "homePage": {
-      "background": "#1e293b",
+      "backgroundPrimary": "#1e293b",
+      "backgroundSecondary": "#1e293b",
+      "backgroundTertiary": "#1e293b",
       "textTitle": "#f8fafc",
       "textBody": "#cbd5e1"
     },
@@ -55,7 +59,7 @@
       "color": "#f1f5f9"
     },
     "navbar": {
-      "background": "#1e293b",
+      "background": "#0b4be3",
       "text": "#f8fafc"
     },
     "navbarButtons": {

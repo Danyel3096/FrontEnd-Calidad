@@ -1,5 +1,7 @@
 export interface HomePageColors {
-    background: string;
+    backgroundPrimary: string;
+    backgroundSecondary: string;
+    backgroundTertiary: string;
     textTitle: string;
     textBody: string;
 }
@@ -37,6 +39,8 @@ export interface PageContentColors {
     backgroundSecondary: string;
     textTitle: string;
     textBody: string;
+    fontFamily: string;
+    fontSize: string;
 }
   
 export interface ThemeColors {
