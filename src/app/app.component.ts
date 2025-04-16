@@ -20,7 +20,9 @@ export class AppComponent implements OnInit {
       backgroundPage: '',
       backgroundSecondary: '',
       textTitle: '',
-      textBody: ''
+      textBody: '',
+      fontFamily: '',
+      fontSize: ''
     };
 
   constructor(private themeService: DynamicThemeService, library: FaIconLibrary) {
@@ -35,7 +37,14 @@ export class AppComponent implements OnInit {
 
     this.themeService.getSection('pageContent').subscribe(colors => {
       console.log('AppComponent detectó pageContent:', colors);
+      // Aplica los estilos globales al body o al root
+      const root = document.documentElement;
+
       this.pageContentColors = colors;
+
+      Object.entries(colors).forEach(([key, value]) => {
+        root.style.setProperty(`--${key}`, value);
+      });
     });
   }
 }

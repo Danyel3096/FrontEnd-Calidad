@@ -42,6 +42,13 @@ export interface PageContentColors {
     fontFamily: string;
     fontSize: string;
 }
+
+export interface FooterColors {
+    background: string;
+    text: string;
+    hoverBackground: string;
+    hoverText: string;
+}
   
 export interface ThemeColors {
     homePage: HomePageColors,
@@ -51,6 +58,7 @@ export interface ThemeColors {
     sidebarButtons: SidebarButtonsColors;
     titleNavbar: TitleNavbarColors;
     pageContent: PageContentColors;
+    footer: FooterColors;
 }
   
 export interface ThemeConfig {

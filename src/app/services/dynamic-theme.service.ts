@@ -25,7 +25,8 @@ export class DynamicThemeService {
       navbar: { background: '#1E3A8A', text: '#FFFFFF' },
       navbarButtons: { background: '#1E3A8A', text: '#FFFFFF', hoverBackground:'#FFFFFF40', hoverText: '#000000' },
       sidebar: { background: '#3d5891', text: '#FFFFFF' },
-      sidebarButtons: { background: '#1E3A8A', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#000000' }
+      sidebarButtons: { background: '#1E3A8A', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#000000' },
+      footer: { background: '#1E3A8A', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#000000' }
     },
     dark: {
       homePage: { backgroundPrimary: "#0f172a", backgroundSecondary: "#0f172a", backgroundTertiary: "#0f172a", textTitle: "#f8fafc", textBody: "#cbd5e1" },//background: '#1F2937',
@@ -34,7 +35,8 @@ export class DynamicThemeService {
       navbar: { background: '#111827', text: '#FFFFFF' },
       navbarButtons: { background: '#1E40AF', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#FFFFFF' },
       sidebar: { background: '#1F2937', text: '#FFFFFF' },
-      sidebarButtons: { background: '#1E40AF', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#FFFFFF' }
+      sidebarButtons: { background: '#1E40AF', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#FFFFFF' },
+      footer: { background: '#111827', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#FFFFFF' }
     }
   };
 
