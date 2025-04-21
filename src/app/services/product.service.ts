@@ -1,19 +1,19 @@
 // products.service.ts
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs'; 
+import { Observable, of } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
-import { Product } from '../pages/products/interfaces/product.interface';
+import { Product } from '../interfaces/product.interface';
+import { environment } from '../../environments/environment.development';
 
-// Servicio real con API
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductsService extends BaseHttpService {
   getProducts(page: number, limit: number): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrlProducts}`, {
       params: {
-        limit: limit.toString(), //  Se pasa el límite desde afuera
-        page: page.toString(),   // El backend puede usarlo para paginar
+        limit: limit.toString(),
+        page: page.toString(),
       },
     });
   }
@@ -21,26 +21,52 @@ export class ProductsService extends BaseHttpService {
   getProduct(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrlProducts}/${id}`);
   }
-}
 
-//  Servicio simulado (por si estás en modo pruebas)+¿
+  // ✅ Nuevos métodos para categorías
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(environment.API_URL_CATEGORIA_READALL);
+  }
+
+  getProductsByCategory(category: string): Observable<Product[]> {
+    return this.http.get<Product[]>(
+      `${environment.API_URL}/products/category/${category}`
+    );
+  }
+
+  // ✅ Método adicional para traer todos los productos sin paginación
+  getAllProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${environment.API_URL_PRODUCTO_READALL}`);
+  }
+}
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MockProductService {
   private suppliers: Products[] = [
-    { id: 1, name: 'Product A', description: 'Lorem ipsum 1', category:'Ropa' },
-    { id: 2, name: 'Product B', description: 'Lorem ipsum 2', category:'Hogar'},
-    { id: 3, name: 'Product C', description: 'Lorem ipsum 3', category:'Electronia' },
-    { id: 4, name: 'Product D', description: 'Lorem ipsum 4', category:'Ropa' },
+    { id: 1, name: 'Product A', description: 'Lorem ipsum 1', category: 'Ropa' },
+    { id: 2, name: 'Product B', description: 'Lorem ipsum 2', category: 'Hogar' },
+    { id: 3, name: 'Product C', description: 'Lorem ipsum 3', category: 'Electronica' },
+    { id: 4, name: 'Product D', description: 'Lorem ipsum 4', category: 'Ropa' },
   ];
 
   getProductsList(): Observable<Products[]> {
     return of(this.suppliers);
   }
+
+  // ✅ Método simulado para categorías únicas
+  getCategories(): Observable<string[]> {
+    const categories = [...new Set(this.suppliers.map(p => p.category))];
+    return of(categories);
+  }
+
+  // ✅ Filtrar productos por categoría simulada
+  getProductsByCategory(category: string): Observable<Products[]> {
+    const filtered = this.suppliers.filter(p => p.category === category);
+    return of(filtered);
+  }
 }
 
-// ✅ Interfaz de productos simulados
+// ✅ Interfaz del mock
 export interface Products {
   id: number;
   name: string;

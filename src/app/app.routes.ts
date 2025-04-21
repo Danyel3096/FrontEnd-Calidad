@@ -29,6 +29,8 @@ import { OrdersDashboardComponent } from './pages/user/user-dashboard/orders-das
 // Otras rutas
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { MissingComponent } from './pages/missing/missing.component';
+import { HelpComponent } from './pages/help/help.component';
+import { InventoryAdminDashboardComponent } from './pages/admin/admin-dashboard/inventory-dashboard/inventory-dashboard.component';
 
 // Arreglo con las rutas de la aplicación
 export const routes: Routes = [
@@ -40,6 +42,10 @@ export const routes: Routes = [
       {
         path: 'categories', // child admin route path
         component: CategoriesAdminDashboardComponent, // another child route component that the router renders
+      },
+      {
+        path: 'inventory', // child admin route path
+        component: InventoryAdminDashboardComponent, // another child route component that the router renders
       },
       {
         path: 'metrics', // child admin route path
@@ -64,6 +70,7 @@ export const routes: Routes = [
     ] },
   // Paginas de la aplicacion
   { path: 'cart', component: CartListComponent, pathMatch: 'full' },
+  { path: 'help', component: HelpComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
   {
     path: 'products',

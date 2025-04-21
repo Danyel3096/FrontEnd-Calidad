@@ -1,16 +1,12 @@
-<app-navbar></app-navbar>
-<main>
-    <router-outlet></router-outlet> 
-</main>
-
-<!--
-<div class="container flex flex-col min-h-screen">
-    <div class="row">
-        <div class="col-12">
-            <app-navbar></app-navbar>
+<div [ngStyle]="{ 'background-color': pageColors.backgroundPage, height: '100vh' }">
+    <app-navbar></app-navbar>
+    <div class="container flex flex-col min-h-screen">
+        <div class="row">
+            <div class="col-12 flex-grow-1 p-3">
+                <main>
+                    <router-outlet></router-outlet> 
+                </main>
+            </div>
+        </div>
     </div>
-    <main>
-        <router-outlet></router-outlet> 
-    </main>
 </div>
--->

@@ -1,7 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
 
-html, body { height: 100%; }
+
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -52,5 +55,29 @@ body {
   margin-left: 70px !important;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Encapsulá todas las clases dentro de `.tw` */
+.tw {
+  @import "tailwindcss";
+}
+
+/*.btn-outline-light, .btn-outline-light:hover {*/
+nav > div > div > ul > li,
+nav > div > div > a,
+nav > div > div > div > button {
+  --bs-btn-border-color: transparent !important;
+  border-color: transparent !important;
+}
+
+#navbarSupportedContent > ul > li > app-dynamic-button > button,
+#navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0 > li > button,
+#navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0.align-items-center > li > div > app-dynamic-button > button {
+  --bs-btn-border-color: transparent !important;
+  border-color: transparent !important;
+}
+
+/* Estilos para evitar fondo negro en la cantidad de págs y buscador de DataTables */
+#dt-length-0, #dt-length-6, #dt-search-0, #dt-search-6 {
+  background-color: #FFFFFF !important;
+  border-color: #7a7474;
+  border-style: solid;
+}
