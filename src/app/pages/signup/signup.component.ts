@@ -20,7 +20,8 @@ export class SignupComponent implements OnInit {
     nombre: '',
     apellido: '',
     email: '',
-    telefono: ''
+    telefono: '',
+    direccion: ''
   };
 
   public errores = {
@@ -29,7 +30,9 @@ export class SignupComponent implements OnInit {
     nombre: false,
     apellido: false,
     email: false,
-    telefono: false
+    telefono: false,
+    direccion: false
+
   };
 
   constructor(private userService: UserService, private snack: MatSnackBar) { }
@@ -82,7 +85,8 @@ export class SignupComponent implements OnInit {
           nombre: '',
           apellido: '',
           email: '',
-          telefono: ''
+          telefono: '',
+          direccion: ''
         };
         this.errores = {
           username: false,
@@ -90,7 +94,8 @@ export class SignupComponent implements OnInit {
           nombre: false,
           apellido: false,
           email: false,
-          telefono: false
+          telefono: false,
+          direccion: false
         };
       },
       (error) => {
