@@ -22,28 +22,39 @@
         </li>
         <li class="nav-item">
           <app-dynamic-navbar-button
-            label="Ayuda"
-            routerLink="/help"
+            label="About"
+            routerLink="/about"
             routerLinkActive="active"
             (click)="closeNavbar()">
           </app-dynamic-navbar-button>
         </li>
         <li class="nav-item">
           <app-dynamic-navbar-button
-            label="Admin Dashboard"
-            routerLink="/admin-dashboard"
+            label="Contact"
+            routerLink="/contact"
             routerLinkActive="active"
             (click)="closeNavbar()">
           </app-dynamic-navbar-button>
         </li>
-        <li class="nav-item">
-          <app-dynamic-navbar-button
-            label="User Dashboard"
-            routerLink="/user-dashboard"
-            routerLinkActive="active"
-            (click)="closeNavbar()">
-          </app-dynamic-navbar-button>
-        </li>
+        <ng-container *ngIf="isLoggedIn">
+          <!-- NOTA: Debe quedar solo un dashboard -->
+          <li class="nav-item">
+            <app-dynamic-navbar-button
+              label="A. Dashboard"
+              routerLink="/admin-dashboard"
+              routerLinkActive="active"
+              (click)="closeNavbar()">
+            </app-dynamic-navbar-button>
+          </li>
+          <li class="nav-item">
+            <app-dynamic-navbar-button
+              label="U. Dashboard"
+              routerLink="/user-dashboard"
+              routerLinkActive="active"
+              (click)="closeNavbar()">
+            </app-dynamic-navbar-button>
+          </li>
+        </ng-container>
       </ul>
       <!-- Lado derecho del navbar -->
       <ul class="navbar-nav me-0 mb-2 mb-lg-0 align-items-center">
@@ -150,6 +161,15 @@
             label="Cambiar tema"
             [isButtonOnly]="true"
             (buttonClick)="toggleTheme()"
+            (click)="closeNavbar()">
+          </app-dynamic-navbar-button>
+        </li>
+        <li class="nav-item">
+          <app-dynamic-navbar-button
+            icon="circle-question"
+            label="Ayuda"
+            routerLink="/help"
+            routerLinkActive="active"
             (click)="closeNavbar()">
           </app-dynamic-navbar-button>
         </li>
