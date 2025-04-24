@@ -1,7 +1,7 @@
 .sidebar-fixed {
   width: 250px;
-  height: 100vh;
-  position: fixed;
+  min-height: 100vh;/* height: 100vh; <- opcional si el contenido es corto */
+  position: relative;/*fixed*/
   left: 0;
   top: 0;
   background: linear-gradient(180deg, #007bff, #6610f2);
@@ -10,7 +10,7 @@
   border-right: 2px solid rgba(255, 255, 255, 0.2);
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  padding-top: 80px; /* Altura del navbar */
+  /*padding-top: 80px;*/ /* Altura del navbar */
 }
 
 .sidebar-brand {
@@ -23,9 +23,13 @@
   text-decoration: none;
 }
 
+/*
+NOTA: No está contemplado un color personalizado para el hover de la sidebar-brand
+ya que no se usa en el diseño actual, puede ser un color estándar para todos los sitios
+o desahbilitar el hover en el CSS.
 .sidebar-brand:hover {
   color: #ffcc00;
-}
+}*/
 
 .nav {
   list-style: none;

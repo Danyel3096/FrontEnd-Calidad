@@ -7,7 +7,7 @@ import $ from 'jquery';
 import 'datatables.net-bs5';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'products-dashboard',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './products-dashboard.component.html',

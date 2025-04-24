@@ -102,7 +102,8 @@ nav > div > div > div > button {
 }
 
 /* Estilos para evitar fondo negro en la cantidad de págs y buscador de DataTables */
-#dt-length-0, #dt-length-6, #dt-search-0, #dt-search-6 {
+#dt-length-0, #dt-length-1, #dt-length-2, #dt-length-3, #dt-length-4, #dt-length-5, #dt-length-6,
+#dt-search-0, #dt-search-1, #dt-search-2, #dt-search-3, #dt-search-4, #dt-search-5, #dt-search-6 {
   background-color: #FFFFFF !important;
   border-color: #7a7474;
   border-style: solid;
