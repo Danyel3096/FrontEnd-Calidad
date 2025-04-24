@@ -1,4 +1,4 @@
-<div [ngStyle]="{ 'background-color': pageContentColors.backgroundPage, height: '100vh' }">
+<div [ngStyle]="{ 'background-color': pageContentColors.backgroundPage, 'min-height': '100vh' }">
     <app-navbar></app-navbar>
     <div class="container-fluid tw min-h-screen flex flex-col">
       <div class="row flex-grow-1">
@@ -9,5 +9,6 @@
         </div>
       </div>
     </div>
+    <app-footer></app-footer>
   </div>
   

@@ -6,10 +6,11 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import { ThemeColors } from './interfaces/dynamic-colors.interface';
+import { FooterComponent } from "./components/footer/footer.component";
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent, FontAwesomeModule],
+  imports: [CommonModule, RouterOutlet, NavbarComponent, FontAwesomeModule, FooterComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
