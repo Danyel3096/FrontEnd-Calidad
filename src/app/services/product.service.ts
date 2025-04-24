@@ -1,4 +1,3 @@
-// products.service.ts
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
@@ -17,27 +16,39 @@ export class ProductsService extends BaseHttpService {
       },
     });
   }
+  addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(`${environment.API_URL}/products`, product);
+  }
 
   getProduct(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrlProducts}/${id}`);
   }
 
-  // ✅ Nuevos métodos para categorías
+  // Nuevos métodos para categorías
   getCategories(): Observable<string[]> {
     return this.http.get<string[]>(environment.API_URL_CATEGORIA_READALL);
   }
 
   getProductsByCategory(category: string): Observable<Product[]> {
-    return this.http.get<Product[]>(
-      `${environment.API_URL}/products/category/${category}`
-    );
+    return this.http.get<Product[]>(`${environment.API_URL}/products/category/${category}`);
   }
 
-  // ✅ Método adicional para traer todos los productos sin paginación
+  // Método adicional para traer todos los productos sin paginación
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${environment.API_URL_PRODUCTO_READALL}`);
   }
+
+  // Método para eliminar productos (lógica)
+  deleteProduct(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.API_URL_PRODUCTO_DELETELOGICALLY}/${id}`);
+  }
+
+  // Método para actualizar producto
+  updateProduct(id: string, product: Product): Observable<Product> {
+    return this.http.put<Product>(`${environment.API_URL_PRODUCTO_UPDATE}/${id}`, product);
+  }
 }
+
 @Injectable({
   providedIn: 'root',
 })
@@ -53,20 +64,20 @@ export class MockProductService {
     return of(this.suppliers);
   }
 
-  // ✅ Método simulado para categorías únicas
+  // Método simulado para categorías únicas
   getCategories(): Observable<string[]> {
     const categories = [...new Set(this.suppliers.map(p => p.category))];
     return of(categories);
   }
 
-  // ✅ Filtrar productos por categoría simulada
+  // Filtrar productos por categoría simulada
   getProductsByCategory(category: string): Observable<Products[]> {
     const filtered = this.suppliers.filter(p => p.category === category);
     return of(filtered);
   }
 }
 
-// ✅ Interfaz del mock
+// Interfaz del mock
 export interface Products {
   id: number;
   name: string;
