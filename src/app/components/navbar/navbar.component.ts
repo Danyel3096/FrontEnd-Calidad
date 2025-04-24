@@ -8,9 +8,7 @@ import { DynamicNavbarButtonComponent } from '../dynamic-navbar-button/dynamic-n
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { CompanyService } from '../../services/company.service';
 import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { NavbarButtonsColors, NavbarColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
-import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons';
-
+import { NavbarButtonsColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
 
 @Component({
   standalone: true,

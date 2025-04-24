@@ -19,7 +19,7 @@ export class ProductsService extends BaseHttpService {
   }
 
   getProduct(id: string): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrlProducts}/${id}`);
+    return this.http.get<Product>(`${this.apiUrlProducts}/${id}`);//return this.http.get<Product>(`${environment.API_URL_PRODUCTO_READBYID}/${id}`);
   }
 
   // ✅ Nuevos métodos para categorías

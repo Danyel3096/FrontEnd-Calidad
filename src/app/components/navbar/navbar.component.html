@@ -152,6 +152,14 @@
               (mouseleave)="hoveredDropdownItem = null"
               (click)="closeNavbar()">
             </app-dynamic-navbar-button>
+            @if (cartState.count() > 0) {
+              <span
+                class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-success"
+                style="font-size: 0.75rem;"
+              >
+                {{ cartState.count() }}
+              </span>
+            }
           </div>
         </li>
         <li class="nav-item">
