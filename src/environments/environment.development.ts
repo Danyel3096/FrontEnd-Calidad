@@ -14,21 +14,18 @@ const API_URL_BASE = 'https://fakestoreapi.com';//const API_URL_BASE = 'https://
 
 export const environment = {
   production: false,
-  API_URL: API_URL_BASE, // ✅ agrega esta línea
-  API_URL_PRODUCTO_CREATE: '',
+  API_URL: API_URL_BASE,
+  API_URL_PRODUCTO_CREATE: `${API_URL_BASE}/products`, // Agregado para crear productos
   API_URL_PRODUCTO_READALL: `${API_URL_BASE}/products`,
-  API_URL_PRODUCTO_READBYID: `${API_URL_BASE}/products`,
-  API_URL_PRODUCTO_READBYCATEGORY: '',
-  API_URL_PRODUCTO_UPDATE: '',
-  API_URL_PRODUCTO_DELETELOGICALLY: '',
-  API_URL_CATEGORIA_CREATE: '',
-  API_URL_CATEGORIA_READALL:  `${API_URL_BASE}/products/categories`,
-  API_URL_CATEGORIA_READBYID: '',
-  API_URL_CATEGORIA_UPDATE: '',
-  API_URL_CATEGORIA_DELETELOGICALLY: '',
-  API_URL_USUARIO_CREATECLIENT: '',
-  API_URL_USUARIO_CREATEORDER: '',
-  API_URL_USUARIO_READPRODUCTS: '',
-  API_URL_USUARIO_READORDERS: '',
+  API_URL_PRODUCTO_READBYID: `${API_URL_BASE}/products/`,
+  API_URL_PRODUCTO_READBYCATEGORY: `${API_URL_BASE}/products/category/`,
+  API_URL_PRODUCTO_UPDATE: `${API_URL_BASE}/products/`,
+  API_URL_PRODUCTO_DELETELOGICALLY: `${API_URL_BASE}/products/`, // Agregado para eliminación lógica de productos
+  API_URL_CATEGORIA_CREATE: `${API_URL_BASE}/products/categories`,
+  API_URL_CATEGORIA_READALL: `${API_URL_BASE}/products/categories`,
+  API_URL_CATEGORIA_READBYID: `${API_URL_BASE}/products/categories/`,
+  API_URL_CATEGORIA_UPDATE: `${API_URL_BASE}/products/categories/`,
+  API_URL_CATEGORIA_DELETELOGICALLY: `${API_URL_BASE}/products/categories/`,
   API_URL_USUARIO_LOGIN: `${API_URL_BASE}/auth/login`
 };
+
