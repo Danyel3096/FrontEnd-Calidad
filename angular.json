@@ -45,8 +45,10 @@
               "node_modules/datatables.net-rowreorder-bs5/css/rowReorder.bootstrap5.css",
               "node_modules/datatables.net-scroller-bs5/css/scroller.bootstrap5.css",
               "node_modules/datatables.net-searchpanes-bs5/css/searchPanes.bootstrap5.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
-              
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/filepond/dist/filepond.min.css",
+              "node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -77,8 +79,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "6MB",
+                  "maximumError": "7MB"
                 },
                 {
                   "type": "anyComponentStyle",

@@ -1,3 +1,11 @@
+export interface HomePageColors {
+    backgroundPrimary: string;
+    backgroundSecondary: string;
+    backgroundTertiary: string;
+    textTitle: string;
+    textBody: string;
+}
+
 export interface NavbarColors {
     background: string;
     text: string;
@@ -26,20 +34,31 @@ export interface TitleNavbarColors {
     color: string;
 }
 
-export interface PageColors {
+export interface PageContentColors {
     backgroundPage: string;
     backgroundSecondary: string;
     textTitle: string;
     textBody: string;
+    fontFamily: string;
+    fontSize: string;
+}
+
+export interface FooterColors {
+    background: string;
+    text: string;
+    hoverBackground: string;
+    hoverText: string;
 }
   
 export interface ThemeColors {
+    homePage: HomePageColors,
     navbar: NavbarColors;
     navbarButtons: NavbarButtonsColors;
     sidebar: SidebarColors;
     sidebarButtons: SidebarButtonsColors;
     titleNavbar: TitleNavbarColors;
-    pageContent: PageColors;
+    pageContent: PageContentColors;
+    footer: FooterColors;
 }
   
 export interface ThemeConfig {

@@ -19,6 +19,8 @@ export class AdminDashboardComponent implements OnInit {
   textTitleColor = '';
   textBodyColor = '';
   backgroundSecondary = '';
+  fontFamily = '';
+  fontSize = '';
 
   role = '';
   isAdmin = false;
@@ -31,6 +33,8 @@ export class AdminDashboardComponent implements OnInit {
       this.textTitleColor = colors.textTitle;
       this.textBodyColor = colors.textBody;
       this.backgroundSecondary = colors.backgroundSecondary;
+      this.fontFamily = colors.fontFamily;
+      this.fontSize = colors.fontSize;
     });
 
     this.role = this.loginService.getUserRole();

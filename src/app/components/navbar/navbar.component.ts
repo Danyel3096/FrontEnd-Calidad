@@ -4,13 +4,11 @@ import { MaterialModule } from '../../material/material.module';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { CartStateService } from '../../services/cart-state.service';
-import { DynamicButtonComponent } from '../dynamic-button/dynamic-button.component';
+import { DynamicNavbarButtonComponent } from '../dynamic-navbar-button/dynamic-navbar-button.component';
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { CompanyService } from '../../services/company.service';
 import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { NavbarButtonsColors, NavbarColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
-import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons';
-
+import { NavbarButtonsColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
 
 @Component({
   standalone: true,
@@ -22,7 +20,7 @@ import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons';
     RouterLinkActive,
     NgbCollapseModule,
     NgbDropdownModule,
-    DynamicButtonComponent
+    DynamicNavbarButtonComponent
   ],
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',

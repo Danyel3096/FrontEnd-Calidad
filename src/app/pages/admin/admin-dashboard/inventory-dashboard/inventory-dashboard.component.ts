@@ -20,7 +20,7 @@ import { Product } from '../../../../interfaces/product.interface';
   templateUrl: './inventory-dashboard.component.html',
   styleUrls: ['./inventory-dashboard.component.css']
 })
-export class InventoryDashboardComponent implements OnInit, AfterViewInit {
+export class InventoryAdminDashboardComponent implements OnInit, AfterViewInit {
   selectedProduct: Product | null = null;
   modalMode: 'view' | 'edit' = 'view';
   productModal: any;

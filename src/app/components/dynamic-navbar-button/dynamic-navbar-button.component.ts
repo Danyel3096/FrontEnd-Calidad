@@ -7,13 +7,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   standalone: true,
-  selector: 'app-dynamic-button',
+  selector: 'app-dynamic-navbar-button',
   imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule],
-  templateUrl: './dynamic-button.component.html',
-  styleUrls: ['./dynamic-button.component.css']  // corregido
+  templateUrl: './dynamic-navbar-button.component.html',
+  styleUrls: ['./dynamic-navbar-button.component.css']  // corregido
 })
 
-export class DynamicButtonComponent implements OnInit {
+export class DynamicNavbarButtonComponent implements OnInit {
   @Input() icon?: string;
   @Input() label = ''; 
   @Input() routerLink = ''; 

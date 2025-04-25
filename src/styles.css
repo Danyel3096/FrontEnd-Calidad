@@ -11,6 +11,32 @@ body {
   background: #f5f5f5;
 }
 
+/* INICIO DEL SaaS con fuentes dinámicas*/
+body {
+  font-family: var(--fontFamily, 'sans-serif');
+  font-size: var(--fontSizeText, 0.5rem);
+}
+
+h1 {
+  font-size: var(--fontSizeH1, 2rem);
+}
+h2 {
+  font-size: var(--fontSizeH2, 1.75rem);
+}
+h3 {
+  font-size: var(--fontSizeH3, 1.5rem) !important;
+}
+h4 {
+  font-size: var(--fontSizeH4, 1.25rem);
+}
+h5 {
+  font-size: var(--fontSizeH5, 1rem);
+}
+h6 {
+  font-size: var(--fontSizeH6, 0.875rem);
+}
+/* FIN SaaS */
+
 .text-center{
   text-align: center;
 }
@@ -68,15 +94,16 @@ nav > div > div > div > button {
   border-color: transparent !important;
 }
 
-#navbarSupportedContent > ul > li > app-dynamic-button > button,
+#navbarSupportedContent > ul > li > app-dynamic-navbar-button > button,
 #navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0 > li > button,
-#navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0.align-items-center > li > div > app-dynamic-button > button {
+#navbarSupportedContent > ul.navbar-nav.me-0.mb-2.mb-lg-0.align-items-center > li > div > app-dynamic-navbar-button > button {
   --bs-btn-border-color: transparent !important;
   border-color: transparent !important;
 }
 
 /* Estilos para evitar fondo negro en la cantidad de págs y buscador de DataTables */
-#dt-length-0, #dt-length-6, #dt-search-0, #dt-search-6 {
+#dt-length-0, #dt-length-1, #dt-length-2, #dt-length-3, #dt-length-4, #dt-length-5, #dt-length-6,
+#dt-search-0, #dt-search-1, #dt-search-2, #dt-search-3, #dt-search-4, #dt-search-5, #dt-search-6 {
   background-color: #FFFFFF !important;
   border-color: #7a7474;
   border-style: solid;

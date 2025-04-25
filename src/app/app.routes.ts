@@ -30,14 +30,17 @@ import { OrdersDashboardComponent } from './pages/user/user-dashboard/orders-das
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { MissingComponent } from './pages/missing/missing.component';
 import { HelpComponent } from './pages/help/help.component';
-import { InventoryDashboardComponent } from './pages/admin/admin-dashboard/inventory-dashboard/inventory-dashboard.component';
-
+import { InventoryAdminDashboardComponent } from './pages/admin/admin-dashboard/inventory-dashboard/inventory-dashboard.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { AboutComponent } from './pages/about/about.component';
 
 // Arreglo con las rutas de la aplicación
 export const routes: Routes = [
   // Por defecto
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'home', redirectTo: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'about', redirectTo: '', component: AboutComponent, pathMatch: 'full' },
+  { path: 'contact', redirectTo: '', component: ContactComponent, pathMatch: 'full' },
   { path: 'admin-dashboard', title: 'Admin Dashboard component', component: AdminDashboardComponent, 
     children: [
       {
@@ -46,7 +49,7 @@ export const routes: Routes = [
       },
       {
         path: 'inventory', // child admin route path
-        component: InventoryDashboardComponent, // another child route component that the router renders
+        component: InventoryAdminDashboardComponent, // another child route component that the router renders
       },
       {
         path: 'metrics', // child admin route path

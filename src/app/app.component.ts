@@ -6,21 +6,24 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import { ThemeColors } from './interfaces/dynamic-colors.interface';
+import { FooterComponent } from "./components/footer/footer.component";
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent, FontAwesomeModule],
+  imports: [CommonModule, RouterOutlet, NavbarComponent, FontAwesomeModule, FooterComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 
 export class AppComponent implements OnInit {
-  pageColors: ThemeColors['pageContent'] = {
+  pageContentColors: ThemeColors['pageContent'] = {
       backgroundPage: '',
       backgroundSecondary: '',
       textTitle: '',
-      textBody: ''
+      textBody: '',
+      fontFamily: '',
+      fontSize: ''
     };
 
   constructor(private themeService: DynamicThemeService, library: FaIconLibrary) {
@@ -35,7 +38,14 @@ export class AppComponent implements OnInit {
 
     this.themeService.getSection('pageContent').subscribe(colors => {
       console.log('AppComponent detectó pageContent:', colors);
-      this.pageColors = colors;
+      // Aplica los estilos globales al body o al root
+      const root = document.documentElement;
+
+      this.pageContentColors = colors;
+
+      Object.entries(colors).forEach(([key, value]) => {
+        root.style.setProperty(`--${key}`, value);
+      });
     });
   }
 }

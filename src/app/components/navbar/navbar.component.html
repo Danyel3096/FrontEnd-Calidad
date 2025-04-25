@@ -13,56 +13,67 @@
     <div class="navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isNavbarCollapsed">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
         <li class="nav-item">
-          <app-dynamic-button
+          <app-dynamic-navbar-button
             label="Productos"
             routerLink="/products"
             routerLinkActive="active"
             (click)="closeNavbar()">
-          </app-dynamic-button>
+          </app-dynamic-navbar-button>
         </li>
         <li class="nav-item">
-          <app-dynamic-button
-            label="Ayuda"
-            routerLink="/help"
+          <app-dynamic-navbar-button
+            label="About"
+            routerLink="/about"
             routerLinkActive="active"
             (click)="closeNavbar()">
-          </app-dynamic-button>
+          </app-dynamic-navbar-button>
         </li>
         <li class="nav-item">
-          <app-dynamic-button
-            label="Admin Dashboard"
-            routerLink="/admin-dashboard"
+          <app-dynamic-navbar-button
+            label="Contact"
+            routerLink="/contact"
             routerLinkActive="active"
             (click)="closeNavbar()">
-          </app-dynamic-button>
+          </app-dynamic-navbar-button>
         </li>
-        <li class="nav-item">
-          <app-dynamic-button
-            label="User Dashboard"
-            routerLink="/user-dashboard"
-            routerLinkActive="active"
-            (click)="closeNavbar()">
-          </app-dynamic-button>
-        </li>
+        <ng-container *ngIf="isLoggedIn">
+          <!-- NOTA: Debe quedar solo un dashboard -->
+          <li class="nav-item">
+            <app-dynamic-navbar-button
+              label="A. Dashboard"
+              routerLink="/admin-dashboard"
+              routerLinkActive="active"
+              (click)="closeNavbar()">
+            </app-dynamic-navbar-button>
+          </li>
+          <li class="nav-item">
+            <app-dynamic-navbar-button
+              label="U. Dashboard"
+              routerLink="/user-dashboard"
+              routerLinkActive="active"
+              (click)="closeNavbar()">
+            </app-dynamic-navbar-button>
+          </li>
+        </ng-container>
       </ul>
       <!-- Lado derecho del navbar -->
       <ul class="navbar-nav me-0 mb-2 mb-lg-0 align-items-center">
         <ng-container *ngIf="!isLoggedIn">
           <li class="nav-item">
-            <app-dynamic-button
+            <app-dynamic-navbar-button
               label="Inicia sesión"
               routerLink="/login"
               routerLinkActive="active"
               (click)="closeNavbar()">
-            </app-dynamic-button>
+            </app-dynamic-navbar-button>
           </li>
           <li class="nav-item">
-            <app-dynamic-button
+            <app-dynamic-navbar-button
               label="Registrar"
               routerLink="/signup"
               routerLinkActive="active"
               (click)="closeNavbar()">
-            </app-dynamic-button>
+            </app-dynamic-navbar-button>
           </li>
         </ng-container>
         <ng-container *ngIf="isLoggedIn">
@@ -123,35 +134,52 @@
             </ul>
           </li>
           <li class="nav-item">
-            <app-dynamic-button
+            <app-dynamic-navbar-button
               label="Cerrar sesión"
               (click)="logout()"
               (click)="closeNavbar()">
-            </app-dynamic-button>
+            </app-dynamic-navbar-button>
           </li>
         </ng-container>
         <li class="nav-item">
           <!-- carrito de compras -->
           <div class="position-relative d-flex ms-auto p-0 d-flex align-items-center">
-            <app-dynamic-button
+            <app-dynamic-navbar-button
               icon="cart-shopping"
               routerLink="/cart"
               routerLinkActive="active"
               (mouseenter)="hoveredDropdownItem = 'cart'"
               (mouseleave)="hoveredDropdownItem = null"
               (click)="closeNavbar()">
-            </app-dynamic-button>
+            </app-dynamic-navbar-button>
+            @if (cartState.count() > 0) {
+              <span
+                class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-success"
+                style="font-size: 0.75rem;"
+              >
+                {{ cartState.count() }}
+              </span>
+            }
           </div>
         </li>
         <li class="nav-item">
           <!-- Cambiar tema -->
-          <app-dynamic-button
+          <app-dynamic-navbar-button
             icon="circle-half-stroke"
             label="Cambiar tema"
             [isButtonOnly]="true"
             (buttonClick)="toggleTheme()"
             (click)="closeNavbar()">
-          </app-dynamic-button>
+          </app-dynamic-navbar-button>
+        </li>
+        <li class="nav-item">
+          <app-dynamic-navbar-button
+            icon="circle-question"
+            label="Ayuda"
+            routerLink="/help"
+            routerLinkActive="active"
+            (click)="closeNavbar()">
+          </app-dynamic-navbar-button>
         </li>
       </ul>
     </div>

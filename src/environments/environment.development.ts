@@ -10,7 +10,7 @@
 NOTA: Este archivo es para el entorno de desarrollo. Si quieres cambiar la URL de la API, puedes hacerlo aquí.
 Puedes cambiar la URL de la API en el archivo environment.ts para producción cuando tengamos los endpoints del backend.
 */
-const API_URL_BASE = 'https://fakestoreapi.com';
+const API_URL_BASE = 'https://fakestoreapi.com';//const API_URL_BASE = 'https://tdd-billing-backend.onrender.com';
 
 export const environment = {
   production: false,

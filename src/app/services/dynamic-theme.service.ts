@@ -19,20 +19,24 @@ export class DynamicThemeService {
   /** Configuración de temas cargada desde JSON o fallback */
   private fallbackConfig: ThemeConfig = {
     light: {
-      pageContent: { backgroundPage: "#f1f5f9", backgroundSecondary: "#ffffff", textTitle: "#0f172a", textBody: "#334155" },//backgroundPage: '#F3F4F6',
+      homePage: { backgroundPrimary: "#f1f5f9", backgroundSecondary: "#f1f5f9", backgroundTertiary: "#f1f5f9", textTitle: "#0f172a", textBody: "#334155" },//background: '#F3F4F6',
+      pageContent: { backgroundPage: "#f1f5f9", backgroundSecondary: "#ffffff", textTitle: "#0f172a", textBody: "#334155", fontFamily: "Arial, sans-serif", fontSize: "16px" },//backgroundPage: '#F3F4F6',
       titleNavbar: { color: '#1E40AF' },
       navbar: { background: '#1E3A8A', text: '#FFFFFF' },
       navbarButtons: { background: '#1E3A8A', text: '#FFFFFF', hoverBackground:'#FFFFFF40', hoverText: '#000000' },
       sidebar: { background: '#3d5891', text: '#FFFFFF' },
-      sidebarButtons: { background: '#1E3A8A', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#000000' }
+      sidebarButtons: { background: '#1E3A8A', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#000000' },
+      footer: { background: '#1E3A8A', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#000000' }
     },
     dark: {
-      pageContent: { backgroundPage: "#0f172a", backgroundSecondary: "#1e293b", textTitle: "#f8fafc", textBody: "#cbd5e1" },//backgroundPage: '#1F2937',
+      homePage: { backgroundPrimary: "#0f172a", backgroundSecondary: "#0f172a", backgroundTertiary: "#0f172a", textTitle: "#f8fafc", textBody: "#cbd5e1" },//background: '#1F2937',
+      pageContent: { backgroundPage: "#0f172a", backgroundSecondary: "#1e293b", textTitle: "#f8fafc", textBody: "#cbd5e1", fontFamily: "Arial, sans-serif", fontSize: "16px" },//backgroundPage: '#1F2937',
       titleNavbar: { color: '#93C5FD' },
       navbar: { background: '#111827', text: '#FFFFFF' },
       navbarButtons: { background: '#1E40AF', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#FFFFFF' },
       sidebar: { background: '#1F2937', text: '#FFFFFF' },
-      sidebarButtons: { background: '#1E40AF', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#FFFFFF' }
+      sidebarButtons: { background: '#1E40AF', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#FFFFFF' },
+      footer: { background: '#111827', text: '#FFFFFF', hoverBackground: '#FFFFFF40', hoverText: '#FFFFFF' }
     }
   };
 

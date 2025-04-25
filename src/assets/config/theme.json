@@ -1,21 +1,36 @@
 {
   "light": {
+    "homePage": {
+      "backgroundPrimary": "#ffffff",
+      "backgroundSecondary": "#ffffff",
+      "backgroundTertiary": "#ffffff",
+      "fontFamily": "Arial, sans-serif",
+      "fontSize": "16px"
+    },
     "pageContent": {
       "backgroundPage": "#f1f5f9",
       "backgroundSecondary": "#ffffff",
       "textTitle": "#0f172a",
-      "textBody": "#334155"
+      "textBody": "#334155",
+      "fontFamily": "Arial, sans-serif",
+      "fontSizeH1": "2rem",
+      "fontSizeH2": "1.75rem",
+      "fontSizeH3": "1.5rem",
+      "fontSizeH4": "1.25rem",
+      "fontSizeH5": "1rem",
+      "fontSizeH6": "0.875rem",
+      "fontSizeText": "0.5rem"
     },
     "titleNavbar": {
       "color": "#0f172a"
     },
     "navbar": {
-      "background": "#587ab0",
+      "background": "#377df0",
       "text": "#f8fafc"
     },
     "navbarButtons": {
       "background": "#3b82f6",       
-      "text": "#ffffff",
+      "text": "#000000",
       "hoverBackground": "#60a5fa",  
       "hoverText": "#ffffff"
     },
@@ -28,26 +43,47 @@
       "text": "#ffffff",
       "hoverBackground": "#34d399",  
       "hoverText": "#1e293b"
+    },
+    "footer": {
+      "background": "#e2e8f0",
+      "text": "#334155",
+      "link": "#3b82f6",
+      "hoverLink": "#1d4ed8"
     }
   },
   "dark": {
+    "homePage": {
+      "backgroundPrimary": "#1e293b",
+      "backgroundSecondary": "#1e293b",
+      "backgroundTertiary": "#1e293b",
+      "textTitle": "#f8fafc",
+      "textBody": "#cbd5e1"
+    },
     "pageContent": {
       "backgroundPage": "#0f172a",
       "backgroundSecondary": "#1e293b",
       "textTitle": "#f8fafc",
-      "textBody": "#cbd5e1"
+      "textBody": "#cbd5e1",
+      "fontFamily": "Arial, sans-serif",
+      "fontSizeH1": "2rem",
+      "fontSizeH2": "1.75rem",
+      "fontSizeH3": "1.5rem",
+      "fontSizeH4": "1.25rem",
+      "fontSizeH5": "1rem",
+      "fontSizeH6": "0.875rem",
+      "fontSizeText": "0.5rem"
     },
     "titleNavbar": {
       "color": "#f1f5f9"
     },
     "navbar": {
-      "background": "#1e293b",
+      "background": "#0b4be3",
       "text": "#f8fafc"
     },
     "navbarButtons": {
-      "background": "#f59e0b",       
-      "text": "#1e293b",
-      "hoverBackground": "#fbbf24",  
+      "background": "#104dde",       
+      "text": "#b9c9f0",
+      "hoverBackground": "#5884ed",  
       "hoverText": "#1e293b"
     },
     "sidebar": {
@@ -59,6 +95,12 @@
       "text": "#ffffff",
       "hoverBackground": "#f472b6",  
       "hoverText": "#1e293b"
+    },
+    "footer": {
+      "background": "#1e293b",
+      "text": "#cbd5e1",
+      "link": "#93c5fd",
+      "hoverLink": "#60a5fa"
     }
   }
 }

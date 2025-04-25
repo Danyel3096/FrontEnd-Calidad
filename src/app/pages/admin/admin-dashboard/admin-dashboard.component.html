@@ -1,10 +1,8 @@
-<div class="d-flex row">
-  <div class="col-auto p-0">
-    <!-- Sidebar -->
+<div class="d-flex flex-row" style="min-height: 100vh;">
+  <div class="sidebar-fixed">
     <app-sidebar></app-sidebar>
   </div>
-  <div class="col-auto flex-fill p-3" [ngStyle]="{ 'background-color': backgroundSecondary, 'color': textBodyColor }">
-    <!-- Contenido del Dashboard -->
+  <div class="flex-fill p-3" [ngStyle]="{ 'background-color': backgroundSecondary, 'color': textBodyColor }">
     <h1 [style.color]="textTitleColor">Dashboard</h1>
     <h2 [style.color]="textTitleColor" *ngIf="isAdmin">Bienvenido al panel de <strong>Administrador</strong></h2>
     <h2 [style.color]="textTitleColor" *ngIf="isVendedor">Bienvenido al panel de <strong>Vendedor/Cajero</strong></h2>
