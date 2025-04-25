@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './metrics-dashboard.component.html',
   styleUrl: './metrics-dashboard.component.css'
 })
-export class MetricsAdminDashboardComponent {
+export class MetricsDashboardComponent {
 
 }

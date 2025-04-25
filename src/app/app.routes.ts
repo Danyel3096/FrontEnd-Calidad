@@ -13,24 +13,24 @@ import { UserRecoverPasswordComponent } from './pages/recover-password/user-reco
 import { NormalGuard } from './services/normal.guard';
 import { AdminGuard } from './services/admin.guard';
 
-// Rutas del dashboard de administrador
-import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
-import { CategoriesAdminDashboardComponent } from './pages/admin/admin-dashboard/categories-dashboard/categories-dashboard.component';
-import { MetricsAdminDashboardComponent } from './pages/admin/admin-dashboard/metrics-dashboard/metrics-dashboard.component';
-import { OrdersAdminDashboardComponent } from './pages/admin/admin-dashboard/orders-dashboard/orders-dashboard.component';
-import { ProductsAdminDashboardComponent } from './pages/admin/admin-dashboard/products-dashboard/products-dashboard.component';
-import { RolesAdminDashboardComponent } from './pages/admin/admin-dashboard/roles-dashboard/roles-dashboard.component';
-import { UsersAdminDashboardComponent } from './pages/admin/admin-dashboard/users-dashboard/users-dashboard.component';
+// Rutas del dashboard de istrador
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { CategoriesDashboardComponent } from './pages/dashboard/categories-dashboard/categories-dashboard.component';
+import { MetricsDashboardComponent } from './pages/dashboard/metrics-dashboard/metrics-dashboard.component';
+import { OrdersDashboardComponent } from './pages/dashboard/orders-dashboard/orders-dashboard.component';
+import { ProductsDashboardComponent } from './pages/dashboard/products-dashboard/products-dashboard.component';
+import { RolesDashboardComponent } from './pages/dashboard/roles-dashboard/roles-dashboard.component';
+import { UsersDashboardComponent } from './pages/dashboard/users-dashboard/users-dashboard.component';
 
 // Rutas del dashboard de usuario
 import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
-import { OrdersDashboardComponent } from './pages/user/user-dashboard/orders-dashboard/orders-dashboard.component';
+//import { OrdersDashboardComponent } from './pages/user/user-dashboard/orders-dashboard/orders-dashboard.component';
 
 // Otras rutas
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { MissingComponent } from './pages/missing/missing.component';
 import { HelpComponent } from './pages/help/help.component';
-import { InventoryAdminDashboardComponent } from './pages/admin/admin-dashboard/inventory-dashboard/inventory-dashboard.component';
+import { InventoryDashboardComponent } from './pages//dashboard/inventory-dashboard/inventory-dashboard.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { AboutComponent } from './pages/about/about.component';
 
@@ -41,37 +41,37 @@ export const routes: Routes = [
   { path: 'home', redirectTo: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'about', redirectTo: '', component: AboutComponent, pathMatch: 'full' },
   { path: 'contact', redirectTo: '', component: ContactComponent, pathMatch: 'full' },
-  { path: 'admin-dashboard', title: 'Admin Dashboard component', component: AdminDashboardComponent, 
+  { path: 'dashboard', title: 'Dashboard component', component: DashboardComponent, 
     children: [
       {
-        path: 'categories', // child admin route path
-        component: CategoriesAdminDashboardComponent, // another child route component that the router renders
+        path: 'categories', // child route path
+        component: CategoriesDashboardComponent, // another child route component that the router renders
       },
       {
-        path: 'inventory', // child admin route path
-        component: InventoryAdminDashboardComponent, // another child route component that the router renders
+        path: 'inventory', // child route path
+        component: InventoryDashboardComponent, // another child route component that the router renders
       },
       {
-        path: 'metrics', // child admin route path
-        component: MetricsAdminDashboardComponent, // another child route component that the router renders
+        path: 'metrics', // child route path
+        component: MetricsDashboardComponent, // another child route component that the router renders
       },
       {
-        path: 'products', // child admin route path
-        component: ProductsAdminDashboardComponent, // child route component that the router renders
+        path: 'products', // child route path
+        component: ProductsDashboardComponent, // child route component that the router renders
       },
       {
-        path: 'orders', // child admin route path
-        component: OrdersAdminDashboardComponent, // child route component that the router renders
+        path: 'orders', // child route path
+        component: OrdersDashboardComponent, // child route component that the router renders
       },
       {
-        path: 'roles', // child admin route path
-        component: RolesAdminDashboardComponent, // child route component that the router renders
+        path: 'roles', // child route path
+        component: RolesDashboardComponent, // child route component that the router renders
       },
       {
-        path: 'users', // child admin route path
-        component: UsersAdminDashboardComponent, // child route component that the router renders
+        path: 'users', // child route path
+        component: UsersDashboardComponent, // child route component that the router renders
       }
-    ] },
+    ], canActivate: [AdminGuard] },
   // Paginas de la aplicacion
   { path: 'cart', component: CartListComponent, pathMatch: 'full' },
   { path: 'help', component: HelpComponent, pathMatch: 'full' },

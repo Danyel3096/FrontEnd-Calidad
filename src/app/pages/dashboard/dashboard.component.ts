@@ -1,17 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { SidebarComponent } from './../../../components/sidebar/sidebar.component';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
-import { DynamicThemeService } from '../../../services/dynamic-theme.service';
+import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   imports: [CommonModule, SidebarComponent, RouterOutlet],
   selector: 'app-dashboard',
-  templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.css']
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class AdminDashboardComponent implements OnInit {
+
+export class DashboardComponent implements OnInit {
   themeService = inject(DynamicThemeService);
 
   textTitleColor = '';

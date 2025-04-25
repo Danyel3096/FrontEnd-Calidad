@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../../../components/sidebar/sidebar.component';
+import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap'; 
 import $ from 'jquery';
@@ -13,7 +13,7 @@ import 'datatables.net-bs5';
   templateUrl: './products-dashboard.component.html',
   styleUrls: ['./products-dashboard.component.css']
 })
-export class ProductsAdminDashboardComponent implements OnInit, AfterViewInit {
+export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   
   constructor(private cdRef: ChangeDetectorRef) { }
 

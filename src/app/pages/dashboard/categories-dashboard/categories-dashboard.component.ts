@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
   templateUrl: './categories-dashboard.component.html',
   styleUrl: './categories-dashboard.component.css'
 })
-export class CategoriesAdminDashboardComponent implements OnInit, AfterViewInit {
+export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   constructor() { }
   
   selectedCategory: any = null; // Categoría seleccionada para ver/editar

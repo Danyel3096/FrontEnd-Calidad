@@ -9,23 +9,30 @@ import Swal from 'sweetalert2';
 @Component({
   standalone: true,
   imports: [CommonModule, FormsModule],
-  selector: 'app-users-dashboard',
-  templateUrl: './users-dashboard.component.html',
-  styleUrls: ['./users-dashboard.component.css']
+  selector: 'app-roles-dashboard',
+  templateUrl: './roles-dashboard.component.html',
+  styleUrls: ['./roles-dashboard.component.css']
 })
-export class UsersAdminDashboardComponent implements OnInit, AfterViewInit {
+export class RolesDashboardComponent implements OnInit, AfterViewInit {
 
   selectedUser: any = null;
   modalMode: 'view' | 'edit' = 'view';
   userModal: any;
   dataTable: any;
 
-  users = [
+  users2 = [
     { id: 1, user: 'Juan', email: 'juan@mail.com', password: '1234', status: 'Activo', creationDate: '2024-03-01' },
     { id: 2, user: 'Maria', email: 'maria@mail.com', password: 'abcd', status: 'Inactivo', creationDate: '2024-03-05' },
     { id: 3, user: 'Carlos', email: 'carlos@mail.com', password: '5678', status: 'Activo', creationDate: '2024-03-10' },
     { id: 4, user: 'Joan', email: 'joan@mail.com', password: 'efgh', status: 'Activo', creationDate: '2024-03-15' },
     { id: 5, user: 'Sebastian', email: 'sebastian@mail.com', password: 'ijkl', status: 'Inactivo', creationDate: '2024-03-20' }
+  ];
+  users = [
+    { id: 1, user: 'Juan', email: 'juan@mail.com', status: 'Activo', creationDate: '2024-03-01', role: 'Administrador' },
+    { id: 2, user: 'Maria', email: 'maria@mail.com', status: 'Inactivo', creationDate: '2024-03-05', role: 'Vendedor'  },
+    { id: 3, user: 'Carlos', email: 'carlos@mail.com', status: 'Activo', creationDate: '2024-03-10', role: 'Cliente'  },
+    { id: 4, user: 'Joan', email: 'joan@mail.com', status: 'Activo', creationDate: '2024-03-15', role: 'Cliente'  },
+    { id: 5, user: 'Sebastian', email: 'sebastian@mail.com', status: 'Inactivo', creationDate: '2024-03-20', role: 'Cliente'  }
   ];
 
   ngOnInit(): void {}
@@ -44,6 +51,7 @@ export class UsersAdminDashboardComponent implements OnInit, AfterViewInit {
         { data: 'email' },
         { data: 'status' },
         { data: 'creationDate' },
+        { data: 'role' },
         {
           data: null,
           orderable: false,

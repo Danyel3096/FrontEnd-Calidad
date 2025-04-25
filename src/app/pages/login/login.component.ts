@@ -52,9 +52,9 @@ export class LoginComponent implements OnInit {
         this.showSuccess(); // ✅ Muestra modal de éxito
 
         if (role === 'ADMIN') {
-          this.router.navigate(['admin-dashboard']);
+          this.router.navigate(['dashboard']);
         } else if (role === 'NORMAL') {
-          this.router.navigate(['admin-dashboard']);
+          this.router.navigate(['dashboard']);
         }
 
         this.loginService.loginStatusSubject.next(true);
