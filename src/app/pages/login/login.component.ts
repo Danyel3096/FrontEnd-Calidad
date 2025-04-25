@@ -15,8 +15,8 @@ import * as bootstrap from 'bootstrap';
 export class LoginComponent implements OnInit {
 
   loginData = {
-    username: 'mor_2314',
-    password: '83r5^_'
+    username: '',
+    password: ''
   };
 
   inputError = {
@@ -37,33 +37,34 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loginService.generateToken(this.loginData).subscribe(
-      (data: any) => {
-        this.loginService.loginUser(data.token);
+    // Simulación de usuarios quemados
+    const validUsers: any = {
+      admin: { password: '1234', role: 'ADMINISTRADOR' },
+      cajero: { password: '1234', role: 'VENDEDOR_CAJERO' },
+      cliente: { password: '1234', role: 'CLIENTE' },
+      proveedor: { password: '1234', role: 'PROVEEDOR' }
+    };
 
-        const fakeUser = {
-          username: this.loginData.username,
-          authorities: [{ authority: 'NORMAL' }]
-        };
+    const user = validUsers[this.loginData.username];
 
-        this.loginService.setUser(fakeUser);
-        const role = this.loginService.getUserRole();
+    if (user && user.password === this.loginData.password) {
+      const fakeToken = 'fake-jwt-token';
+      this.loginService.loginUser(fakeToken);
 
-        this.showSuccess(); // ✅ Muestra modal de éxito
+      const fakeUser = {
+        username: this.loginData.username,
+        authorities: [{ authority: user.role }]
+      };
 
-        if (role === 'ADMIN') {
-          this.router.navigate(['admin-dashboard']);
-        } else if (role === 'NORMAL') {
-          this.router.navigate(['admin-dashboard']);
-        }
+      this.loginService.setUser(fakeUser);
+      const role = this.loginService.getUserRole();
 
-        this.loginService.loginStatusSubject.next(true);
-      },
-      (error) => {
-        console.error('Login fallido:', error);
-        this.showAlert('Credenciales inválidas, intente nuevamente.');
-      }
-    );
+      this.showSuccess();
+      this.router.navigate(['admin-dashboard']);
+      this.loginService.loginStatusSubject.next(true);
+    } else {
+      this.showAlert('Credenciales inválidas, intente nuevamente.');
+    }
   }
 
   showAlert(message: string = 'Por favor, completa todos los campos.') {

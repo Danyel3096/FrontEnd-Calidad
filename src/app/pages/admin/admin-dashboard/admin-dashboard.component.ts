@@ -3,6 +3,7 @@ import { SidebarComponent } from './../../../components/sidebar/sidebar.componen
 import { RouterOutlet } from '@angular/router';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 import { CommonModule } from '@angular/common';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   standalone: true,
@@ -13,12 +14,17 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminDashboardComponent implements OnInit {
   themeService = inject(DynamicThemeService);
+  loginService = inject(LoginService);
 
   textTitleColor = '';
   textBodyColor = '';
   backgroundSecondary = '';
 
-  constructor() { }
+  role = '';
+  isAdmin = false;
+  isVendedor = false;
+  isCliente = false;
+  isProveedor = false;
 
   ngOnInit(): void {
     this.themeService.getSection('pageContent').subscribe(colors => {
@@ -26,6 +32,12 @@ export class AdminDashboardComponent implements OnInit {
       this.textBodyColor = colors.textBody;
       this.backgroundSecondary = colors.backgroundSecondary;
     });
-  }
 
+    this.role = this.loginService.getUserRole();
+
+    this.isAdmin = this.role === 'ADMINISTRADOR';
+    this.isVendedor = this.role === 'VENDEDOR_CAJERO';
+    this.isCliente = this.role === 'CLIENTE';
+    this.isProveedor = this.role === 'PROVEEDOR';
+  }
 }
