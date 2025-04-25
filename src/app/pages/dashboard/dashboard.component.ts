@@ -3,7 +3,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { CommonModule } from '@angular/common';
-import { LoginService } from '../../../services/login.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   standalone: true,
