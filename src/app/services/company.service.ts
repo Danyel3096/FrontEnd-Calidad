@@ -14,6 +14,7 @@ export interface CompanyInfo {
 @Injectable({
   providedIn: 'root'
 })
+
 export class CompanyService {
   private readonly company = signal<CompanyInfo | null>(null);
 
