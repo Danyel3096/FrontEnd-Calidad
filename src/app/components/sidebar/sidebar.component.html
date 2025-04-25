@@ -6,38 +6,66 @@
     <span>User Panel</span>
   </a>
   <hr>
+
   <ul class="nav flex-column">
     <li class="nav-item">
       <app-dynamic-sidebar-link routerLink="/dashboard" routerLinkActive="active" label="Dashboard" icon="fas fa-tachometer-alt"></app-dynamic-sidebar-link>
     </li>
     <hr>
-    <li class="nav-item">
-      <app-dynamic-sidebar-link routerLink="categories" routerLinkActive="active" label="Categorías" icon="fas fa-tags"></app-dynamic-sidebar-link>
-    </li>
-    <hr>
-    <li class="nav-item">
-      <app-dynamic-sidebar-link routerLink="inventory" routerLinkActive="active" label="Inventario" icon="fa-solid fa-boxes-stacked"></app-dynamic-sidebar-link>
-    </li>
-    <hr>
-    <li class="nav-item">
-      <app-dynamic-sidebar-link routerLink="metrics" routerLinkActive="active" label="Métricas" icon="fas fa-chart-bar"></app-dynamic-sidebar-link>
-    </li>
-    <hr>
-    <li class="nav-item">
-      <app-dynamic-sidebar-link routerLink="products" routerLinkActive="active" label="Productos" icon="fas fa-box"></app-dynamic-sidebar-link>
-    </li>
-    <hr>
-    <li class="nav-item">
-      <app-dynamic-sidebar-link routerLink="orders" routerLinkActive="active" label="Órdenes" icon="fas fa-shopping-cart"></app-dynamic-sidebar-link>
-    </li>
-    <hr>
-    <li class="nav-item">
-      <app-dynamic-sidebar-link routerLink="roles" routerLinkActive="active" label="Roles" icon="fas fa-user-cog"></app-dynamic-sidebar-link>
-    </li>
-    <hr>
-    <li class="nav-item">
-      <app-dynamic-sidebar-link routerLink="users" routerLinkActive="active" label="Usuarios" icon="fas fa-users"></app-dynamic-sidebar-link>
-    </li>
+
+    <!-- ADMINISTRADOR -->
+    <ng-container *ngIf="isAdmin()">
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="categories" routerLinkActive="active" label="Categorías" icon="fas fa-tags"></app-dynamic-sidebar-link>
+      </li>
+      <hr>
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="inventory" routerLinkActive="active" label="Inventario" icon="fa-solid fa-boxes-stacked"></app-dynamic-sidebar-link>
+      </li>
+      <hr>
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="metrics" routerLinkActive="active" label="Métricas" icon="fas fa-chart-bar"></app-dynamic-sidebar-link>
+      </li>
+      <hr>
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="products" routerLinkActive="active" label="Productos" icon="fas fa-box"></app-dynamic-sidebar-link>
+      </li>
+      <hr>
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="orders" routerLinkActive="active" label="Órdenes" icon="fas fa-shopping-cart"></app-dynamic-sidebar-link>
+      </li>
+      <hr>
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="roles" routerLinkActive="active" label="Roles" icon="fas fa-user-cog"></app-dynamic-sidebar-link>
+      </li>
+      <hr>
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="users" routerLinkActive="active" label="Usuarios" icon="fas fa-users"></app-dynamic-sidebar-link>
+      </li>
+      <hr>
+    </ng-container>
+
+    <!-- VENDEDOR/CAJERO -->
+    <ng-container *ngIf="isCajero()">
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="orders" routerLinkActive="active" label="Órdenes" icon="fas fa-shopping-cart"></app-dynamic-sidebar-link>
+      </li>
+    </ng-container>
+
+    <!-- CLIENTE -->
+    <ng-container *ngIf="isCliente()">
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="shop" routerLinkActive="active" label="Tienda" icon="fas fa-store"></app-dynamic-sidebar-link>
+      </li>
+    </ng-container>
+
+    <!-- PROVEEDOR -->
+    <ng-container *ngIf="isProveedor()">
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="stock" routerLinkActive="active" label="Stock Proveedor" icon="fas fa-truck-loading"></app-dynamic-sidebar-link>
+      </li>
+    </ng-container>
+
   </ul>
   <hr>
 </div>
