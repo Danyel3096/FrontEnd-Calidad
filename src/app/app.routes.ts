@@ -22,10 +22,6 @@ import { ProductsDashboardComponent } from './pages/dashboard/products-dashboard
 import { RolesDashboardComponent } from './pages/dashboard/roles-dashboard/roles-dashboard.component';
 import { UsersDashboardComponent } from './pages/dashboard/users-dashboard/users-dashboard.component';
 
-// Rutas del dashboard de usuario
-import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
-//import { OrdersDashboardComponent } from './pages/user/user-dashboard/orders-dashboard/orders-dashboard.component';
-
 // Otras rutas
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { MissingComponent } from './pages/missing/missing.component';
@@ -39,8 +35,8 @@ export const routes: Routes = [
   // Por defecto
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'home', redirectTo: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'about', redirectTo: '', component: AboutComponent, pathMatch: 'full' },
-  { path: 'contact', redirectTo: '', component: ContactComponent, pathMatch: 'full' },
+  { path: 'about', component: AboutComponent, pathMatch: 'full' },
+  { path: 'contact', component: ContactComponent, pathMatch: 'full' },
   { path: 'dashboard', title: 'Dashboard component', component: DashboardComponent, 
     children: [
       {
@@ -93,16 +89,6 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/user/user.route'),
   },
-  // Páginas protegidas en el dashboard
-  { path: 'user-dashboard', title: 'User Dashboard component', component: UserDashboardComponent,
-    children: [
-      {
-        path: 'orders', // child user route path
-        component: OrdersDashboardComponent, // child route component that the router renders
-        pathMatch: 'full', canActivate: [NormalGuard]
-      }
-    ],
-    canActivate: [NormalGuard] },
   // Otras páginas
   { path: 'unauthorized', component: UnauthorizedComponent }, // ruta no autorizada
   { path: '**', component: MissingComponent }, // ruta no encontrada
