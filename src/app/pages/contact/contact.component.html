@@ -1,1 +1,38 @@
-<p>contact works!</p>
+<!-- <p>contact works!</p> -->
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Contáctanos</h1>
+  
+    <section class="mb-4">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at turpis in velit sagittis tempor. In hac habitasse platea dictumst.</p>
+      <p>Nos puedes encontrar en: Calle Ficticia 123, Ciudad Imaginaria.</p>
+      <p>Teléfono: +123 456 7890</p>
+      <p>Email: contacto"&#64;"ejemplo.com</p>
+    </section>
+  
+    <section>
+      <h2 class="mb-3">Escríbenos</h2>
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" id="name" class="form-control" [(ngModel)]="contactForm.name" name="name" required>
+        </div>
+  
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input type="email" id="email" class="form-control" [(ngModel)]="contactForm.email" name="email" required>
+        </div>
+  
+        <div class="mb-3">
+          <label for="message" class="form-label">Mensaje</label>
+          <textarea id="message" class="form-control" rows="4" [(ngModel)]="contactForm.message" name="message" required></textarea>
+        </div>
+  
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+    </section>
+  
+    <footer class="text-center text-muted border-top pt-3 mt-5">
+      &copy; 2025 Tu Empresa. Todos los derechos reservados.
+    </footer>
+  </div>
+  
