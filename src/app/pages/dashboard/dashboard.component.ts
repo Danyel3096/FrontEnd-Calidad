@@ -35,7 +35,13 @@ export class DashboardComponent implements OnInit {
       this.textBodyColor = colors.textBody;
       this.backgroundSecondary = colors.backgroundSecondary;
       this.fontFamily = colors.fontFamily;
-      this.fontSize = colors.fontSize;
+      this.fontSize = colors.fontSizeH1;
+      this.fontSize = colors.fontSizeH2;
+      this.fontSize = colors.fontSizeH3;
+      this.fontSize = colors.fontSizeH4;
+      this.fontSize = colors.fontSizeH5;
+      this.fontSize = colors.fontSizeH6;
+      this.fontSize = colors.fontSizeText;
     });
 
     this.role = this.loginService.getUserRole();

@@ -7,13 +7,13 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  /*font-family: Roboto, "Helvetica Neue", sans-serif;*/
   background: #f5f5f5;
 }
 
 /* INICIO DEL SaaS con fuentes dinámicas*/
 body {
-  font-family: var(--fontFamily, 'sans-serif');
+  font-family: var(--fontFamily, 'sans-serif') !important;
   font-size: var(--fontSizeText, 0.5rem);
 }
 

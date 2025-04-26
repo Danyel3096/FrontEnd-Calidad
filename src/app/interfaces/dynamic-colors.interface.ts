@@ -6,6 +6,25 @@ export interface HomePageColors {
     textBody: string;
 }
 
+export interface PageContentColors {
+    backgroundPage: string;
+    backgroundSecondary: string;
+    textTitle: string;
+    textBody: string;
+    fontFamily: string;
+    fontSizeH1: string;
+    fontSizeH2: string;
+    fontSizeH3: string;
+    fontSizeH4: string;
+    fontSizeH5: string;
+    fontSizeH6: string;
+    fontSizeText: string;
+}
+
+export interface TitleNavbarColors {
+    color: string;
+}
+
 export interface NavbarColors {
     background: string;
     text: string;
@@ -28,19 +47,6 @@ export interface SidebarButtonsColors {
     text: string;
     hoverBackground: string;
     hoverText: string;
-}
-  
-export interface TitleNavbarColors {
-    color: string;
-}
-
-export interface PageContentColors {
-    backgroundPage: string;
-    backgroundSecondary: string;
-    textTitle: string;
-    textBody: string;
-    fontFamily: string;
-    fontSize: string;
 }
 
 export interface FooterColors {
