@@ -40,6 +40,10 @@ export class InventoryDashboardComponent implements OnInit, AfterViewInit {
   loadProducts(): void {
     this.productService.getAllProducts().subscribe((data) => {
       this.products = data;
+      this.products = data.map(product => ({
+        ...product,
+        stock: Math.floor(Math.random() * 100) // Simulación de stock
+      }));
       this.initDataTable();
     });
   }
