@@ -1,9 +1,9 @@
 <!-- <p>Pagina principal</p> -->
 <!-- Hero Section -->
-<section class="hero-section text-center text-white d-flex align-items-center justify-content-center">
+<section class="hero-section text-center d-flex align-items-center justify-content-center" [ngStyle]="{ backgroundColor: homePageColor.backgroundPrimary }">
   <div class="container">
-    <h1 class="fw-bold">Bienvenido al Sistema de Órdenes y Entregas</h1>
-    <p class="lead">Gestione sus órdenes y entregas de manera eficiente y rápida.</p>
+    <h1 class="fw-bold" [ngStyle]="{ color: homePageColor.textTitle }">Bienvenido al Sistema de Órdenes y Entregas</h1>
+    <p class="lead" [ngStyle]="{ color: homePageColor.textBody }">Gestione sus órdenes y entregas de manera eficiente y rápida.</p>
     <a href="#features" class="btn btn-light btn-lg mt-3">Más Información</a>
   </div>
 </section>

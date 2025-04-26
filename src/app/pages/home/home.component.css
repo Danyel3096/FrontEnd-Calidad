@@ -13,8 +13,8 @@ body {
   
   /* Hero Section */
   .hero-section {
-    background: linear-gradient(135deg, #6a11cb, #5d708b);
-    color: white;
+    /*background: linear-gradient(135deg, #6a11cb, #5d708b);*/
+    /*color: white;*/
     padding: 100px 0;
     text-align: center;
   }
