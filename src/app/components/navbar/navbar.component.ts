@@ -10,6 +10,14 @@ import { CompanyService } from '../../services/company.service';
 import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarButtonsColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
 
+interface Notificacion {
+  id: number;
+  titulo: string;
+  mensaje: string;
+  fecha: Date;
+  leido: boolean;
+}
+
 @Component({
   standalone: true,
   imports: [
@@ -44,6 +52,31 @@ export class NavbarComponent implements OnInit {
 
   isNavbarCollapsed = true; // Controla el estado del colapso
   isHovered = false;
+
+  // Notificaciones
+  notificaciones: Notificacion[] = [
+    {
+      id: 1,
+      titulo: 'Stock actualizado',
+      mensaje: 'Se actualizó el producto "Monitor"',
+      fecha: new Date(),
+      leido: false
+    },
+    {
+      id: 2,
+      titulo: 'Producto eliminado',
+      mensaje: 'El producto "Teclado" fue eliminado del inventario',
+      fecha: new Date(new Date().getTime() - 3600000),
+      leido: false
+    },
+    {
+      id: 3,
+      titulo: 'Nuevo producto agregado',
+      mensaje: 'Se agregó "Mouse inalámbrico"',
+      fecha: new Date(new Date().getTime() - 7200000),
+      leido: true
+    }
+  ];
 
   constructor(private dynamicThemeService: DynamicThemeService, /* … */) {}
   
@@ -106,5 +139,15 @@ export class NavbarComponent implements OnInit {
 
   toggleTheme(): void {
     this.dynamicThemeService.toggleTheme();
+  }
+
+
+  // Notificaciones
+  notificacionesSinLeer(): number {
+    return this.notificaciones.filter(n => !n.leido).length;
+  }
+
+  marcarTodasComoLeidas(): void {
+    this.notificaciones = this.notificaciones.map(n => ({ ...n, leido: true }));
   }
 }
