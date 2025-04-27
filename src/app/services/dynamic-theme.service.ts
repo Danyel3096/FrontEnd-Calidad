@@ -21,9 +21,10 @@ export class DynamicThemeService {
     light: {
       homePage: { backgroundPrimary: "", backgroundSecondary: "", backgroundTertiary: "", backgroundQuaternary: "", textTitle: "", textBody: "5" },//background: '#F3F4F6',
       pageContent: { backgroundPage: "", backgroundSecondary: "", textTitle: "", textBody: "", fontFamily: "ns-serif", fontSizeH1: "", fontSizeH2: "", fontSizeH3: "", fontSizeH4: "", fontSizeH5: "", fontSizeH6: "", fontSizeText: ""},//backgroundPage: '#F3F4F6',
+      pageButtons: { background: '', text: '', hoverBackground:'', hoverText: '' },
       titleNavbar: { color: '' },
       navbar: { background: '', text: '' },
-      navbarButtons: { background: '', text: '', hoverBackground:'#FFFFFF40', hoverText: '' },
+      navbarButtons: { background: '', text: '', hoverBackground:'', hoverText: '' },
       sidebar: { background: '', text: '' },
       sidebarButtons: { background: '', text: '', hoverBackground: '', hoverText: '' },
       footer: { background: '', text: '', hoverBackground: '', hoverText: '' }
@@ -31,6 +32,7 @@ export class DynamicThemeService {
     dark: {
       homePage: { backgroundPrimary: "", backgroundSecondary: "", backgroundTertiary: "", backgroundQuaternary: "", textTitle: "", textBody: "1" },//background: '',
       pageContent: { backgroundPage: "", backgroundSecondary: "", textTitle: "", textBody: "", fontFamily: "ns-serif", fontSizeH1: "", fontSizeH2: "", fontSizeH3: "", fontSizeH4: "", fontSizeH5: "", fontSizeH6: "", fontSizeText: ""},//backgroundPage: '',
+      pageButtons: { background: '', text: '', hoverBackground:'', hoverText: '' },
       titleNavbar: { color: '' },
       navbar: { background: '', text: '' },
       navbarButtons: { background: '', text: '', hoverBackground: '', hoverText: '' },

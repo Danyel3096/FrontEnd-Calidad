@@ -1,6 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
-
 html, body {
   height: 100%;
 }
@@ -34,6 +32,10 @@ h5 {
 }
 h6 {
   font-size: var(--fontSizeH6, 0.875rem);
+}
+
+p, span {
+  color: var(--textBody)
 }
 /* FIN SaaS */
 

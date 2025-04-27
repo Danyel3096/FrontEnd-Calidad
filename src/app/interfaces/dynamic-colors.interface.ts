@@ -22,6 +22,13 @@ export interface PageContentColors {
     fontSizeText: string;
 }
 
+export interface PageButtonsColors {
+    background: string;
+    text: string;
+    hoverBackground: string;
+    hoverText: string;
+}
+
 export interface TitleNavbarColors {
     color: string;
 }
@@ -65,6 +72,7 @@ export interface ThemeColors {
     sidebarButtons: SidebarButtonsColors;
     titleNavbar: TitleNavbarColors;
     pageContent: PageContentColors;
+    pageButtons: PageButtonsColors;
     footer: FooterColors;
 }
   

@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     backgroundPrimary: '',
     backgroundSecondary: '',
     backgroundTertiary: '',
+    backgroundQuaternary: '',
     textTitle: '',
     textBody: ''
   };
