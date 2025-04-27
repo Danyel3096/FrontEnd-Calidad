@@ -16,13 +16,7 @@
       <h2>Our Team</h2>
       <div class="row">
         <div class="col-md-4 mb-3" *ngFor="let member of [1,2,3]">
-          <div class="card h-100">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Team Member">
-            <div class="card-body">
-              <h5 class="card-title">Member {{ member }}</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar convallis magna.</p>
-            </div>
-          </div>
+          <app-dynamic-card></app-dynamic-card>
         </div>
       </div>
     </section>
