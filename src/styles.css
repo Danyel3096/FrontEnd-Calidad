@@ -16,26 +16,30 @@ body {
 }
 
 h1 {
-  font-size: var(--fontSizeH1, 2rem);
+  font-size: var(--fontSizeH1, 2rem) !important;
 }
 h2 {
-  font-size: var(--fontSizeH2, 1.75rem);
+  font-size: var(--fontSizeH2, 1.75rem) !important;
 }
 h3 {
   font-size: var(--fontSizeH3, 1.5rem) !important;
 }
 h4 {
-  font-size: var(--fontSizeH4, 1.25rem);
+  font-size: var(--fontSizeH4, 1.25rem) !important;
 }
 h5 {
-  font-size: var(--fontSizeH5, 1rem);
+  font-size: var(--fontSizeH5, 1rem) !important;
 }
 h6 {
-  font-size: var(--fontSizeH6, 0.875rem);
+  font-size: var(--fontSizeH6, 0.875rem) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--textTitle) !important;
 }
 
 p, span {
-  color: var(--textBody)
+  color: var(--textBody);
 }
 /* FIN SaaS */
 
