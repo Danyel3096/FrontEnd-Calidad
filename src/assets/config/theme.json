@@ -4,6 +4,7 @@
       "backgroundPrimary": "#6a11cb",
       "backgroundSecondary": "#23d9cd",
       "backgroundTertiary": "#60f007",
+      "backgroundQuaternary": "#2575fc",
       "textTitle": "#2f3030",
       "textBody": "#1b2c40"
     },
@@ -56,6 +57,7 @@
       "backgroundPrimary": "#6a11cb",
       "backgroundSecondary": "#23d9cd",
       "backgroundTertiary": "#60f007",
+      "backgroundQuaternary": "#2575fc",
       "textTitle": "#f8fafc",
       "textBody": "#cbd5e1"
     },

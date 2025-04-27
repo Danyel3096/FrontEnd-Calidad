@@ -13,19 +13,19 @@
   <div class="container">
     <div class="row text-center">
       <div class="col-md-4">
-        <div class="card shadow p-4 border-0">
+        <div class="card shadow p-4 border-0" [ngStyle]="{ backgroundColor: homePageColor.backgroundSecondary }">
           <h3 class="fw-bold">Gestión de Órdenes</h3>
           <p>Administre y realice un seguimiento de todas sus órdenes desde un solo lugar.</p>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card shadow p-4 border-0">
+        <div class="card shadow p-4 border-0" [ngStyle]="{ backgroundColor: homePageColor.backgroundSecondary }">
           <h3 class="fw-bold">Seguimiento de Entregas</h3>
           <p>Monitoree el estado de sus entregas en tiempo real.</p>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card shadow p-4 border-0">
+        <div class="card shadow p-4 border-0" [ngStyle]="{ backgroundColor: homePageColor.backgroundSecondary }">
           <h3 class="fw-bold">Reportes y Análisis</h3>
           <p>Genere reportes detallados y análisis para mejorar su eficiencia.</p>
         </div>
@@ -34,7 +34,7 @@
   </div>
 </section>
 
-<section class="py-5">
+<section class="py-5" [ngStyle]="{ backgroundColor: homePageColor.backgroundTertiary }">
 	<div class="container">
 		<div class="row gx-4 align-items-center justify-content-between">
 			<div class="col-md-5 order-2 order-md-1">
@@ -51,7 +51,7 @@
 </section>
 
 <!-- Call to Action Section -->
-<section class="cta-section text-center text-white d-flex align-items-center justify-content-center">
+<section class="cta-section text-center text-white d-flex align-items-center justify-content-center"  [ngStyle]="{ backgroundColor: homePageColor.backgroundTertiary }">
   <div class="container">
     <h2 class="fw-bold">¿Listo para comenzar?</h2>
     <p class="lead">Regístrese hoy y comience a gestionar sus órdenes y entregas de manera más eficiente.</p>

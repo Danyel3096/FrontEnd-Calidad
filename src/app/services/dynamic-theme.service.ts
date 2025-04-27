@@ -19,7 +19,7 @@ export class DynamicThemeService {
   /** Configuración de temas cargada desde JSON o fallback */
   private fallbackConfig: ThemeConfig = {
     light: {
-      homePage: { backgroundPrimary: "", backgroundSecondary: "", backgroundTertiary: "", textTitle: "", textBody: "5" },//background: '#F3F4F6',
+      homePage: { backgroundPrimary: "", backgroundSecondary: "", backgroundTertiary: "", backgroundQuaternary: "", textTitle: "", textBody: "5" },//background: '#F3F4F6',
       pageContent: { backgroundPage: "", backgroundSecondary: "", textTitle: "", textBody: "", fontFamily: "ns-serif", fontSizeH1: "", fontSizeH2: "", fontSizeH3: "", fontSizeH4: "", fontSizeH5: "", fontSizeH6: "", fontSizeText: ""},//backgroundPage: '#F3F4F6',
       titleNavbar: { color: '' },
       navbar: { background: '', text: '' },
@@ -29,7 +29,7 @@ export class DynamicThemeService {
       footer: { background: '', text: '', hoverBackground: '', hoverText: '' }
     },
     dark: {
-      homePage: { backgroundPrimary: "", backgroundSecondary: "", backgroundTertiary: "", textTitle: "", textBody: "1" },//background: '',
+      homePage: { backgroundPrimary: "", backgroundSecondary: "", backgroundTertiary: "", backgroundQuaternary: "", textTitle: "", textBody: "1" },//background: '',
       pageContent: { backgroundPage: "", backgroundSecondary: "", textTitle: "", textBody: "", fontFamily: "ns-serif", fontSizeH1: "", fontSizeH2: "", fontSizeH3: "", fontSizeH4: "", fontSizeH5: "", fontSizeH6: "", fontSizeText: ""},//backgroundPage: '',
       titleNavbar: { color: '' },
       navbar: { background: '', text: '' },

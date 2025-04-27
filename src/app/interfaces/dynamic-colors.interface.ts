@@ -2,6 +2,7 @@ export interface HomePageColors {
     backgroundPrimary: string;
     backgroundSecondary: string;
     backgroundTertiary: string;
+    backgroundQuaternary: string;
     textTitle: string;
     textBody: string;
 }
