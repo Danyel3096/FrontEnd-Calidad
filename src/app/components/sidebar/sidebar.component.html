@@ -43,6 +43,9 @@
         <app-dynamic-sidebar-link routerLink="users" routerLinkActive="active" label="Usuarios" icon="fas fa-users"></app-dynamic-sidebar-link>
       </li>
       <hr>
+      <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="customization" routerLinkActive="active" label="Configuración del sitio" icon="fas fa-palette"></app-dynamic-sidebar-link>
+      </li>
     </ng-container>
 
     <!-- VENDEDOR/CAJERO -->
@@ -55,7 +58,7 @@
     <!-- CLIENTE -->
     <ng-container *ngIf="isCliente()">
       <li class="nav-item">
-        <app-dynamic-sidebar-link routerLink="shop" routerLinkActive="active" label="Tienda" icon="fas fa-store"></app-dynamic-sidebar-link>
+        <app-dynamic-sidebar-link routerLink="shopping" routerLinkActive="active" label="Tienda" icon="fas fa-store"></app-dynamic-sidebar-link>
       </li>
     </ng-container>
 

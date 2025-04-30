@@ -29,6 +29,8 @@ import { HelpComponent } from './pages/help/help.component';
 import { InventoryDashboardComponent } from './pages//dashboard/inventory-dashboard/inventory-dashboard.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { AboutComponent } from './pages/about/about.component';
+import { CustomizationDashboardComponent } from './pages/dashboard/customization-dashboard/customization-dashboard.component';
+import { ShoppingDashboardComponent } from './pages/dashboard/shopping-dashboard/shopping-dashboard.component';
 
 // Arreglo con las rutas de la aplicación
 export const routes: Routes = [
@@ -64,8 +66,16 @@ export const routes: Routes = [
         component: RolesDashboardComponent, // child route component that the router renders
       },
       {
+        path: 'shopping', // child route path
+        component: ShoppingDashboardComponent, // child route component that the router renders
+      },
+      {
         path: 'users', // child route path
         component: UsersDashboardComponent, // child route component that the router renders
+      },
+      {
+        path: 'customization', // child route path
+        component: CustomizationDashboardComponent, // child route component that the router renders
       }
     ], canActivate: [AdminGuard] },
   // Paginas de la aplicacion

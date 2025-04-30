@@ -23,7 +23,13 @@ export class AppComponent implements OnInit {
       textTitle: '',
       textBody: '',
       fontFamily: '',
-      fontSize: ''
+      fontSizeH1: '',
+      fontSizeH2: '',
+      fontSizeH3: '',
+      fontSizeH4: '',
+      fontSizeH5: '',
+      fontSizeH6: '',
+      fontSizeText: ''
     };
 
   constructor(private themeService: DynamicThemeService, library: FaIconLibrary) {

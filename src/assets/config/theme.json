@@ -1,18 +1,19 @@
 {
   "light": {
     "homePage": {
-      "backgroundPrimary": "#ffffff",
-      "backgroundSecondary": "#ffffff",
-      "backgroundTertiary": "#ffffff",
-      "fontFamily": "Arial, sans-serif",
-      "fontSize": "16px"
+      "backgroundPrimary": "#6a11cb",
+      "backgroundSecondary": "#23d9cd",
+      "backgroundTertiary": "#60f007",
+      "backgroundQuaternary": "#2575fc",
+      "textTitle": "#2f3030",
+      "textBody": "#1b2c40"
     },
     "pageContent": {
       "backgroundPage": "#f1f5f9",
       "backgroundSecondary": "#ffffff",
       "textTitle": "#0f172a",
       "textBody": "#334155",
-      "fontFamily": "Arial, sans-serif",
+      "fontFamily": "Georgia, serif",
       "fontSizeH1": "2rem",
       "fontSizeH2": "1.75rem",
       "fontSizeH3": "1.5rem",
@@ -20,6 +21,12 @@
       "fontSizeH5": "1rem",
       "fontSizeH6": "0.875rem",
       "fontSizeText": "0.5rem"
+    },
+    "pageButtons": {
+      "background": "#3b82f6",       
+      "text": "#000000",
+      "hoverBackground": "#60a5fa",  
+      "hoverText": "#ffffff"
     },
     "titleNavbar": {
       "color": "#0f172a"
@@ -53,9 +60,10 @@
   },
   "dark": {
     "homePage": {
-      "backgroundPrimary": "#1e293b",
-      "backgroundSecondary": "#1e293b",
-      "backgroundTertiary": "#1e293b",
+      "backgroundPrimary": "#6a11cb",
+      "backgroundSecondary": "#23d9cd",
+      "backgroundTertiary": "#60f007",
+      "backgroundQuaternary": "#2575fc",
       "textTitle": "#f8fafc",
       "textBody": "#cbd5e1"
     },
@@ -64,7 +72,7 @@
       "backgroundSecondary": "#1e293b",
       "textTitle": "#f8fafc",
       "textBody": "#cbd5e1",
-      "fontFamily": "Arial, sans-serif",
+      "fontFamily": "Georgia, serif",
       "fontSizeH1": "2rem",
       "fontSizeH2": "1.75rem",
       "fontSizeH3": "1.5rem",
@@ -72,6 +80,12 @@
       "fontSizeH5": "1rem",
       "fontSizeH6": "0.875rem",
       "fontSizeText": "0.5rem"
+    },
+    "pageButtons": {
+      "background": "#104dde",       
+      "text": "#b9c9f0",
+      "hoverBackground": "#5884ed",  
+      "hoverText": "#1e293b"
     },
     "titleNavbar": {
       "color": "#f1f5f9"

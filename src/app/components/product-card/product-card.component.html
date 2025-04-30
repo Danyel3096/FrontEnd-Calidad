@@ -1,6 +1,4 @@
-<div
-  class="max-w-sm bg-gray-800 border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-700"
->
+<div  class="max-w-sm bg-gray-800 border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-700">
   <a [routerLink]="['/product', product().id]">
     <picture>
       <img
@@ -26,7 +24,7 @@
       <strong>Categoría:</strong> {{ product().category }}
     </p>
 
-    <p class="mb-3 font-normal text-neutral-100 dark:text-neutral-900 line-clamp-3">
+    <p class="mb-3 font-normal line-clamp-3">
       {{ product().description }}
     </p>
 
