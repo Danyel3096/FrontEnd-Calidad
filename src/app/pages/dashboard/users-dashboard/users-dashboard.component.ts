@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 export class UsersDashboardComponent implements OnInit, AfterViewInit {
 
   selectedUser: any = null;
-  modalMode: 'view' | 'edit' = 'view';
+  modalMode: 'view' | 'edit' | 'create' = 'view';
   userModal: any;
   dataTable: any;
 
@@ -91,6 +91,19 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
+  //OJO: Falta crear la función para crear un nuevo usuario, me basé en editUser para crear este ejemplo
+  createUser(): void {
+    this.selectedUser = {
+      user: '',
+      email: '',
+      password: '',
+      status: 'Activo',
+      creationDate: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+    };
+    this.modalMode = 'create';
+    this.userModal.show();
+  }
+
   seeUser(user: any): void {
     this.selectedUser = { ...user };
     this.modalMode = 'view';
@@ -123,12 +136,19 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   saveUserChanges(): void {
     if (!this.selectedUser) return;
 
-    const index = this.users.findIndex(u => u.id === this.selectedUser.id);
-    if (index !== -1) {
-      this.users[index] = { ...this.selectedUser };
-      this.redrawTable();
+    if (this.modalMode === 'edit') {
+      const index = this.users.findIndex(u => u.id === this.selectedUser.id);
+      if (index !== -1) {
+        this.users[index] = { ...this.selectedUser };
+      }
+    } else if (this.modalMode === 'create') {
+      // Generar ID automático (consecutivo)
+      const newId = this.users.length ? Math.max(...this.users.map(u => u.id)) + 1 : 1;
+      const newUser = { ...this.selectedUser, id: newId };
+      this.users.push(newUser);
     }
-
+  
+    this.redrawTable();
     this.userModal.hide();
   }
 }

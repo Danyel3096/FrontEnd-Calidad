@@ -8,7 +8,11 @@
           <th>Email</th>
           <th>Estado</th>
           <th>Fecha de Creación</th>
-          <th class="text-center no-export">Acciones</th>
+          <th class="text-center no-export"><!-- Botón para agregar registro -->
+            <button class="btn btn-info btn-sm mx-1" (click)="createUser()">
+              <i class="fas fa-plus"></i>
+            </button>
+          </th><!-- Acciones -->
         </tr>
       </thead>
       <tbody></tbody>
@@ -59,7 +63,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button *ngIf="modalMode === 'edit'" type="button" class="btn btn-primary" (click)="saveUserChanges()">Guardar Cambios</button>
+        <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="button" class="btn btn-primary" (click)="saveUserChanges()">Guardar Cambios</button>
       </div>
     </div>
   </div>
