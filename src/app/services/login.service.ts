@@ -17,7 +17,7 @@ export class LoginService {
       admin: { password: '1234', role: 'ADMINISTRADOR' },
       cajero: { password: '1234', role: 'VENDEDOR_CAJERO' },
       cliente: { password: '1234', role: 'CLIENTE' },
-      proveedor: { password: '1234', role: 'PROVEEDOR' }
+      bodeguero: { password: '1234', role: 'BODEGUERO' }
     };
 
     const user = validUsers[loginData.username];

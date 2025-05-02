@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
   isAdmin = false;
   isVendedor = false;
   isCliente = false;
-  isProveedor = false;
+  isBodeguero = false;
 
   ngOnInit(): void {
     this.themeService.getSection('pageContent').subscribe(colors => {
@@ -49,6 +49,6 @@ export class DashboardComponent implements OnInit {
     this.isAdmin = this.role === 'ADMINISTRADOR';
     this.isVendedor = this.role === 'VENDEDOR_CAJERO';
     this.isCliente = this.role === 'CLIENTE';
-    this.isProveedor = this.role === 'PROVEEDOR';
+    this.isBodeguero = this.role === 'BODEGUERO';
   }
 }

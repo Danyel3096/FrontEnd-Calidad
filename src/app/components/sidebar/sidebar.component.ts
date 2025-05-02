@@ -44,7 +44,7 @@ export class SidebarComponent implements OnInit {
     return this.role === 'CLIENTE';
   }
 
-  isProveedor(): boolean {
-    return this.role === 'PROVEEDOR';
+  isBodeguero(): boolean {
+    return this.role === 'BODEGUERO';
   }
 }
