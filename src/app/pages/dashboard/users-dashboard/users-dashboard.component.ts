@@ -6,6 +6,8 @@ import $ from 'jquery';
 import 'datatables.net-bs5';
 import Swal from 'sweetalert2';
 
+import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
+
 @Component({
   standalone: true,
   imports: [CommonModule, FormsModule],
@@ -13,7 +15,13 @@ import Swal from 'sweetalert2';
   templateUrl: './users-dashboard.component.html',
   styleUrls: ['./users-dashboard.component.css']
 })
+
 export class UsersDashboardComponent implements OnInit, AfterViewInit {
+
+  constructor(
+      //private bootstrapInit: BootstrapInitService,
+      private bootstrapValidation: BootstrapValidationService
+    ) {}
 
   selectedUser: any = null;
   modalMode: 'view' | 'edit' | 'create' = 'view';
@@ -38,9 +46,9 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   initDataTable(): void {
     this.dataTable = $('#usersTable').DataTable({
       language: this.idioma_esp,
-      dom: "<'row'<'col-3'l><'col-6 d-flex justify-content-center'f><'col-3 text-end custom-button-col'>>" +
+      dom: "<'row'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end mb-2'B>>" +
            "<'row'<'col-12'tr>>" +
-           "<'row'<'col-4'i><'col-4 text-center'p><'col-4 text-end'B>>",
+           "<'row'<'col-3'i><'col-6 d-flex justify-content-center'p><'col-3 text-end custom-button-col mt-2'>>",
       buttons: [
         { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
         { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
@@ -171,7 +179,8 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       const newUser = { ...this.selectedUser, id: newId };
       this.users.push(newUser);
     }
-  
+    
+    Swal.fire('Guardado', 'Los cambios han sido guardados correctamente', 'success');
     this.redrawTable();
     this.userModal.hide();
   }

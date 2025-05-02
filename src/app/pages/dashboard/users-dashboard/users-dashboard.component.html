@@ -26,40 +26,40 @@
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
-        <form #userForm="ngForm">
-          <div class="mb-3">
-            <label class="form-label">id</label>
-            <input *ngIf="selectedUser?.id" type="text" class="form-control" [value]="selectedUser.id" disabled>
-          </div>
+      <div class="modal-body" *ngIf="selectedUser">
+        <form #userForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveUserChanges()">
           <div class="mb-3">
             <label class="form-label">Usuario</label>
-            <input *ngIf="selectedUser" type="text" class="form-control" [(ngModel)]="selectedUser.user" name="user" [disabled]="modalMode === 'view'">
+            <p *ngIf="modalMode === 'view'">{{ selectedUser.user }}</p>
+            <input *ngIf="modalMode === 'edit'" type="text" class="form-control" [(ngModel)]="selectedUser.user" name="user" required>
           </div>
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input *ngIf="selectedUser" type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" [disabled]="modalMode === 'view'">
+            <p *ngIf="modalMode === 'view'">{{ selectedUser.email }}</p>
+            <input *ngIf="modalMode === 'edit'" type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required>
           </div>
-          <div class="mb-3">
+          <div *ngIf="modalMode !== 'view'" class="mb-3">
             <label class="form-label">Password</label>
-            <input *ngIf="selectedUser" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" [disabled]="modalMode === 'view'">
+            <input *ngIf="modalMode === 'edit'" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" required>
           </div>
           <div class="mb-3">
             <label class="form-label">Estado</label>
-            <select *ngIf="selectedUser" class="form-control" [(ngModel)]="selectedUser.status" name="status" [disabled]="modalMode === 'view'">
+            <p *ngIf="modalMode === 'view'">{{ selectedUser.status }}</p>
+            <select *ngIf="modalMode === 'edit'" class="form-control" [(ngModel)]="selectedUser.status" name="status">
               <option value="Activo">Activo</option>
               <option value="Inactivo">Inactivo</option>
             </select>
           </div>
           <div class="mb-3">
             <label class="form-label">Fecha de Creación</label>
-            <input *ngIf="selectedUser" type="text" class="form-control" [(ngModel)]="selectedUser.creationDate" name="creationDate" disabled>
+            <p *ngIf="modalMode === 'view'">{{ selectedUser.creationDate }}</p>
+            <input *ngIf="modalMode === 'edit'" type="text" class="form-control" [(ngModel)]="selectedUser.creationDate" name="creationDate" disabled required>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="button" class="btn btn-primary" (click)="saveUserChanges()">Guardar Cambios</button>
+        <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary" (click)="saveUserChanges()">Guardar Cambios</button>
       </div>
     </div>
   </div>
