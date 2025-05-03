@@ -23,8 +23,8 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   dataTable: any;
 
   products = [
-    { id: 1, id_tienda: 101, nombre_producto: 'Laptop Dell', descripcion_producto: 'Laptop Core i7', precio_producto: 2500, stock_producto: 10, id_categoria: 2, id_proveedor: 5, estado: true, fecha_creacion: '2024-03-30', foto_producto: 'assets/img/laptop.jpg' },
-    { id: 2, id_tienda: 102, nombre_producto: 'Mouse Gamer', descripcion_producto: 'Mouse RGB', precio_producto: 50, stock_producto: 50, id_categoria: 3, id_proveedor: 2, estado: true, fecha_creacion: '2024-03-28', foto_producto: 'assets/img/mouse.jpg' }
+    { id: 1, id_tienda: 101, nombre_producto: 'Laptop Dell', descripcion_producto: 'Laptop Core i7', precio_producto: 2500, stock_producto: 10, id_categoria: 2, id_Bodeguero: 5, estado: true, fecha_creacion: '2024-03-30', foto_producto: 'assets/img/laptop.jpg' },
+    { id: 2, id_tienda: 102, nombre_producto: 'Mouse Gamer', descripcion_producto: 'Mouse RGB', precio_producto: 50, stock_producto: 50, id_categoria: 3, id_Bodeguero: 2, estado: true, fecha_creacion: '2024-03-28', foto_producto: 'assets/img/mouse.jpg' }
   ];
 
   ngOnInit(): void {}
