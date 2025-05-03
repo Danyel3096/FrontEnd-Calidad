@@ -6,6 +6,7 @@ import $ from 'jquery';
 import 'datatables.net-bs5';
 import Swal from 'sweetalert2';
 
+import { BootstrapInitService } from '../../../services/bootstrap-init.service';
 import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
 
 @Component({
@@ -19,11 +20,12 @@ import { BootstrapValidationService } from '../../../services/bootstrap-validati
 export class UsersDashboardComponent implements OnInit, AfterViewInit {
 
   constructor(
-      //private bootstrapInit: BootstrapInitService,
+      private bootstrapInit: BootstrapInitService,
       private bootstrapValidation: BootstrapValidationService
     ) {}
 
   selectedUser: any = null;
+  tempUser: any = null; // para edición
   modalMode: 'view' | 'edit' | 'create' = 'view';
   userModal: any;
   dataTable: any;
@@ -39,7 +41,16 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
+    this.bootstrapInit.initBootstrap();
+
     this.userModal = new Modal(document.getElementById('userModal')!);
+
+    const modalEl = document.getElementById('userModal');
+    modalEl?.addEventListener('hidden.bs.modal', () => {
+      this.selectedUser = null;
+      this.modalMode = 'view';
+    });
+
     this.initDataTable();
   }
 
@@ -67,9 +78,9 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
           data: null,
           orderable: false,
           render: (data: any, type: any, row: any) => `
-            <div class="text-center"><button class="btn btn-sm btn-info btn-see-user" data-id="${row.id}"><i class="fas fa-eye"></i></button>
-            <button class="btn btn-sm btn-warning btn-edit-user" data-id="${row.id}"><i class="fas fa-edit"></i></button>
-            <button class="btn btn-sm btn-danger btn-delete-user" data-id="${row.id}"><i class="fas fa-trash"></i></button></div>
+            <div class="text-center"><button class="btn btn-sm btn-info btn-see-user" title="Ver" data-id="${row.id}"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-warning btn-edit-user" title="Editar" data-id="${row.id}"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger btn-delete-user" title="Eliminar" data-id="${row.id}"><i class="fas fa-trash"></i></button></div>
           `
         }
       ],
@@ -143,7 +154,8 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   }
 
   editUser(user: any): void {
-    this.selectedUser = { ...user };
+    this.tempUser = { ...user }; // para edición
+    this.selectedUser = { ...this.tempUser };
     this.modalMode = 'edit';
     this.userModal.show();
   }
@@ -166,6 +178,15 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   }
 
   saveUserChanges(): void {
+    const form = document.querySelector('form.needs-validation') as HTMLFormElement;
+
+    // Añade la clase que dispara estilos de Bootstrap
+    form.classList.add('was-validated');
+
+    if (!this.bootstrapValidation.validateForm(form)) {
+      return;
+    }
+
     if (!this.selectedUser) return;
 
     if (this.modalMode === 'edit') {

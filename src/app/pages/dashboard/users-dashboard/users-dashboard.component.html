@@ -31,21 +31,21 @@
           <div class="mb-3">
             <label class="form-label">Usuario</label>
             <p *ngIf="modalMode === 'view'">{{ selectedUser.user }}</p>
-            <input *ngIf="modalMode === 'edit'" type="text" class="form-control" [(ngModel)]="selectedUser.user" name="user" required>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.user" name="user" required>
           </div>
           <div class="mb-3">
             <label class="form-label">Email</label>
             <p *ngIf="modalMode === 'view'">{{ selectedUser.email }}</p>
-            <input *ngIf="modalMode === 'edit'" type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required>
           </div>
           <div *ngIf="modalMode !== 'view'" class="mb-3">
             <label class="form-label">Password</label>
-            <input *ngIf="modalMode === 'edit'" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" required>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" required>
           </div>
           <div class="mb-3">
             <label class="form-label">Estado</label>
             <p *ngIf="modalMode === 'view'">{{ selectedUser.status }}</p>
-            <select *ngIf="modalMode === 'edit'" class="form-control" [(ngModel)]="selectedUser.status" name="status">
+            <select *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedUser.status" name="status">
               <option value="Activo">Activo</option>
               <option value="Inactivo">Inactivo</option>
             </select>
@@ -53,13 +53,13 @@
           <div class="mb-3">
             <label class="form-label">Fecha de Creación</label>
             <p *ngIf="modalMode === 'view'">{{ selectedUser.creationDate }}</p>
-            <input *ngIf="modalMode === 'edit'" type="text" class="form-control" [(ngModel)]="selectedUser.creationDate" name="creationDate" disabled required>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.creationDate" name="creationDate" readonly required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary" (click)="saveUserChanges()">Guardar Cambios</button>
       </div>
     </div>
   </div>
