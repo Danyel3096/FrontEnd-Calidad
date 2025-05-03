@@ -31,11 +31,11 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   dataTable: any;
 
   users = [
-    { id: 1, user: 'Juan', email: 'juan@mail.com', password: '1234', status: 'Activo', creationDate: '2024-03-01' },
-    { id: 2, user: 'Maria', email: 'maria@mail.com', password: 'abcd', status: 'Inactivo', creationDate: '2024-03-05' },
-    { id: 3, user: 'Carlos', email: 'carlos@mail.com', password: '5678', status: 'Activo', creationDate: '2024-03-10' },
-    { id: 4, user: 'Joan', email: 'joan@mail.com', password: 'efgh', status: 'Activo', creationDate: '2024-03-15' },
-    { id: 5, user: 'Sebastian', email: 'sebastian@mail.com', password: 'ijkl', status: 'Inactivo', creationDate: '2024-03-20' }
+    { id: 1, first_name: 'Juan', last_name: 'Polinecio', email: 'juan@mail.com', address: 'Calle falsa 123', phone: '012345679', password: '1234', role: 'Admin', status: 'Activo', creationDate: '2024-03-01' },
+    { id: 2, first_name: 'Maria', last_name: 'Candela', email: 'maria@mail.com', address: 'Calle falsa 456', phone: '9876543210', password: 'abcd', role: 'Bodeguera', status: 'Inactivo', creationDate: '2024-03-05' },
+    { id: 3, first_name: 'Carlos', last_name: 'Castaño', email: 'carlos@mail.com', address: 'Calle falsa 789', phone: '012345679', password: '5678', role: 'Cajero', status: 'Activo', creationDate: '2024-03-10' },
+    { id: 4, first_name: 'Joan', last_name: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Sinner', status: 'Activo', creationDate: '2024-03-15' },
+    { id: 5, first_name: 'Sebastian', last_name: 'ReSinner', email: 'sebastian@mail.com', address: 'Calle mocha DEF', phone: '012345679', password: 'ijkl', role: 'Sinner', status: 'Inactivo', creationDate: '2024-03-20' }
   ];
 
   ngOnInit(): void {}
@@ -70,7 +70,12 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       data: this.users,
       columns: [
         { data: 'id' },
-        { data: 'user' },
+        /*{ 
+          data: null,
+          render: data => `${data.first_name} ${data.last_name}`
+        }*/
+        { data: 'first_name' },
+        { data: 'last_name' },
         { data: 'email' },
         { data: 'status' },
         { data: 'creationDate' },
@@ -137,7 +142,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   //OJO: Falta crear la función para crear un nuevo usuario, me basé en editUser para crear este ejemplo
   createUser(): void {
     this.selectedUser = {
-      user: '',
+      first_name: '',
       email: '',
       password: '',
       status: 'Activo',
@@ -163,7 +168,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   deleteUser(user: any): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: `¿Seguro que deseas eliminar a ${user.user}?`,
+      text: `¿Seguro que deseas eliminar a ${user.first_name}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
