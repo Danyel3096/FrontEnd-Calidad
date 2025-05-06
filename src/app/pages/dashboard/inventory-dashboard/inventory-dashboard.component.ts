@@ -12,7 +12,6 @@ import Swal from 'sweetalert2';
 import { ProductsService } from '../../../services/product.service';
 import { Product } from '../../../interfaces/product.interface';
 
-
 @Component({
   standalone: true,
   selector: 'app-inventory-dashboard',
@@ -101,5 +100,15 @@ export class InventoryDashboardComponent implements OnInit, AfterViewInit {
   removeProduct(productId: number): void {
     this.products = this.products.filter(p => p.id !== productId);
     this.initDataTable(); // Recargar la tabla después de eliminar
+  }
+
+  getStockClass(stock: number): string {
+    if (stock > 50) {
+      return 'text-success'; // Verde
+    } else if (stock > 40) {
+      return 'text-warning'; // Naranja
+    } else {
+      return 'text-danger'; // Rojo
+    }
   }
 }
