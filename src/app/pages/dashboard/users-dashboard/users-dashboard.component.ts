@@ -22,7 +22,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   constructor(
       private bootstrapInit: BootstrapInitService,
       private bootstrapValidation: BootstrapValidationService
-    ) {}
+  ) {}
 
   selectedUser: any = null;
   tempUser: any = null; // para edición
