@@ -31,9 +31,9 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   dataTable: any;
 
   categories = [
-    { id: 1, storeId: 101, name: 'Electrónica', description: 'Dispositivos electrónicos', status: 'Activo', creationDate: '2024-03-01' },
-    { id: 2, storeId: 102, name: 'Ropa', description: 'Prendas de vestir', status: 'Inactivo', creationDate: '2024-03-05' },
-    { id: 3, storeId: 103, name: 'Hogar', description: 'Artículos para el hogar', status: 'Activo', creationDate: '2024-03-10' }
+    { id: 1, store_id: 101, name: 'Electrónica', description: 'Dispositivos electrónicos', status: 'Activo', created_at: '2024-03-01' },
+    { id: 2, store_id: 102, name: 'Ropa', description: 'Prendas de vestir', status: 'Inactivo', created_at: '2024-03-05' },
+    { id: 3, store_id: 103, name: 'Hogar', description: 'Artículos para el hogar', status: 'Activo', created_at: '2024-03-10' }
   ];
 
   ngOnInit(): void {}
@@ -76,7 +76,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
         { data: 'last_name' },
         { data: 'email' },
         { data: 'status' },
-        { data: 'creationDate' },
+        { data: 'created_at' },
         {
           data: null,
           orderable: false,
@@ -144,7 +144,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
       email: '',
       password: '',
       status: 'Activo',
-      creationDate: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+      created_at: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
     this.modalMode = 'create';
     this.categoryModal.show();

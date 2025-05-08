@@ -29,11 +29,11 @@ export class ShoppingDashboardComponent {
   dataTable: any;
 
   orders = [
-    { id: 1, first_name: 'Juan', last_name: 'Polinecio', email: 'juan@mail.com', address: 'Calle falsa 123', phone: '012345679', password: '1234', role: 'Admin', status: 'Activo', creationDate: '2024-03-01' },
-    { id: 2, first_name: 'Maria', last_name: 'Candela', email: 'maria@mail.com', address: 'Calle falsa 456', phone: '9876543210', password: 'abcd', role: 'Bodeguera', status: 'Inactivo', creationDate: '2024-03-05' },
-    { id: 3, first_name: 'Carlos', last_name: 'Castaño', email: 'carlos@mail.com', address: 'Calle falsa 789', phone: '012345679', password: '5678', role: 'Cajero', status: 'Activo', creationDate: '2024-03-10' },
-    { id: 4, first_name: 'Joan', last_name: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Sinner', status: 'Activo', creationDate: '2024-03-15' },
-    { id: 5, first_name: 'Sebastian', last_name: 'ReSinner', email: 'sebastian@mail.com', address: 'Calle mocha DEF', phone: '012345679', password: 'ijkl', role: 'Sinner', status: 'Inactivo', creationDate: '2024-03-20' }
+    { id: 1, store_id: 1, seller_id: 1, customer_id: 1, sale_date: '01/05/2025', payment_method: 'OJO', total_amount: 123000, status: 'Activo', deleted: false, created_at: '2024-03-01' },
+    { id: 2, store_id: 1, seller_id: 1, customer_id: 1, sale_date: '01/05/2025', payment_method: 'OJO', total_amount: 123000, status: 'Inactivo', deleted: false, created_at: '2024-03-05' },
+    { id: 3, store_id: 1, seller_id: 1, customer_id: 1, sale_date: '01/05/2025', payment_method: 'OJO', total_amount: 123000, status: 'Activo', deleted: false, created_at: '2024-03-10' },
+    { id: 4, store_id: 1, seller_id: 1, customer_id: 1, sale_date: '01/05/2025', payment_method: 'OJO', total_amount: 123000, status: 'Activo', deleted: false, created_at: '2024-03-15' },
+    { id: 5, store_id: 1, seller_id: 1, customer_id: 1, sale_date: '01/05/2025', payment_method: 'OJO', total_amount: 123000, status: 'Inactivo', deleted: false, created_at: '2024-03-20' }
   ];
 
   ngOnInit(): void {}
@@ -67,16 +67,16 @@ export class ShoppingDashboardComponent {
       ],
       data: this.orders,
       columns: [
-        { data: 'id' },
+        /*{ data: 'id' },*/
         /*{ 
           data: null,
           render: data => `${data.first_name} ${data.last_name}`
         }*/
-        { data: 'first_name' },
-        { data: 'last_name' },
-        { data: 'email' },
+        { data: 'sale_date' },
+        { data: 'payment_method' },
+        { data: 'total_amount' },
         { data: 'status' },
-        { data: 'creationDate' },
+        { data: 'created_at' },
         {
           data: null,
           orderable: false,
@@ -144,7 +144,7 @@ export class ShoppingDashboardComponent {
       email: '',
       password: '',
       status: 'Activo',
-      creationDate: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+      created_at: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
     this.modalMode = 'create';
     this.orderModal.show();

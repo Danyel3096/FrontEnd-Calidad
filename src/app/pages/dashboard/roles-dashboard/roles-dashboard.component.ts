@@ -30,19 +30,12 @@ export class RolesDashboardComponent implements OnInit, AfterViewInit {
   userModal: any;
   dataTable: any;
 
-  users2 = [
-    { id: 1, user: 'Juan', email: 'juan@mail.com', password: '1234', status: 'Activo', creationDate: '2024-03-01' },
-    { id: 2, user: 'Maria', email: 'maria@mail.com', password: 'abcd', status: 'Inactivo', creationDate: '2024-03-05' },
-    { id: 3, user: 'Carlos', email: 'carlos@mail.com', password: '5678', status: 'Activo', creationDate: '2024-03-10' },
-    { id: 4, user: 'Joan', email: 'joan@mail.com', password: 'efgh', status: 'Activo', creationDate: '2024-03-15' },
-    { id: 5, user: 'Sebastian', email: 'sebastian@mail.com', password: 'ijkl', status: 'Inactivo', creationDate: '2024-03-20' }
-  ];
   users = [
-    { id: 1, user: 'Juan', email: 'juan@mail.com', status: 'Activo', creationDate: '2024-03-01', role: 'Administrador' },
-    { id: 2, user: 'Maria', email: 'maria@mail.com', status: 'Inactivo', creationDate: '2024-03-05', role: 'Vendedor'  },
-    { id: 3, user: 'Carlos', email: 'carlos@mail.com', status: 'Activo', creationDate: '2024-03-10', role: 'Cliente'  },
-    { id: 4, user: 'Joan', email: 'joan@mail.com', status: 'Activo', creationDate: '2024-03-15', role: 'Cliente'  },
-    { id: 5, user: 'Sebastian', email: 'sebastian@mail.com', status: 'Inactivo', creationDate: '2024-03-20', role: 'Cliente'  }
+    { id: 1, image: '', first_name: 'Juan', last_name: 'Polinecio', email: 'juan@mail.com', address: 'Calle falsa 123', phone: '012345679', password: '1234', role: 'Admin', status: 'Activo', created_at: '2024-03-01' },
+    { id: 2, image: '', first_name: 'Maria', last_name: 'Candela', email: 'maria@mail.com', address: 'Calle falsa 456', phone: '9876543210', password: 'abcd', role: 'Bodeguera', status: 'Inactivo', created_at: '2024-03-05' },
+    { id: 3, image: '', first_name: 'Carlos', last_name: 'Castaño', email: 'carlos@mail.com', address: 'Calle falsa 789', phone: '012345679', password: '5678', role: 'Cajero', status: 'Activo', created_at: '2024-03-10' },
+    { id: 4, image: '', first_name: 'Joan', last_name: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Sinner', status: 'Activo', created_at: '2024-03-15' },
+    { id: 5, image: '', first_name: 'Sebastian', last_name: 'ReSinner', email: 'sebastian@mail.com', address: 'Calle mocha DEF', phone: '012345679', password: 'ijkl', role: 'Sinner', status: 'Inactivo', created_at: '2024-03-20' }
   ];
 
   ngOnInit(): void {}
@@ -76,16 +69,16 @@ export class RolesDashboardComponent implements OnInit, AfterViewInit {
       ],
       data: this.users,
       columns: [
-        { data: 'id' },
+        /*{ data: 'id' },*/
         /*{ 
           data: null,
           render: data => `${data.first_name} ${data.last_name}`
         }*/
         { data: 'first_name' },
         { data: 'last_name' },
-        { data: 'email' },
+        { data: 'role' },
         { data: 'status' },
-        { data: 'creationDate' },
+        { data: 'created_at' },
         {
           data: null,
           orderable: false,
@@ -153,7 +146,7 @@ export class RolesDashboardComponent implements OnInit, AfterViewInit {
       email: '',
       password: '',
       status: 'Activo',
-      creationDate: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+      created_at: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
     this.modalMode = 'create';
     this.userModal.show();

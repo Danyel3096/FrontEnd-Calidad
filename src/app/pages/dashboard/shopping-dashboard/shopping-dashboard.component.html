@@ -3,10 +3,10 @@
       <table id="ordersTable" class="display table table-striped table-bordered w-full text-sm">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Email</th>
+            <!-- <th>ID</th> -->
+            <th>Fecha venta</th>
+            <th>Método pago</th>
+            <th>Valor</th>
             <th>Estado</th>
             <th>Fecha de Creación</th>
             <th class="text-center no-export">Acciones</th>
@@ -111,8 +111,8 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Fecha de Creación</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedOrder.creationDate }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedOrder.creationDate" name="creationDate" readonly required>
+              <p *ngIf="modalMode === 'view'">{{ selectedOrder.created_at }}</p>
+              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedOrder.created_at" name="created_at" readonly required>
             </div>
             <div class="valid-feedback">
               Looks good!
