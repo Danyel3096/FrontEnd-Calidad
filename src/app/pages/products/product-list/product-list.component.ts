@@ -23,12 +23,13 @@ export default class ProductsListComponent implements OnInit {
   categories: string[] = [];
   selectedCategory: string = 'all';
 
+  hoveredTabItem: number | string | null = null;
+  selectedTabItem: string | null = null;
+
+  hoveredPage: number | null = null;
   itemsPerPage = 6;
   currentPage = 1;
   totalPages = 1;
-
-  hoveredTabItem: number | string | null = null;
-  selectedTabItem: string | null = null;
 
   private themeService = inject(DynamicThemeService);
 
