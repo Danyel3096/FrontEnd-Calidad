@@ -193,7 +193,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
     if (!this.selectedCategory) return;
 
     if (this.modalMode === 'edit') {
-      const index = this.categories.findIndex(u => u.id === this.category.id);
+      const index = this.categories.findIndex(u => u.id === this.selectedCategory.id);
       if (index !== -1) {
         this.categories[index] = { ...this.selectedCategory };
       }

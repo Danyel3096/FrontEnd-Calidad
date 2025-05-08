@@ -9,9 +9,6 @@ import 'datatables.net-buttons/js/buttons.html5';
 import 'datatables.net-buttons/js/buttons.print';
 import 'datatables.net-buttons/js/buttons.colVis';
 import Swal from 'sweetalert2';
-import { ProductsService } from '../../../services/product.service';
-import { Product } from '../../../interfaces/product.interface';
-
 
 @Component({
   standalone: true,

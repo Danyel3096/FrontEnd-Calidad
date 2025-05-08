@@ -7,6 +7,9 @@ import $ from 'jquery';
 import 'datatables.net-bs5';
 import Swal from 'sweetalert2';
 
+import { ProductsService } from '../../../services/product.service';
+import { Product } from '../../../interfaces/product.interface';
+
 import { BootstrapInitService } from '../../../services/bootstrap-init.service';
 import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
 
@@ -23,21 +26,38 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private bootstrapInit: BootstrapInitService,
     private bootstrapValidation: BootstrapValidationService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private productService: ProductsService
   ) { }
 
-  selectedProduct: any = null;
+  selectedProduct: Product = {
+    id: 0,
+    title: '',
+    price: 0,
+    description: '',
+    category: '',
+    image: '',
+    rating: {
+      rate: 0,
+      count: 0,
+    },
+    stock: 0,
+  };
   tempProduct: any = null; // para edición
   modalMode: 'view' | 'edit' | 'create' = 'view';
   productModal: any;
   dataTable: any;
 
-  products = [
+  products: Product[] = [];
+
+  /*products = [
     { id: 1, id_tienda: 101, nombre_producto: 'Laptop Dell', descripcion_producto: 'Laptop Core i7', precio_producto: 2500, stock_producto: 10, id_categoria: 2, id_Bodeguero: 5, estado: true, fecha_creacion: '2024-03-30', foto_producto: 'assets/img/laptop.jpg' },
     { id: 2, id_tienda: 102, nombre_producto: 'Mouse Gamer', descripcion_producto: 'Mouse RGB', precio_producto: 50, stock_producto: 50, id_categoria: 3, id_Bodeguero: 2, estado: true, fecha_creacion: '2024-03-28', foto_producto: 'assets/img/mouse.jpg' }
-  ];
+  ];*/
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadProducts();
+  }
 
   ngAfterViewInit(): void {
     this.bootstrapInit.initBootstrap();
@@ -46,11 +66,22 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
 
     const modalEl = document.getElementById('productModal');
     modalEl?.addEventListener('hidden.bs.modal', () => {
-      this.selectedProduct = null;
+      this.selectedProduct; // SE SUPONE: Limpiar el producto seleccionado
       this.modalMode = 'view';
     });
 
     this.initDataTable();
+  }
+
+  loadProducts(): void {
+    this.productService.getAllProducts().subscribe((data) => {
+      this.products = data;
+      this.products = data.map(product => ({
+        ...product,
+        stock: Math.floor(Math.random() * 100) // Simulación de stock
+      }));
+      this.initDataTable();
+    });
   }
 
   initDataTable(): void {
@@ -122,62 +153,57 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
 
     $('#productsTable').on('click', '.btn-see-product', (e) => {
       const id = +$(e.currentTarget).data('id');
-      const product = this.products.find(u => u.id === id);
+      const product = this.products.find(p => p.id === id);
       if (product) this.seeProduct(product);
     });
 
     $('#productsTable').on('click', '.btn-edit-product', (e) => {
       const id = +$(e.currentTarget).data('id');
-      const product = this.products.find(u => u.id === id);
+      const product = this.products.find(p => p.id === id);
       if (product) this.editProduct(product);
     });
 
     $('#productsTable').on('click', '.btn-delete-product', (e) => {
       const id = +$(e.currentTarget).data('id');
-      const product = this.products.find(u => u.id === id);
+      const product = this.products.find(p => p.id === id);
       if (product) this.deleteProduct(product);
     });
   }
 
   //OJO: Falta crear la función para crear un nuevo usuario, me basé en editProduct para crear este ejemplo
   createProduct(): void {
-    this.selectedProduct = {
-      first_name: '',
-      email: '',
-      password: '',
-      status: 'Activo',
-      creationDate: new Date().toISOString().split('T')[0] // YYYY-MM-DD
-    };
+    this.selectedProduct; // SE SUPONE Limpiar el producto seleccionado
     this.modalMode = 'create';
     this.productModal.show();
   }
 
-  seeProduct(product: any): void {
+  seeProduct(product: Product): void {
     this.selectedProduct = { ...product };
     this.modalMode = 'view';
     this.productModal.show();
   }
 
-  editProduct(product: any): void {
+  editProduct(product: Product): void {
     this.tempProduct = { ...product }; // para edición
     this.selectedProduct = { ...this.tempProduct };
     this.modalMode = 'edit';
     this.productModal.show();
   }
 
-  deleteProduct(product: any): void {
+  deleteProduct(product: Product): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: `¿Seguro que deseas eliminar a ${product.first_name}?`,
+      text: `¿Seguro que deseas eliminar a ${product.title}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.products = this.products.filter(u => u.id !== product.id);
+        this.products = this.products.filter(p => p.id !== product.id);
         this.redrawTable();
         Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
+        //this.initDataTable(); // Recargar la tabla después de eliminar
       }
     });
   }
@@ -195,13 +221,13 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
     if (!this.selectedProduct) return;
 
     if (this.modalMode === 'edit') {
-      const index = this.products.findIndex(u => u.id === this.selectedProduct.id);
+      const index = this.products.findIndex(p => p.id === this.selectedProduct.id);
       if (index !== -1) {
         this.products[index] = { ...this.selectedProduct };
       }
     } else if (this.modalMode === 'create') {
       // Generar ID automático (consecutivo)
-      const newId = this.products.length ? Math.max(...this.products.map(u => u.id)) + 1 : 1;
+      const newId = this.products.length ? Math.max(...this.products.map(p => p.id)) + 1 : 1;
       const newProduct = { ...this.selectedProduct, id: newId };
       this.products.push(newProduct);
     }
@@ -216,7 +242,9 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.selectedProduct.foto_producto = reader.result as string;
+        if (this.selectedProduct) {
+          this.selectedProduct.image = reader.result as string;
+        }
       };
       reader.readAsDataURL(file);
     }
