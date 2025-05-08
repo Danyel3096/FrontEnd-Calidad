@@ -94,9 +94,9 @@ initDataTable(): void {
       { orderable: false, targets: -1 }
     ],
     initComplete: () => {
-      // Insertar botón "Crear usuario" al centro, junto a los botones de exportación
-      //const btnHtml = `<button id="btnAddUser" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear usuario</button>`;
-      const btnHtml = `<button id="btnAddUser" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear usuario</button>`;
+      // Insertar botón "Crear orden" al centro, junto a los botones de exportación
+      //const btnHtml = `<button id="btnAddUser" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear orden</button>`;
+      const btnHtml = `<button id="btnAddUser" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear orden</button>`;
       $('.custom-button-col').append(btnHtml);
 
       // Asociar evento al nuevo botón

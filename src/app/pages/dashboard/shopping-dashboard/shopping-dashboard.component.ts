@@ -91,9 +91,9 @@ export class ShoppingDashboardComponent {
         { orderable: false, targets: -1 }
       ],
       initComplete: () => {
-        // Insertar botón "Crear usuario" al centro, junto a los botones de exportación
-        //const btnHtml = `<button id="btnAddOrder" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear usuario</button>`;
-        const btnHtml = `<button id="btnAddOrder" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear usuario</button>`;
+        // Insertar botón "Crear compra" al centro, junto a los botones de exportación
+        //const btnHtml = `<button id="btnAddOrder" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear compra</button>`;
+        const btnHtml = `<button id="btnAddOrder" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear compra</button>`;
         $('.custom-button-col').append(btnHtml);
 
         // Asociar evento al nuevo botón
