@@ -7,11 +7,12 @@ import { Product } from '../../../interfaces/product.interface';
 import { TabsColors } from '../../../interfaces/dynamic-colors.interface';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 import { DynamicPagePaginationComponent } from '../../../components/dynamic-page-pagination/dynamic-page-pagination.component';
+import { DynamicPageTabsComponent } from '../../../components/dynamic-page-tabs/dynamic-page-tabs.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent, DynamicPagePaginationComponent],
+  imports: [CommonModule, ProductCardComponent, DynamicPagePaginationComponent, DynamicPageTabsComponent],
   templateUrl: './product-list.component.html',
 })
 export default class ProductsListComponent implements OnInit {
