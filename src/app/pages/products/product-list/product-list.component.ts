@@ -6,11 +6,12 @@ import { ProductsService } from '../../../services/product.service';
 import { Product } from '../../../interfaces/product.interface';
 import { TabsColors } from '../../../interfaces/dynamic-colors.interface';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
+import { DynamicPagePaginationComponent } from '../../../components/dynamic-page-pagination/dynamic-page-pagination.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent],
+  imports: [CommonModule, ProductCardComponent, DynamicPagePaginationComponent],
   templateUrl: './product-list.component.html',
 })
 export default class ProductsListComponent implements OnInit {
@@ -88,20 +89,17 @@ export default class ProductsListComponent implements OnInit {
     this.paginatedProducts = this.allProducts.slice(start, end);
   }
 
-  pageChanged(page: string): void {
+  pageChanged(page: number | 'next' | 'previous'): void {
     if (page === 'previous' && this.currentPage > 1) {
       this.currentPage--;
     } else if (page === 'next' && this.currentPage < this.totalPages) {
       this.currentPage++;
-    } else {
-      const pageNumber = parseInt(page, 10);
-      if (!isNaN(pageNumber)) {
-        this.currentPage = pageNumber;
-      }
+    } else if (typeof page === 'number') {
+      this.currentPage = page;
     }
-
+  
     this.setPaginatedProducts();
-  }
+  }  
 
   addToCart(product: Product): void {
     this.cartService.state.add({ product, quantity: 1 });

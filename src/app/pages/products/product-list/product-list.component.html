@@ -26,51 +26,10 @@
   </div>
 
   <!-- Paginación -->
-  <div class="flex justify-center mt-6 space-x-2">
-    <!-- Botón anterior -->
-    <button
-      class="px-3 py-1 border rounded"
-      [ngStyle]="{
-        backgroundColor: hoveredPage === -1 ? color.hoverBackground : color.background,
-        color: hoveredPage === -1 ? color.hoverText : color.text
-      }"
-      (mouseenter)="hoveredPage = -1"
-      (mouseleave)="hoveredPage = null"
-      (click)="pageChanged('previous')"
-      [disabled]="currentPage === 1">
-      «
-    </button>
-    <!-- Botones con número de página -->
-    <button
-      *ngFor="let page of [].constructor(totalPages); let i = index"
-      class="px-3 py-1 border rounded"
-      [ngStyle]="{
-        backgroundColor:
-          hoveredPage === i + 1 || currentPage === i + 1
-            ? color.hoverBackground
-            : color.background,
-        color:
-          hoveredPage === i + 1 || currentPage === i + 1
-            ? color.hoverText
-            : color.text
-      }"
-      (mouseenter)="hoveredPage = i + 1"
-      (mouseleave)="hoveredPage = null"
-      (click)="pageChanged((i + 1).toString())">
-      {{ i + 1 }}
-    </button>
-    <!-- Botón siguiente -->
-    <button
-      class="px-3 py-1 border rounded"
-      [ngStyle]="{
-        backgroundColor: hoveredPage === -2 ? color.hoverBackground : color.background,
-        color: hoveredPage === -2 ? color.hoverText : color.text
-      }"
-      (mouseenter)="hoveredPage = -2"
-      (mouseleave)="hoveredPage = null"
-      (click)="pageChanged('next')"
-      [disabled]="currentPage === totalPages">
-      »
-    </button>
-  </div>
+  <app-dynamic-page-pagination
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    [color]="color"
+    (pageChange)="pageChanged($event)">
+  </app-dynamic-page-pagination>
 </div>
