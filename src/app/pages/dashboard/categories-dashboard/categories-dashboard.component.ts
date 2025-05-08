@@ -3,11 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import $ from 'jquery';
+import 'datatables.net';
 import 'datatables.net-bs5';
+import 'datatables.net-buttons';
+import 'datatables.net-buttons-bs5';
+import 'datatables.net-buttons/js/buttons.html5';
+import 'datatables.net-buttons/js/buttons.print';
 import Swal from 'sweetalert2';
 
 import { BootstrapInitService } from '../../../services/bootstrap-init.service';
 import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
+import { DatatableLanguageService } from '../../../services/datatable-language.service';
 
 @Component({
   standalone: true,
@@ -21,7 +27,8 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   
   constructor(
     private bootstrapInit: BootstrapInitService,
-    private bootstrapValidation: BootstrapValidationService
+    private bootstrapValidation: BootstrapValidationService,
+    private idiomaService: DatatableLanguageService
   ) {}
   
   selectedCategory: any = null; // Categoría seleccionada para ver/editar
@@ -54,7 +61,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
 
   initDataTable(): void {
     this.dataTable = $('#categoriesTable').DataTable({
-      language: this.idioma_esp,
+      //language: this.idiomaService.getIdioma(),
       dom: "<'row'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end mb-2'B>>" +
            "<'row'<'col-12'tr>>" +
            "<'row'<'col-3'i><'col-6 d-flex justify-content-center'p><'col-3 text-end custom-button-col mt-2'>>",
@@ -72,9 +79,8 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
           data: null,
           render: data => `${data.first_name} ${data.last_name}`
         }*/
-        { data: 'first_name' },
-        { data: 'last_name' },
-        { data: 'email' },
+        { data: 'name' },
+        { data: 'description' },
         { data: 'status' },
         { data: 'created_at' },
         {
@@ -91,9 +97,9 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
         { orderable: false, targets: -1 }
       ],
       initComplete: () => {
-        // Insertar botón "Crear usuario" al centro, junto a los botones de exportación
-        //const btnHtml = `<button id="btnAddCategory" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear usuario</button>`;
-        const btnHtml = `<button id="btnAddCategory" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear usuario</button>`;
+        // Insertar botón "Crear categoría" al centro, junto a los botones de exportación
+        //const btnHtml = `<button id="btnAddCategory" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear categoría</button>`;
+        const btnHtml = `<button id="btnAddCategory" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear categoría</button>`;
         $('.custom-button-col').append(btnHtml);
 
         // Asociar evento al nuevo botón
@@ -137,12 +143,11 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  //OJO: Falta crear la función para crear un nuevo usuario, me basé en editcategory para crear este ejemplo
+  //OJO: Falta crear la función para crear un nueva categoría, me basé en editcategory para crear este ejemplo
   createCategory(): void {
     this.selectedCategory = {
-      first_name: '',
-      email: '',
-      password: '',
+      name: '',
+      description: '',
       status: 'Activo',
       created_at: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
@@ -175,7 +180,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
       if (result.isConfirmed) {
         this.categories = this.categories.filter(u => u.id !== category.id);
         this.redrawTable();
-        Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
+        Swal.fire('Eliminado', 'La categoría ha sido eliminado', 'success');
       }
     });
   }
@@ -210,185 +215,185 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   }
 
   idioma_esp: any = {
-    "processing": "Procesando...",
-    "lengthMenu": "Mostrar _MENU_ registros",
-    "zeroRecords": "No se encontraron resultados",
-    "emptyTable": "Ningún dato disponible en esta tabla",
-    "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-    "search": "Buscar:",
-    "loadingRecords": "Cargando...",
-    "paginate": {
-        "first": "«",
-        "last": "»",
-        "next": ">",
-        "previous": "<"
-    },
-    "aria": {
-        "sortAscending": ": Activar para ordenar la columna de manera ascendente",
-        "sortDescending": ": Activar para ordenar la columna de manera descendente"
-    },
-    "buttons": {
-        "copy": "Copiar",
-        "colvis": "Visibilidad",
-        "collection": "Colección",
-        "colvisRestore": "Restaurar visibilidad",
-        "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
-        "copySuccess": {
-            "1": "Copiada 1 fila al portapapeles",
-            "_": "Copiadas %ds fila al portapapeles"
-        },
-        "copyTitle": "Copiar al portapapeles",
-        "csv": "CSV",
-        "excel": "Excel",
-        "pageLength": {
-            "-1": "Mostrar todas las filas",
-            "_": "Mostrar %d filas"
-        },
-        "pdf": "PDF",
-        "print": "Imprimir",
-        "renameState": "Cambiar nombre",
-        "updateState": "Actualizar",
-        "createState": "Crear Estado",
-        "removeAllStates": "Remover Estados",
-        "removeState": "Remover",
-        "savedStates": "Estados Guardados",
-        "stateRestore": "Estado %d"
-    },
-    "autoFill": {
-        "cancel": "Cancelar",
-        "fill": "Rellene todas las celdas con <i>%d<\/i>",
-        "fillHorizontal": "Rellenar celdas horizontalmente",
-        "fillVertical": "Rellenar celdas verticalmente"
-    },
-    "decimal": ",",
-    "searchBuilder": {
-        "add": "Añadir condición",
-        "button": {
-            "0": "Constructor de búsqueda",
-            "_": "Constructor de búsqueda (%d)"
-        },
-        "clearAll": "Borrar todo",
-        "condition": "Condición",
-        "conditions": {
-            "date": {
-                "before": "Antes",
-                "between": "Entre",
-                "empty": "Vacío",
-                "equals": "Igual a",
-                "notBetween": "No entre",
-                "not": "Diferente de",
-                "after": "Después",
-                "notEmpty": "No Vacío"
-            },
-            "number": {
-                "between": "Entre",
-                "equals": "Igual a",
-                "gt": "Mayor a",
-                "gte": "Mayor o igual a",
-                "lt": "Menor que",
-                "lte": "Menor o igual que",
-                "notBetween": "No entre",
-                "notEmpty": "No vacío",
-                "not": "Diferente de",
-                "empty": "Vacío"
-            },
-            "string": {
-                "contains": "Contiene",
-                "empty": "Vacío",
-                "endsWith": "Termina en",
-                "equals": "Igual a",
-                "startsWith": "Empieza con",
-                "not": "Diferente de",
-                "notContains": "No Contiene",
-                "notStartsWith": "No empieza con",
-                "notEndsWith": "No termina con",
-                "notEmpty": "No Vacío"
-            },
-            "array": {
-                "not": "Diferente de",
-                "equals": "Igual",
-                "empty": "Vacío",
-                "contains": "Contiene",
-                "notEmpty": "No Vacío",
-                "without": "Sin"
-            }
-        },
-        "data": "Data",
-        "deleteTitle": "Eliminar regla de filtrado",
-        "leftTitle": "Criterios anulados",
-        "logicAnd": "Y",
-        "logicOr": "O",
-        "rightTitle": "Criterios de sangría",
-        "title": {
-            "0": "Constructor de búsqueda",
-            "_": "Constructor de búsqueda (%d)"
-        },
-        "value": "Valor"
-    },
-    "searchPanes": {
-        "clearMessage": "Borrar todo",
-        "collapse": {
-            "0": "Paneles de búsqueda",
-            "_": "Paneles de búsqueda (%d)"
-        },
-        "count": "{total}",
-        "countFiltered": "{shown} ({total})",
-        "emptyPanes": "Sin paneles de búsqueda",
-        "loadMessage": "Cargando paneles de búsqueda",
-        "title": "Filtros Activos - %d",
-        "showMessage": "Mostrar Todo",
-        "collapseMessage": "Colapsar Todo"
-    },
-    "select": {
-        "cells": {
-            "1": "1 celda seleccionada",
-            "_": "%d celdas seleccionadas"
-        },
-        "columns": {
-            "1": "1 columna seleccionada",
-            "_": "%d columnas seleccionadas"
-        },
-        "rows": {
-            "1": "1 fila seleccionada",
-            "_": "%d filas seleccionadas"
-        }
-    },
-    "thousands": ".",
-    "datetime": {
-        "previous": "Anterior",
-        "hours": "Horas",
-        "minutes": "Minutos",
-        "seconds": "Segundos",
-        "unknown": "-",
-        "amPm": [
-            "AM",
-            "PM"
-        ],
-        "months": {
-            "0": "Enero",
-            "1": "Febrero",
-            "10": "Noviembre",
-            "11": "Diciembre",
-            "2": "Marzo",
-            "3": "Abril",
-            "4": "Mayo",
-            "5": "Junio",
-            "6": "Julio",
-            "7": "Agosto",
-            "8": "Septiembre",
-            "9": "Octubre"
-        },
-        "weekdays": {
-            "0": "Dom",
-            "1": "Lun",
-            "2": "Mar",
-            "4": "Jue",
-            "5": "Vie",
-            "3": "Mié",
-            "6": "Sáb"
-        },
-        "next": "Próximo"
+  "processing": "Procesando...",
+  "lengthMenu": "Mostrar _MENU_ registros",
+  "zeroRecords": "No se encontraron resultados",
+  "emptyTable": "Ningún dato disponible en esta tabla",
+  "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+  "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+  "search": "Buscar:",
+  "loadingRecords": "Cargando...",
+  "paginate": {
+      "first": "«",
+      "last": "»",
+      "next": ">",
+      "previous": "<"
+  },
+  "aria": {
+      "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+      "sortDescending": ": Activar para ordenar la columna de manera descendente"
+  },
+  "buttons": {
+      "copy": "Copiar",
+      "colvis": "Visibilidad",
+      "collection": "Colección",
+      "colvisRestore": "Restaurar visibilidad",
+      "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
+      "copySuccess": {
+          "1": "Copiada 1 fila al portapapeles",
+          "_": "Copiadas %ds fila al portapapeles"
+      },
+      "copyTitle": "Copiar al portapapeles",
+      "csv": "CSV",
+      "excel": "Excel",
+      "pageLength": {
+          "-1": "Mostrar todas las filas",
+          "_": "Mostrar %d filas"
+      },
+      "pdf": "PDF",
+      "print": "Imprimir",
+      "renameState": "Cambiar nombre",
+      "updateState": "Actualizar",
+      "createState": "Crear Estado",
+      "removeAllStates": "Remover Estados",
+      "removeState": "Remover",
+      "savedStates": "Estados Guardados",
+      "stateRestore": "Estado %d"
+  },
+  "autoFill": {
+      "cancel": "Cancelar",
+      "fill": "Rellene todas las celdas con <i>%d<\/i>",
+      "fillHorizontal": "Rellenar celdas horizontalmente",
+      "fillVertical": "Rellenar celdas verticalmente"
+  },
+  "decimal": ",",
+  "searchBuilder": {
+      "add": "Añadir condición",
+      "button": {
+          "0": "Constructor de búsqueda",
+          "_": "Constructor de búsqueda (%d)"
+      },
+      "clearAll": "Borrar todo",
+      "condition": "Condición",
+      "conditions": {
+          "date": {
+              "before": "Antes",
+              "between": "Entre",
+              "empty": "Vacío",
+              "equals": "Igual a",
+              "notBetween": "No entre",
+              "not": "Diferente de",
+              "after": "Después",
+              "notEmpty": "No Vacío"
+          },
+          "number": {
+              "between": "Entre",
+              "equals": "Igual a",
+              "gt": "Mayor a",
+              "gte": "Mayor o igual a",
+              "lt": "Menor que",
+              "lte": "Menor o igual que",
+              "notBetween": "No entre",
+              "notEmpty": "No vacío",
+              "not": "Diferente de",
+              "empty": "Vacío"
+          },
+          "string": {
+              "contains": "Contiene",
+              "empty": "Vacío",
+              "endsWith": "Termina en",
+              "equals": "Igual a",
+              "startsWith": "Empieza con",
+              "not": "Diferente de",
+              "notContains": "No Contiene",
+              "notStartsWith": "No empieza con",
+              "notEndsWith": "No termina con",
+              "notEmpty": "No Vacío"
+          },
+          "array": {
+              "not": "Diferente de",
+              "equals": "Igual",
+              "empty": "Vacío",
+              "contains": "Contiene",
+              "notEmpty": "No Vacío",
+              "without": "Sin"
+          }
+      },
+      "data": "Data",
+      "deleteTitle": "Eliminar regla de filtrado",
+      "leftTitle": "Criterios anulados",
+      "logicAnd": "Y",
+      "logicOr": "O",
+      "rightTitle": "Criterios de sangría",
+      "title": {
+          "0": "Constructor de búsqueda",
+          "_": "Constructor de búsqueda (%d)"
+      },
+      "value": "Valor"
+  },
+  "searchPanes": {
+      "clearMessage": "Borrar todo",
+      "collapse": {
+          "0": "Paneles de búsqueda",
+          "_": "Paneles de búsqueda (%d)"
+      },
+      "count": "{total}",
+      "countFiltered": "{shown} ({total})",
+      "emptyPanes": "Sin paneles de búsqueda",
+      "loadMessage": "Cargando paneles de búsqueda",
+      "title": "Filtros Activos - %d",
+      "showMessage": "Mostrar Todo",
+      "collapseMessage": "Colapsar Todo"
+  },
+  "select": {
+      "cells": {
+          "1": "1 celda seleccionada",
+          "_": "%d celdas seleccionadas"
+      },
+      "columns": {
+          "1": "1 columna seleccionada",
+          "_": "%d columnas seleccionadas"
+      },
+      "rows": {
+          "1": "1 fila seleccionada",
+          "_": "%d filas seleccionadas"
+      }
+  },
+  "thousands": ".",
+  "datetime": {
+      "previous": "Anterior",
+      "hours": "Horas",
+      "minutes": "Minutos",
+      "seconds": "Segundos",
+      "unknown": "-",
+      "amPm": [
+          "AM",
+          "PM"
+      ],
+      "months": {
+          "0": "Enero",
+          "1": "Febrero",
+          "10": "Noviembre",
+          "11": "Diciembre",
+          "2": "Marzo",
+          "3": "Abril",
+          "4": "Mayo",
+          "5": "Junio",
+          "6": "Julio",
+          "7": "Agosto",
+          "8": "Septiembre",
+          "9": "Octubre"
+      },
+      "weekdays": {
+          "0": "Dom",
+          "1": "Lun",
+          "2": "Mar",
+          "4": "Jue",
+          "5": "Vie",
+          "3": "Mié",
+          "6": "Sáb"
+      },
+      "next": "Próximo"
     },
     "editor": {
         "close": "Cerrar",
