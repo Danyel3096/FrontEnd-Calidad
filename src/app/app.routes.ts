@@ -26,7 +26,6 @@ import { UsersDashboardComponent } from './pages/dashboard/users-dashboard/users
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { MissingComponent } from './pages/missing/missing.component';
 import { HelpComponent } from './pages/help/help.component';
-import { InventoryDashboardComponent } from './pages//dashboard/inventory-dashboard/inventory-dashboard.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { AboutComponent } from './pages/about/about.component';
 import { CustomizationDashboardComponent } from './pages/dashboard/customization-dashboard/customization-dashboard.component';
@@ -44,10 +43,6 @@ export const routes: Routes = [
       {
         path: 'categories', // child route path
         component: CategoriesDashboardComponent, // another child route component that the router renders
-      },
-      {
-        path: 'inventory', // child route path
-        component: InventoryDashboardComponent, // another child route component that the router renders
       },
       {
         path: 'metrics', // child route path

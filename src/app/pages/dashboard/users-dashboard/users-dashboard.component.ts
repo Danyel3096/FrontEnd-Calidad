@@ -3,7 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import $ from 'jquery';
+import 'datatables.net';
 import 'datatables.net-bs5';
+import 'datatables.net-buttons';
+import 'datatables.net-buttons-bs5';
+import 'datatables.net-buttons/js/buttons.html5';
+import 'datatables.net-buttons/js/buttons.print';
 import Swal from 'sweetalert2';
 
 import { BootstrapInitService } from '../../../services/bootstrap-init.service';
