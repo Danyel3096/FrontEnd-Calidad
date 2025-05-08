@@ -4,6 +4,8 @@ import { ProductCardComponent } from '../../../components/product-card/product-c
 import { CartStateService } from '../../../services/cart-state.service';
 import { ProductsService } from '../../../services/product.service';
 import { Product } from '../../../interfaces/product.interface';
+import { TabsColors } from '../../../interfaces/dynamic-colors.interface';
+import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 
 @Component({
   selector: 'app-product-list',
@@ -25,9 +27,27 @@ export default class ProductsListComponent implements OnInit {
   currentPage = 1;
   totalPages = 1;
 
+  hoveredTabItem: number | string | null = null;
+  selectedTabItem: string | null = null;
+
+  private themeService = inject(DynamicThemeService);
+
+  color: TabsColors = {
+      background: '#ccc',
+      text: '#000',
+      hoverBackground: '#bbb',
+      hoverText: '#111'
+    };
+
   ngOnInit(): void {
     this.loadCategories();
     this.loadAllProducts();
+
+    // Suscribirse a la sección 'button' de la paleta activa
+    this.themeService.getSection('tabs').subscribe(colors => {
+      console.log('Tabs colors:', colors);
+      this.color = colors;
+    });
   }
 
   loadCategories(): void {
@@ -82,16 +102,21 @@ export default class ProductsListComponent implements OnInit {
     this.setPaginatedProducts();
   }
 
-  onCategoryChange(category: string): void {
-    this.selectedCategory = category;
-    this.loadProductsByCategory(category);
-  }
-
   addToCart(product: Product): void {
     this.cartService.state.add({ product, quantity: 1 });
   }
 
   trackById(index: number, product: Product): number {
     return product.id;
+  }
+
+  onCategoryChange(category: string): void {
+    this.selectedCategory = category;
+    this.loadProductsByCategory(category);
+  }
+  
+  selectTab(category: string): void {
+    this.selectedTabItem = category;
+    this.onCategoryChange(category); // si ya lo usabas para cambiar datos, se mantiene
   }
 }

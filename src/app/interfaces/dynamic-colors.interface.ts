@@ -57,6 +57,20 @@ export interface SidebarButtonsColors {
     hoverText: string;
 }
 
+export interface TabsColors {
+    background: string;
+    text: string;
+    hoverBackground: string;
+    hoverText: string;
+}
+
+export interface PaginationColors {
+    background: string;
+    text: string;
+    hoverBackground: string;
+    hoverText: string;
+}
+
 export interface FooterColors {
     background: string;
     text: string;
@@ -73,6 +87,8 @@ export interface ThemeColors {
     titleNavbar: TitleNavbarColors;
     pageContent: PageContentColors;
     pageButtons: PageButtonsColors;
+    tabs: TabsColors;
+    pagination: PaginationColors;
     footer: FooterColors;
 }
   

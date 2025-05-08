@@ -3,12 +3,14 @@
   <div class="tw mb-4 flex flex-wrap gap-3 justify-center">
     <button
       *ngFor="let category of categories"
-      (click)="onCategoryChange(category)"
-      [ngClass]="{
-        'bg-blue-600 text-white': selectedCategory === category,
-        'bg-gray-200 text-black': selectedCategory !== category
+      (click)="selectTab(category)"
+      [ngStyle]="{
+        backgroundColor: hoveredTabItem === category || selectedTabItem === category ? color.hoverBackground : color.background,
+        color: hoveredTabItem === category || selectedTabItem === category ? color.hoverText : color.text
       }"
-      class="px-4 py-2 rounded hover:bg-blue-500 transition"
+      class="px-4 py-2 rounded transition"
+      (mouseenter)="hoveredTabItem = category"
+      (mouseleave)="hoveredTabItem = null"
     >
       {{ category | titlecase }}
     </button>
