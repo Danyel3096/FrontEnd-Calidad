@@ -82,11 +82,14 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   loadProducts(): void {
     this.productService.getAllProducts().subscribe((data) => {
       this.products = data;
+      console.log("EMPIEZA LISTA DE PRODUCTOS");
+      console.log(this.products);
       this.products = data.map(product => ({
         ...product,
         stock: Math.floor(Math.random() * 100) // Simulación de stock
       }));
-      this.initDataTable();
+      this.redrawTable();
+      //this.initDataTable();
     });
   }
 
@@ -105,15 +108,18 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
       ],
       data: this.products,
       columns: [
-        { data: 'id' },
+        /*{ data: 'id' },*/
         /*{ 
           data: null,
           render: data => `${data.first_name} ${data.last_name}`
         }*/
-        { data: 'foto' },
-        { data: 'nombre' },
-        { data: 'descripcion' },
-        { data: 'precio' },
+        { data: 'title' },
+        {
+          data: 'image',
+          render: (data: string) => `<img src="${data}" alt="Imagen" class="img-thumbnail" style="max-height: 60px;" />`
+        },
+        /*{ data: 'descripcion' },*/
+        { data: 'price' },
         { data: 'stock' },
         { data: 'estado' },
         {
