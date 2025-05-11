@@ -65,8 +65,8 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/ventas']);
           } else if (role === 'BODEGUERO') {
             this.router.navigate(['/inventario']);
-          } else {
-            this.router.navigate(['/help']);
+          } else if (role === 'CUSTOMER'){
+            this.router.navigate(['/home']);
           }
 
           this.loginService.loginStatusSubject.next(true);

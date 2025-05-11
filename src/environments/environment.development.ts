@@ -33,7 +33,9 @@ export const environment = {
   API_URL_CATEGORIA_DELETELOGICALLY: `${API_URL_BASE}/products/categories/`,
 
   // Login (autenticación)
-  API_URL_USUARIO_LOGIN: `${API_URL_BASE}rest/auth/login` // URL de login actualizada
+  API_URL_USUARIO_LOGIN: `${API_URL_BASE}rest/auth/login`, // URL de login actualizada
+  API_URL_USUARIO_REGISTRO: `${API_URL_BASE}users`
+
 };
 
 

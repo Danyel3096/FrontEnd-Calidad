@@ -35,7 +35,7 @@ users = [
   { id: 1, first_name: 'Juan', last_name: 'Polinecio', email: 'juan@mail.com', address: 'Calle falsa 123', phone: '012345679', password: '1234', role: 'Admin', status: 'Activo', created_at: '2024-03-01' },
   { id: 2, first_name: 'Maria', last_name: 'Candela', email: 'maria@mail.com', address: 'Calle falsa 456', phone: '9876543210', password: 'abcd', role: 'Bodeguera', status: 'Inactivo', created_at: '2024-03-05' },
   { id: 3, first_name: 'Carlos', last_name: 'Castaño', email: 'carlos@mail.com', address: 'Calle falsa 789', phone: '012345679', password: '5678', role: 'Vendedor', status: 'Activo', created_at: '2024-03-10' },
-  { id: 4, first_name: 'Joan', last_name: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Sinner', status: 'Activo', created_at: '2024-03-15' },
+  { id: 4, first_name: 'Joan', last_name: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Customer', status: 'Activo', created_at: '2024-03-15' },
   { id: 5, first_name: 'Sebastian', last_name: 'ReSinner', email: 'sebastian@mail.com', address: 'Calle mocha DEF', phone: '012345679', password: 'ijkl', role: 'Sinner', status: 'Inactivo', created_at: '2024-03-20' }
 ];
 

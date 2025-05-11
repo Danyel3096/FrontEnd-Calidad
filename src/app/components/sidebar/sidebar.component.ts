@@ -41,8 +41,8 @@ this.role = this.loginService.getUserRole() ?? '';
     return this.role === 'VENDEDOR';
   }
 
-  isCliente(): boolean {
-    return this.role === 'CLIENTE';
+  isCustomer(): boolean {
+    return this.role === 'CUSTOMER';
   }
 
   isBodeguero(): boolean {

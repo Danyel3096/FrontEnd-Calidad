@@ -4,6 +4,7 @@ import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -15,101 +16,75 @@ import { FormsModule } from '@angular/forms';
 export class SignupComponent implements OnInit {
 
   public user = {
-    username: '',
-    password: '',
-    nombre: '',
-    apellido: '',
+    name: '',
     email: '',
-    telefono: '',
-    direccion: ''
+    password: '',
+    role: 'CUSTOMER',
+    photoUrl: 'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png',
+    phoneNumber: '',
+    status: true
   };
 
   public errores = {
-    username: false,
-    password: false,
-    nombre: false,
-    apellido: false,
+    name: false,
     email: false,
-    telefono: false,
-    direccion: false
-
+    password: false,
+    phoneNumber: false
   };
 
-  constructor(private userService: UserService, private snack: MatSnackBar) { }
+  constructor(
+    private userService: UserService,
+    private snack: MatSnackBar,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   formSubmit() {
     let camposVacios = false;
 
-    // Verificar cada campo y marcar los que están vacíos
     for (let campo in this.user) {
-      if ((this.user as any)[campo].trim() === '') {
-        (this.errores as any)[campo] = true;
+      if (typeof (this.user as any)[campo] === 'string' && (this.user as any)[campo].trim() === '') {
+        if (this.errores.hasOwnProperty(campo)) {
+          (this.errores as any)[campo] = true;
+        }
         camposVacios = true;
       } else {
-        (this.errores as any)[campo] = false;
+        if (this.errores.hasOwnProperty(campo)) {
+          (this.errores as any)[campo] = false;
+        }
       }
     }
 
     if (camposVacios) {
       Swal.fire({
         icon: 'warning',
-        title: '¡Campos vacíos!',
-        html: `<p style="font-size: 16px; color: #555;">Por favor, completa todos los campos.</p>`,
-        confirmButtonText: 'Entendido',
-        customClass: {
-          popup: 'animated fadeInDown'
-        }
+        title: 'Campos vacíos',
+        text: 'Por favor completa todos los campos obligatorios.'
       });
       return;
     }
 
     this.userService.añadirUsuario(this.user).subscribe(
       (data) => {
-        console.log(data);
-        Swal.fire({
-          icon: 'success',
-          title: '¡Registro exitoso!',
-          html: `<p style="font-size: 16px; color: #555;">Tu cuenta ha sido creada correctamente.</p>`,
-          confirmButtonText: 'Continuar',
-          customClass: {
-            popup: 'animated fadeInDown'
-          }
+        Swal.fire('Éxito', 'Usuario registrado correctamente', 'success').then(() => {
+          this.router.navigate(['/login']);
         });
 
-        // Reiniciar los campos y errores después del registro exitoso
         this.user = {
-          username: '',
-          password: '',
-          nombre: '',
-          apellido: '',
+          name: '',
           email: '',
-          telefono: '',
-          direccion: ''
-        };
-        this.errores = {
-          username: false,
-          password: false,
-          nombre: false,
-          apellido: false,
-          email: false,
-          telefono: false,
-          direccion: false
+          password: '',
+          role: 'CUSTOMER',
+          photoUrl: 'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png',
+          phoneNumber: '',
+          status: true
         };
       },
       (error) => {
-        console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: '¡Error en el registro!',
-          html: `<p style="font-size: 16px; color: #555;">Ha ocurrido un problema en el sistema. Intenta de nuevo más tarde.</p>`,
-          confirmButtonText: 'Cerrar',
-          customClass: {
-            popup: 'animated shake'
-          }
-        });
+        Swal.fire('Error', 'No se pudo registrar el usuario', 'error');
       }
     );
   }
+
 }

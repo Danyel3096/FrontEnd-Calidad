@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   role = '';
   isAdmin = false;
   isVendedor = false;
-  isCliente = false;
+  isCustomer = false;
   isBodeguero = false;
 
   ngOnInit(): void {
@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
 
     this.isAdmin = this.role === 'ADMIN';
     this.isVendedor = this.role === 'VENDEDOR';
-    this.isCliente = this.role === 'CLIENTE';
+    this.isCustomer = this.role === 'CLIENTE';
     this.isBodeguero = this.role === 'BODEGUERO';
   }
 }
