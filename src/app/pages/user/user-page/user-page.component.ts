@@ -24,8 +24,6 @@ registerPlugin(FilePondPluginImagePreview);
 
 
 export class UserPageComponent implements AfterViewInit {
-
-  
   editMode: boolean = false;
 
   // Datos del usuario

@@ -27,6 +27,8 @@ export class DynamicThemeService {
       navbarButtons: { background: '', text: '', hoverBackground:'', hoverText: '' },
       sidebar: { background: '', text: '' },
       sidebarButtons: { background: '', text: '', hoverBackground: '', hoverText: '' },
+      tabs: { background: '', text: '', hoverBackground: '', hoverText: '' },
+      pagination: { background: '', text: '', hoverBackground: '', hoverText: '' },
       footer: { background: '', text: '', hoverBackground: '', hoverText: '' }
     },
     dark: {
@@ -38,6 +40,8 @@ export class DynamicThemeService {
       navbarButtons: { background: '', text: '', hoverBackground: '', hoverText: '' },
       sidebar: { background: '', text: '' },
       sidebarButtons: { background: '', text: '', hoverBackground: '', hoverText: '' },
+      tabs: { background: '', text: '', hoverBackground: '', hoverText: '' },
+      pagination: { background: '', text: '', hoverBackground: '', hoverText: '' },
       footer: { background: '', text: '', hoverBackground: '', hoverText: '' }
     }
   };

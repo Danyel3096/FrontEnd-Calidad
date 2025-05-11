@@ -1,49 +1,27 @@
-<!-- Filtro por categorías -->
-<div class="mb-4 flex flex-wrap gap-3 justify-center">
-  <button
-    *ngFor="let category of categories"
-    (click)="onCategoryChange(category)"
-    [ngClass]="{
-      'bg-blue-600 text-white': selectedCategory === category,
-      'bg-gray-200 text-black': selectedCategory !== category
-    }"
-    class="px-4 py-2 rounded hover:bg-blue-500 transition"
-  >
-    {{ category | titlecase }}
-  </button>
-</div>
+<div class="tw">
+  <!-- Filtro por categorías -->
+  <app-dynamic-page-tabs
+    [tabs]="categories"
+    [selectedTabItem]="selectedCategory"
+    [color]="color"
+    (tabChange)="onCategoryChange($event)">
+  </app-dynamic-page-tabs>
 
-<!-- Listado de productos -->
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-  <app-product-card
-    *ngFor="let product of paginatedProducts; trackBy: trackById"
-    [product]="product"
-    (addToCart)="addToCart($event)"
-  />
-</div>
 
-<!-- Paginación -->
-<div class="flex justify-center mt-6 space-x-2">
-  <button
-    class="px-3 py-1 border rounded"
-    (click)="pageChanged('previous')"
-    [disabled]="currentPage === 1"
-  >
-    «
-  </button>
-  <button
-    *ngFor="let page of [].constructor(totalPages); let i = index"
-    class="px-3 py-1 border rounded"
-    [class.font-bold]="currentPage === i + 1"
-    (click)="pageChanged((i + 1).toString())"
-  >
-    {{ i + 1 }}
-  </button>
-  <button
-    class="px-3 py-1 border rounded"
-    (click)="pageChanged('next')"
-    [disabled]="currentPage === totalPages"
-  >
-    »
-  </button>
+  <!-- Listado de productos -->
+  <div class="tw grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <app-product-card
+      *ngFor="let product of paginatedProducts; trackBy: trackById"
+      [product]="product"
+      (addToCart)="addToCart($event)"
+    />
+  </div>
+
+  <!-- Paginación -->
+  <app-dynamic-page-pagination
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    [color]="color"
+    (pageChange)="pageChanged($event)">
+  </app-dynamic-page-pagination>
 </div>

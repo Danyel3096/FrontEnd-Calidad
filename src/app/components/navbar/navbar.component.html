@@ -14,7 +14,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
         <li class="nav-item">
           <app-dynamic-navbar-button
-            label="Productos"
+            label="Products"
             routerLink="/products"
             routerLinkActive="active"
             (click)="closeNavbar()">
@@ -95,7 +95,7 @@
                 }"
                 (mouseenter)="hoveredDropdownItem = 0"
                 (mouseleave)="hoveredDropdownItem = null">
-                  Mi perfil
+                  My profile
                 </a>
               </li>
               <li><a class="dropdown-item"
@@ -107,7 +107,7 @@
                 }"
                 (mouseenter)="hoveredDropdownItem = 1"
                 (mouseleave)="hoveredDropdownItem = null">
-                  Configuración
+                  Settings
                 </a>
               </li>
               <li><hr class="dropdown-divider"></li>
@@ -120,14 +120,14 @@
                 }"
                 (mouseenter)="hoveredDropdownItem = 2"
                 (mouseleave)="hoveredDropdownItem = null">
-                  Recuperar contraseña
+                  Recover password
                 </a>
               </li>
             </ul>
           </li>
           <li class="nav-item">
             <app-dynamic-navbar-button
-              label="Cerrar sesión"
+              label="Log out"
               (click)="logout()"
               (click)="closeNavbar()">
             </app-dynamic-navbar-button>
@@ -137,7 +137,7 @@
           <!-- carrito de compras -->
           <div class="position-relative d-flex ms-auto p-0 d-flex align-items-center">
             <app-dynamic-navbar-button
-              icon="cart-shopping"
+              icon="cart-plus"
               routerLink="/cart"
               routerLinkActive="active"
               (mouseenter)="hoveredDropdownItem = 'cart'"
@@ -196,7 +196,7 @@
           <!-- Cambiar tema -->
           <app-dynamic-navbar-button
             icon="circle-half-stroke"
-            label="Cambiar tema"
+            label="Change theme"
             [isButtonOnly]="true"
             (buttonClick)="toggleTheme()"
             (click)="closeNavbar()">

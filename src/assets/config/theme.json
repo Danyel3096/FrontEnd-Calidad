@@ -51,6 +51,18 @@
       "hoverBackground": "#34d399",  
       "hoverText": "#1e293b"
     },
+    "tabs": {
+      "background": "#10b981",       
+      "text": "#ffffff",
+      "hoverBackground": "#34d399",  
+      "hoverText": "#1e293b"
+    },
+    "pagination": {
+      "background": "#10b981",       
+      "text": "#ffffff",
+      "hoverBackground": "#34d399",  
+      "hoverText": "#1e293b"
+    },
     "footer": {
       "background": "#e2e8f0",
       "text": "#334155",
@@ -105,6 +117,18 @@
       "text": "#f8fafc"
     },
     "sidebarButtons": {
+      "background": "#ec4899",       
+      "text": "#ffffff",
+      "hoverBackground": "#f472b6",  
+      "hoverText": "#1e293b"
+    },
+    "tabs": {
+      "background": "#ec4899",       
+      "text": "#ffffff",
+      "hoverBackground": "#f472b6",  
+      "hoverText": "#1e293b"
+    },
+    "pagination": {
       "background": "#ec4899",       
       "text": "#ffffff",
       "hoverBackground": "#f472b6",  
