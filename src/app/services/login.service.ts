@@ -51,6 +51,7 @@ export class LoginService {
         name: user.name
       };
       localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('username', user.name);
       localStorage.setItem('userRole', user.role);  // Guardar el rol del usuario
       localStorage.setItem('token', user.token);    // Aseguramos de guardar el token
     } else {
