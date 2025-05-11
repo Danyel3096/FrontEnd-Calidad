@@ -28,7 +28,7 @@ export const environment = {
   // Categorías
   API_URL_CATEGORIA_CREATE: `${API_URL_BASE}/products/categories`,
   API_URL_CATEGORIA_READALL: `${API_URL_BASE}/products/categories`,
-  API_URL_CATEGORIA_READBYID: `${API_URL_BASE}/products/categories/`,
+  API_URL_CATEGORIA_READBYID: `${API_URL_BASE}api/categories/store/2`,
   API_URL_CATEGORIA_UPDATE: `${API_URL_BASE}/products/categories/`,
   API_URL_CATEGORIA_DELETELOGICALLY: `${API_URL_BASE}/products/categories/`,
 
