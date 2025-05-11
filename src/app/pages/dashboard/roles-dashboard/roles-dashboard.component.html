@@ -55,7 +55,7 @@
             <div class="mb-3">
               <label class="form-label">Role</label>
               <select *ngIf="selectedUser" class="form-control" [(ngModel)]="selectedUser.role" name="role" [disabled]="modalMode === 'view'">
-                <option value="Administrador">Administrador</option>
+                <option value="Admin">Administrador</option>
                 <option value="Vendedor">Vendedor</option>
                 <option value="Cliente">Cliente</option>
               </select>

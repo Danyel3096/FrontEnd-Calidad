@@ -58,6 +58,7 @@
     "glob": "^11.0.2",
     "jquery": "^3.7.1",
     "jszip": "^3.10.1",
+    "jwt-decode": "^4.0.0",
     "ngx-filepond": "^7.0.3",
     "ngxtension": "^5.0.0",
     "pdfmake": "^0.2.19",
