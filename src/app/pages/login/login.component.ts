@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 import * as bootstrap from 'bootstrap';
+import { first } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -42,17 +43,20 @@ export class LoginComponent implements OnInit {
     this.loginService.generateToken(this.loginData).subscribe({
       next: (data: any) => {
         const token = data.token;
-
+        console.log('Token recibido:', token);
         try {
           const decoded: any = jwtDecode(token);
           const role = decoded.role;
+          console.log('nombre decodificado:', decoded.firstName);
+          console.log('apellido decodificado:', decoded.lastName);
 
           // Guardamos el usuario y el token
           this.loginService.setUser({
             sub: decoded.sub,
             id: decoded.id,
             role: decoded.role,
-            name: decoded.name,
+            firstName: decoded.firstName,
+            lastName: decoded.lastName,
             token: token // guardamos el token también
           });
 

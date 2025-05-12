@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, first } from 'rxjs/operators';
 import { environment } from '../../environments/environment.development';
 
 export interface TokenResponse {
@@ -43,16 +43,18 @@ export class LoginService {
 
   // Configurar el usuario en el localStorage
   setUser(user: any): void {
-    if (user && user.sub && user.id && user.role && user.name) {
+    if (user && user.sub && user.id && user.role && user.firstName && user.lastName) {
       const userData = {
         email: user.sub,  // Cambié `sub` por `email`
         id: user.id,
         role: user.role,
-        name: user.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         
       };
       localStorage.setItem('user', JSON.stringify(userData));
-      localStorage.setItem('username', user.name);
+      localStorage.setItem('userFirstName', user.firstName);
+      localStorage.setItem('userLastName', user.lastName);
       localStorage.setItem('userRole', user.role);  // Guardar el rol del usuario
       localStorage.setItem('token', user.token);    // Aseguramos de guardar el token
 
