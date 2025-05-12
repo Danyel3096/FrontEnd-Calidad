@@ -16,9 +16,12 @@ import { Router } from '@angular/router';
 export class SignupComponent implements OnInit {
 
   public user = {
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
+    address: '',
+    createdAt: new Date().toISOString(),
     role: 'CUSTOMER',
     photoUrl: 'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png',
     phoneNumber: '',
@@ -65,16 +68,19 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    this.userService.añadirUsuario(this.user).subscribe(
+    this.userService.createUser(this.user).subscribe(
       (data) => {
         Swal.fire('Éxito', 'Usuario registrado correctamente', 'success').then(() => {
           this.router.navigate(['/login']);
         });
 
         this.user = {
-          name: '',
+          first_name: '',
+          last_name: '',
           email: '',
           password: '',
+          address: '',
+          createdAt: '',
           role: 'CUSTOMER',
           photoUrl: 'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png',
           phoneNumber: '',

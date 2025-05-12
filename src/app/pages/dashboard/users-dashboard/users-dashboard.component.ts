@@ -142,7 +142,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       first_name: '',
       last_name: '',
       email: '',
-      phone: '',
+      phoneNumber: '',
       address: '',
       password: '',
       role: 'Customer',
