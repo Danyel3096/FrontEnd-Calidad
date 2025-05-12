@@ -85,11 +85,11 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       ],
       data: this.users,
       columns: [
-        { data: 'first_name' },
-        { data: 'last_name' },
+        { data: 'firstName' },
+        { data: 'lastName' },
         { data: 'email' },
         { data: 'status' },
-        { data: 'created_at' },
+        { data: 'createdAt' },
         {
           data: null,
           orderable: false,
