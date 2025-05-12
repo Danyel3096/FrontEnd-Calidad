@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
 
 export interface Category {
   id: number;
@@ -15,17 +14,17 @@ export interface Category {
   providedIn: 'root'
 })
 export class CategoriesService {
-  private baseUrl = environment.API_URL; // Base URL
-  private storeCategoryUrl = `${this.baseUrl}`; // Endpoint para categorías por tienda
+  private baseUrl = 'https://tdd-billing-backend.onrender.com/api'; // URL base actual
 
   constructor(private http: HttpClient) {}
 
   /**
-   * Obtiene las categorías filtradas por tienda
+   * Obtiene las categorías para una tienda específica por ID
    * @param storeId - ID de la tienda
-   * @returns Observable con un arreglo de categorías
+   * @returns Observable<Category[]>
    */
   getCategoriesByStore(storeId: number): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.storeCategoryUrl}${storeId}`);
+    const url = `${this.baseUrl}/categories/store/${storeId}`;
+    return this.http.get<Category[]>(url);
   }
 }

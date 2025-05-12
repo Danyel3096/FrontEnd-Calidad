@@ -49,13 +49,13 @@ export class LoginService {
         id: user.id,
         role: user.role,
         name: user.name,
-        store: "2"
+        
       };
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('username', user.name);
       localStorage.setItem('userRole', user.role);  // Guardar el rol del usuario
       localStorage.setItem('token', user.token);    // Aseguramos de guardar el token
-      localStorage.setItem('store', user.data.store);
+
     } else {
       console.error('No se puede guardar el usuario: la estructura del objeto es inválida');
     }
