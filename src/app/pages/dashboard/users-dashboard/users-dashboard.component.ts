@@ -11,6 +11,8 @@ import 'datatables.net-buttons/js/buttons.html5';
 import 'datatables.net-buttons/js/buttons.print';
 import Swal from 'sweetalert2';
 
+import { User } from '../../../interfaces/user.interface';
+import { UserService } from '../../../services/user.service';
 import { BootstrapInitService } from '../../../services/bootstrap-init.service';
 import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
@@ -22,34 +24,28 @@ import { DatatableLanguageService } from '../../../services/datatable-language.s
   templateUrl: './users-dashboard.component.html',
   styleUrls: ['./users-dashboard.component.css']
 })
-
 export class UsersDashboardComponent implements OnInit, AfterViewInit {
 
   constructor(
+      private usersService: UserService,
       private bootstrapInit: BootstrapInitService,
       private bootstrapValidation: BootstrapValidationService,
       private idiomaService: DatatableLanguageService
   ) {}
 
-  selectedUser: any = null;
-  tempUser: any = null; // para edición
+  selectedUser: User | null = null;
+  tempUser: User | null = null;
   modalMode: 'view' | 'edit' | 'create' = 'view';
   userModal: any;
   dataTable: any;
+  users: User[] = [];
 
-  users = [
-    { id: 1, image: '', first_name: 'Juan', last_name: 'Polinecio', email: 'juan@mail.com', address: 'Calle falsa 123', phone: '012345679', password: '1234', role: 'Admin', status: 'Activo', created_at: '2024-03-01' },
-    { id: 2, image: '', first_name: 'Maria', last_name: 'Candela', email: 'maria@mail.com', address: 'Calle falsa 456', phone: '9876543210', password: 'abcd', role: 'Bodeguera', status: 'Inactivo', created_at: '2024-03-05' },
-    { id: 3, image: '', first_name: 'Carlos', last_name: 'Castaño', email: 'carlos@mail.com', address: 'Calle falsa 789', phone: '012345679', password: '5678', role: 'Vendedor', status: 'Activo', created_at: '2024-03-10' },
-    { id: 4, image: '', first_name: 'Joan', last_name: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Customer', status: 'Activo', created_at: '2024-03-15' },
-    { id: 5, image: '', first_name: 'Sebastian', last_name: 'ReSinner', email: 'sebastian@mail.com', address: 'Calle mocha DEF', phone: '012345679', password: 'ijkl', role: 'Sinner', status: 'Inactivo', created_at: '2024-03-20' }
-  ];
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getUsers();
+  }
 
   ngAfterViewInit(): void {
     this.bootstrapInit.initBootstrap();
-
     this.userModal = new Modal(document.getElementById('userModal')!);
 
     const modalEl = document.getElementById('userModal');
@@ -59,6 +55,19 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     });
 
     this.initDataTable();
+  }
+
+  getUsers(): void {
+    this.usersService.getUsers().subscribe({
+      next: (data) => {
+        this.users = data;
+        console.log("Usuarios cargados:", this.users);
+        this.initDataTable();
+      },
+      error: (err) => {
+        console.error('Error al obtener usuarios:', err);
+      }
+    });
   }
 
   initDataTable(): void {
@@ -76,11 +85,6 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       ],
       data: this.users,
       columns: [
-        /*{ data: 'id' },*/
-        /*{ 
-          data: null,
-          render: data => `${data.first_name} ${data.last_name}`
-        }*/
         { data: 'first_name' },
         { data: 'last_name' },
         { data: 'email' },
@@ -100,26 +104,12 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
         { orderable: false, targets: -1 }
       ],
       initComplete: () => {
-        // Insertar botón "Crear usuario" al centro, junto a los botones de exportación
-        //const btnHtml = `<button id="btnAddUser" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear usuario</button>`;
         const btnHtml = `<button id="btnAddUser" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear usuario</button>`;
         $('.custom-button-col').append(btnHtml);
-
-        // Asociar evento al nuevo botón
-        $('#btnAddUser').on('click', () => {
-          this.createUser();
-        });
-
-        this.bindTableActions(); // tus acciones de ver, editar, eliminar
+        $('#btnAddUser').on('click', () => this.createUser());
+        this.bindTableActions();
       }
     });
-  }
-
-  redrawTable(): void {
-    this.dataTable.clear();
-    this.dataTable.rows.add(this.users);
-    this.dataTable.draw();
-    this.bindTableActions();
   }
 
   bindTableActions(): void {
@@ -146,53 +136,59 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  //OJO: Falta crear la función para crear un nuevo usuario, me basé en editUser para crear este ejemplo
   createUser(): void {
     this.selectedUser = {
+      id: 0,
       first_name: '',
+      last_name: '',
       email: '',
+      phone: '',
+      address: '',
       password: '',
-      status: 'Activo',
-      created_at: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+      role: 'Customer',
+      status: true,
+      createdAt: new Date().toISOString(),
+      photoUrl: ''
     };
     this.modalMode = 'create';
     this.userModal.show();
   }
+  
 
-  seeUser(user: any): void {
+  seeUser(user: User): void {
     this.selectedUser = { ...user };
     this.modalMode = 'view';
     this.userModal.show();
   }
 
-  editUser(user: any): void {
-    this.tempUser = { ...user }; // para edición
+  editUser(user: User): void {
+    this.tempUser = { ...user };
     this.selectedUser = { ...this.tempUser };
     this.modalMode = 'edit';
     this.userModal.show();
   }
 
-  deleteUser(user: any): void {
+  deleteUser(user: User): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: `¿Seguro que deseas eliminar a ${user.first_name}?`,
+      text: `¿Seguro que deseas eliminar a ${user.first_name} ${user.last_name}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.users = this.users.filter(u => u.id !== user.id);
-        this.redrawTable();
-        Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
+        this.usersService.deleteUser(user.id!).subscribe(() => {
+          this.users = this.users.filter(u => u.id !== user.id);
+          this.redrawTable();
+          Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
+        });
       }
     });
   }
 
   saveUserChanges(): void {
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
-
-    // Añade la clase que dispara estilos de Bootstrap
     form.classList.add('was-validated');
 
     if (!this.bootstrapValidation.validateForm(form)) {
@@ -202,19 +198,30 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     if (!this.selectedUser) return;
 
     if (this.modalMode === 'edit') {
-      const index = this.users.findIndex(u => u.id === this.selectedUser.id);
-      if (index !== -1) {
-        this.users[index] = { ...this.selectedUser };
-      }
+      this.usersService.updateUser(this.selectedUser!.id!, this.selectedUser!).subscribe(updatedUser => {
+        const index = this.users.findIndex(u => u.id === updatedUser.id);
+        if (index !== -1) {
+          this.users[index] = updatedUser;
+        }
+        Swal.fire('Guardado', 'Los cambios han sido guardados correctamente', 'success');
+        this.redrawTable();
+        this.userModal.hide();
+      });
     } else if (this.modalMode === 'create') {
-      // Generar ID automático (consecutivo)
-      const newId = this.users.length ? Math.max(...this.users.map(u => u.id)) + 1 : 1;
-      const newUser = { ...this.selectedUser, id: newId };
-      this.users.push(newUser);
+      this.usersService.createUser(this.selectedUser).subscribe(newUser => {
+        this.users.push(newUser);
+        Swal.fire('Guardado', 'El nuevo usuario ha sido creado', 'success');
+        this.redrawTable();
+        this.userModal.hide();
+      });
     }
-    
-    Swal.fire('Guardado', 'Los cambios han sido guardados correctamente', 'success');
-    this.redrawTable();
-    this.userModal.hide();
+  }
+
+  redrawTable(): void {
+    this.dataTable.clear();
+    this.dataTable.rows.add(this.users);
+    this.dataTable.draw();
+    this.bindTableActions();
   }
 }
+

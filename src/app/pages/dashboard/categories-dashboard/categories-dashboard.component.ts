@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import { CategoriesService, Category } from '../../../services/categories-dashboard.service';
+import { User } from '../../../interfaces/user.interface';
 import $ from 'jquery';
 import 'datatables.net-bs5';
 import 'datatables.net-buttons-bs5';
@@ -40,29 +41,30 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.categories = data;
         console.log("Categorías cargadas:", this.categories);
-
-        // Asegúrate de inicializar DataTable después de cargar los datos
-        setTimeout(() => {
-          $('#myTable').DataTable({
-            dom: "<'row'<'col-4'l> <'col-4 text-center'B> <'col-4'f> <'col-4'>>" +
-                 "<'row'<'col-12'tr>>" +
-                 "<'row'<'col-5'i><'col-7'p>>",
-            buttons: [
-              { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
-              { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
-              { extend: 'excel', className: 'btn btn-info', exportOptions: { columns: ':not(.no-export)' } },
-              { extend: 'pdf', className: 'btn btn-danger', exportOptions: { columns: ':not(.no-export)' } },
-              { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } }
-            ],
-            columnDefs: [
-              { orderable: false, targets: -1 }
-            ]
-          });
-        }, 0);
+        this.initDataTable(); // Inicializa la tabla después de cargar los datos
       },
       error: (err) => {
         console.error('Error al obtener categorías:', err);
       }
+    });
+  }
+
+  initDataTable(): void {
+    // Inicializa el DataTable después de que los datos se hayan cargado
+    $('#myTable').DataTable({
+      dom: "<'row'<'col-4'l> <'col-4 text-center'B> <'col-4'f> <'col-4'>>" +
+           "<'row'<'col-12'tr>>" +
+           "<'row'<'col-5'i><'col-7'p>>",
+      buttons: [
+        { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'excel', className: 'btn btn-info', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'pdf', className: 'btn btn-danger', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } }
+      ],
+      columnDefs: [
+        { orderable: false, targets: -1 }
+      ]
     });
   }
 
