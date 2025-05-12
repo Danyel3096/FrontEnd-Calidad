@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from '../../interfaces/user.interface';
 
 @Component({
   standalone: true,
@@ -15,15 +16,15 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
 
-  public user = {
-    first_name: '',
-    last_name: '',
+  user: User = {
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     address: '',
-    createdAt: new Date().toISOString(),
+    createdAt: '',
     role: 'CUSTOMER',
-    photoUrl: 'https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png',
+    photoUrl: 'https://...',
     phoneNumber: '',
     status: true
   };
@@ -75,8 +76,8 @@ export class SignupComponent implements OnInit {
         });
 
         this.user = {
-          first_name: '',
-          last_name: '',
+          firstName: '',
+          lastName: '',
           email: '',
           password: '',
           address: '',

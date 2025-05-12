@@ -170,7 +170,7 @@ export class RolesDashboardComponent implements OnInit, AfterViewInit {
   deleteUser(user: any): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: `¿Seguro que deseas eliminar a ${user.first_name}?`,
+      text: `¿Seguro que deseas eliminar a ${user.firstName}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',

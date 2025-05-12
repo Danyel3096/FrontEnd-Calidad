@@ -62,7 +62,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.users = data;
         console.log("Usuarios cargados:", this.users);
-        this.initDataTable();
+        this.redrawTable();
       },
       error: (err) => {
         console.error('Error al obtener usuarios:', err);
@@ -139,8 +139,8 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   createUser(): void {
     this.selectedUser = {
       id: 0,
-      first_name: '',
-      last_name: '',
+      firstName: '',
+      lastName: '',
       email: '',
       phoneNumber: '',
       address: '',
@@ -171,7 +171,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   deleteUser(user: User): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: `¿Seguro que deseas eliminar a ${user.first_name} ${user.last_name}?`,
+      text: `¿Seguro que deseas eliminar a ${user.firstName} ${user.lastName}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',

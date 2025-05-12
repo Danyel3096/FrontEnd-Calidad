@@ -25,6 +25,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   selectedCategory: any = null;
   modalMode: 'view' | 'edit' = 'view';
   categoryModal: any;
+  dataTable: any;
   categories: Category[] = [];
   storeId: number = 2;
 
@@ -34,6 +35,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.categoryModal = new Modal(document.getElementById('categoryModal')!);
+    this.initDataTable();
   }
 
   getCategories(): void {
@@ -41,7 +43,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.categories = data;
         console.log("Categorías cargadas:", this.categories);
-        this.initDataTable(); // Inicializa la tabla después de cargar los datos
+        this.redrawTable(); // Inicializa la tabla después de cargar los datos
       },
       error: (err) => {
         console.error('Error al obtener categorías:', err);
@@ -50,8 +52,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   }
 
   initDataTable(): void {
-    // Inicializa el DataTable después de que los datos se hayan cargado
-    $('#myTable').DataTable({
+    this.dataTable = $('#myTable').DataTable({
       dom: "<'row'<'col-4'l> <'col-4 text-center'B> <'col-4'f> <'col-4'>>" +
            "<'row'<'col-12'tr>>" +
            "<'row'<'col-5'i><'col-7'p>>",
@@ -80,23 +81,57 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
     this.categoryModal.show();
   }
 
-  deleteCategory(categoryId: number) {
+  deleteCategory(category: Category): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: '¿Seguro que deseas eliminar esta categoría?',
+      text: `¿Seguro que deseas eliminar a ${category.name}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.removeCategory(categoryId);
-        Swal.fire('Eliminado', 'La categoría ha sido eliminada', 'success');
+        this.categoriesService.deleteCategory(category.id!).subscribe(() => {
+          this.categories = this.categories.filter(u => u.id !== category.id);
+          this.redrawTable();
+          Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
+        });
       }
     });
   }
 
   removeCategory(categoryId: number) {
     this.categories = this.categories.filter(c => c.id !== categoryId);
+  }
+
+  redrawTable(): void {
+    this.dataTable.clear();
+    this.dataTable.rows.add(this.categories);
+    this.dataTable.draw();
+    this.bindTableActions();
+  }
+
+  bindTableActions(): void {
+    $('#categoriesTable').off('click', '.btn-see-category');
+    $('#categoriesTable').off('click', '.btn-edit-category');
+    $('#categoriesTable').off('click', '.btn-delete-category');
+
+    $('#categoriesTable').on('click', '.btn-see-category', (e) => {
+      const id = +$(e.currentTarget).data('id');
+      const category = this.categories.find(u => u.id === id);
+      if (category) this.seeCategory(category);
+    });
+
+    $('#categoriesTable').on('click', '.btn-edit-category', (e) => {
+      const id = +$(e.currentTarget).data('id');
+      const category = this.categories.find(u => u.id === id);
+      if (category) this.editCategory(category);
+    });
+
+    $('#categoriesTable').on('click', '.btn-delete-category', (e) => {
+      const id = +$(e.currentTarget).data('id');
+      const category = this.categories.find(u => u.id === id);
+      if (category) this.deleteCategory(category);
+    });
   }
 }

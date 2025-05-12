@@ -27,4 +27,9 @@ export class CategoriesService {
     const url = `${this.baseUrl}/categories/store/${storeId}`;
     return this.http.get<Category[]>(url);
   }
+
+  deleteCategory(categoryId: number): Observable<void> {
+    const url = `${this.baseUrl}/categories/${categoryId}`;
+    return this.http.delete<void>(url);
+  }
 }
