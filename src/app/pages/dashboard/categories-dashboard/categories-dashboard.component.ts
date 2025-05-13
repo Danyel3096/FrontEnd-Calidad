@@ -23,7 +23,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   constructor(private categoriesService: CategoriesService) {}
 
   selectedCategory: any = null;
-  modalMode: 'view' | 'edit' = 'view';
+  modalMode: 'view' | 'edit' | 'create' = 'view';
   categoryModal: any;
   dataTable: any;
   categories: Category[] = [];
@@ -52,10 +52,10 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   }
 
   initDataTable(): void {
-    this.dataTable = $('#myTable').DataTable({
-      dom: "<'row'<'col-4'l> <'col-4 text-center'B> <'col-4'f> <'col-4'>>" +
+    this.dataTable = $('#categoriesTable').DataTable({
+      dom: "<'row'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end mb-2'B>>" +
            "<'row'<'col-12'tr>>" +
-           "<'row'<'col-5'i><'col-7'p>>",
+           "<'row'<'col-3'i><'col-6 d-flex justify-content-center'p><'col-3 text-end custom-button-col mt-2'>>",
       buttons: [
         { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
         { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
@@ -63,9 +63,39 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
         { extend: 'pdf', className: 'btn btn-danger', exportOptions: { columns: ':not(.no-export)' } },
         { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } }
       ],
+      data: this.categories,
+      columns: [
+        {data: 'id'},
+        {data: 'name'},
+        {data: 'description'},
+        {data: 'status'},
+        {data: 'createdAt'},
+        {
+          data: null,
+          orderable: false,
+          render: (data: any, type: any, row: any) => `
+            <div class="text-center"><button class="btn btn-sm btn-info btn-see-category" title="Ver" data-id="${row.id}"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-warning btn-edit-category" title="Editar" data-id="${row.id}"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger btn-delete-category" title="Eliminar" data-id="${row.id}"><i class="fas fa-trash"></i></button></div>
+          ` 
+        }
+      ],
       columnDefs: [
-        { orderable: false, targets: -1 }
-      ]
+        {orderable: false, targets: -1}, 
+      ],
+      initComplete: () => {
+        // Insertar botón "Crear categoría" al centro, junto a los botones de exportación
+        //const btnHtml = `<button id="btnAddCategory" class="btn btn-success btn-sm ms-2"><i class="fas fa-plus"></i> Crear categoría</button>`;
+        const btnHtml = `<button id="btnAddCategory" class="btn btn-success mb-1"><i class="fas fa-plus"></i> Crear categoría</button>`;
+        $('.custom-button-col').append(btnHtml);
+
+        // Asociar evento al nuevo botón
+        $('#btnAddCategory').on('click', () => {
+          this.createCategory();
+        });
+
+        this.bindTableActions(); // tus acciones de ver, editar, eliminar
+      }
     });
   }
 
@@ -78,6 +108,17 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   editCategory(category: any) {
     this.selectedCategory = { ...category };
     this.modalMode = 'edit';
+    this.categoryModal.show();
+  }
+
+  createCategory(): void {
+    this.selectedCategory = {
+      name: '',
+      description: '',
+      status: 'Activo',
+      createdAt: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+    };
+    this.modalMode = 'create';
     this.categoryModal.show();
   }
 
