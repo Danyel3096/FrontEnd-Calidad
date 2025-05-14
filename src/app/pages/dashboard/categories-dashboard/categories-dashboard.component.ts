@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import { CategoriesService, Category } from '../../../services/categories-dashboard.service';
-import { User } from '../../../interfaces/user.interface';
+
 import $ from 'jquery';
 import 'datatables.net-bs5';
 import 'datatables.net-buttons-bs5';
@@ -11,6 +11,9 @@ import 'datatables.net-buttons/js/buttons.html5';
 import 'datatables.net-buttons/js/buttons.print';
 import 'datatables.net-buttons/js/buttons.colVis';
 import Swal from 'sweetalert2';
+import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
+import { BootstrapInitService } from '../../../services/bootstrap-init.service';
+import { DatatableLanguageService } from '../../../services/datatable-language.service';
 
 @Component({
   standalone: true,
@@ -20,9 +23,15 @@ import Swal from 'sweetalert2';
   styleUrls: ['./categories-dashboard.component.css']
 })
 export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
-  constructor(private categoriesService: CategoriesService) {}
+  constructor(
+    private categoriesService: CategoriesService,
+    private bootstrapInit: BootstrapInitService,
+    private bootstrapValidation: BootstrapValidationService,
+    private idiomaService: DatatableLanguageService
+  ) {}
 
   selectedCategory: any = null;
+  tempCategory: Category | null = null;
   modalMode: 'view' | 'edit' | 'create' = 'view';
   categoryModal: any;
   dataTable: any;
@@ -34,7 +43,15 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.bootstrapInit.initBootstrap();
     this.categoryModal = new Modal(document.getElementById('categoryModal')!);
+
+    const modalEl = document.getElementById('categoryModal');
+    modalEl?.addEventListener('hidden.bs.modal', () => {
+      this.selectedCategory = null;
+      this.modalMode = 'view';
+    });
+
     this.initDataTable();
   }
 
@@ -53,6 +70,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
 
   initDataTable(): void {
     this.dataTable = $('#categoriesTable').DataTable({
+      language: this.idiomaService.getIdioma(),
       dom: "<'row'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end mb-2'B>>" +
            "<'row'<'col-12'tr>>" +
            "<'row'<'col-3'i><'col-6 d-flex justify-content-center'p><'col-3 text-end custom-button-col mt-2'>>",
@@ -90,10 +108,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
         $('.custom-button-col').append(btnHtml);
 
         // Asociar evento al nuevo botón
-        $('#btnAddCategory').on('click', () => {
-          this.createCategory();
-        });
-
+        $('#btnAddCategory').on('click', () => this.createCategory());
         this.bindTableActions(); // tus acciones de ver, editar, eliminar
       }
     });
@@ -106,16 +121,18 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   }
 
   editCategory(category: any) {
-    this.selectedCategory = { ...category };
+    this.tempCategory = { ...category };
+    this.selectedCategory = { ...this.tempCategory };
     this.modalMode = 'edit';
     this.categoryModal.show();
   }
 
   createCategory(): void {
     this.selectedCategory = {
+      id: 0,
       name: '',
       description: '',
-      status: 'Activo',
+      status: true,
       createdAt: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
     this.modalMode = 'create';
@@ -174,5 +191,36 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
       const category = this.categories.find(u => u.id === id);
       if (category) this.deleteCategory(category);
     });
+  }
+
+  saveCategoryChanges(): void {
+    console.log('Guardando cambios...');
+    const form = document.querySelector('form.needs-validation') as HTMLFormElement;
+    form.classList.add('was-validated');
+
+    if (!this.bootstrapValidation.validateForm(form)) {
+      return;
+    }
+
+    if (!this.selectedCategory) return;
+
+    if (this.modalMode === 'edit') {
+      this.categoriesService.UpdateCategory(this.selectedCategory!.id!, this.selectedCategory!).subscribe(updatedUser => {
+        const index = this.categories.findIndex(u => u.id === updatedUser.id);
+        if (index !== -1) {
+          this.categories[index] = updatedUser;
+        }
+        Swal.fire('Guardado', 'Los cambios han sido guardados correctamente', 'success');
+        this.redrawTable();
+        this.categoryModal.hide();
+      });
+    } else if (this.modalMode === 'create') {
+      this.categoriesService.createCategory(this.selectedCategory).subscribe(newCategory => {
+        this.categories.push(newCategory);
+        Swal.fire('Guardado', 'El nuevo usuario ha sido creado', 'success');
+        this.redrawTable();
+        this.categoryModal.hide();
+      });
+    }
   }
 }
