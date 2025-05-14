@@ -18,12 +18,14 @@ export const environment = {
   API_URL: API_URL_BASE,
 
   // Productos
-  API_URL_PRODUCTO_CREATE: `${API_URL_BASE}/products`,
-  API_URL_PRODUCTO_READALL: `${API_URL_BASE}/products`,
-  API_URL_PRODUCTO_READBYID: `${API_URL_BASE}/products/`,
-  API_URL_PRODUCTO_READBYCATEGORY: `${API_URL_BASE}/products/category/`,
-  API_URL_PRODUCTO_UPDATE: `${API_URL_BASE}/products/`,
-  API_URL_PRODUCTO_DELETELOGICALLY: `${API_URL_BASE}/products/`,
+  API_URL_PRODUCTO_CREATE: `${API_URL_BASE}api/products/`,
+  API_URL_PRODUCTO_UPDATE: `${API_URL_BASE}api/products/`,
+  API_URL_PRODUCTO_DELETELOGICALLY: `${API_URL_BASE}api/products/`,
+  API_URL_PRODUCTO_READALL: `${API_URL_BASE}api/products/`,
+  
+  API_URL_PRODUCTO_READBYSTORE: `${API_URL_BASE}api/products/store/`, 
+ 
+
 
   // Categorías
   API_URL_CATEGORIA_CREATE: `${API_URL_BASE}/products/categories`,
@@ -34,7 +36,8 @@ export const environment = {
 
   // Login (autenticación)
   API_URL_USUARIO_LOGIN: `${API_URL_BASE}rest/auth/login`, // URL de login actualizada
-  API_URL_USUARIO_REGISTRO: `${API_URL_BASE}users`
+  API_URL_USUARIO_REGISTRO: `${API_URL_BASE}users`,
+  API_URL_USUARIO_UPDATE: `${API_URL_BASE}users/`
 
 };
 
