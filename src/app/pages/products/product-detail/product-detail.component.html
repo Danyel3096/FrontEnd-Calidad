@@ -7,7 +7,7 @@
         <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
           <img
             class="w-full"
-            [src]="productDetailState.product()?.image"
+            [src]="productDetailState.product()?.url"
             alt=""
           />
         </div>
@@ -16,7 +16,7 @@
           <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
           >
-            {{ productDetailState.product()?.title }}
+            {{ productDetailState.product()?.name }}
           </h1>
           <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
             <p

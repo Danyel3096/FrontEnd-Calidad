@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductCardComponent } from '../../../components/product-card/product-card.component';
 import { CartStateService } from '../../../services/cart-state.service';
 import { ProductsService } from '../../../services/product.service';
+import { CategoriesService } from '../../../services/categories-dashboard.service'; // Importa el servicio de categorías
 import { Product } from '../../../interfaces/product.interface';
 import { TabsColors } from '../../../interfaces/dynamic-colors.interface';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
@@ -17,6 +18,7 @@ import { DynamicPageTabsComponent } from '../../../components/dynamic-page-tabs/
 })
 export default class ProductsListComponent implements OnInit {
   private productsService = inject(ProductsService);
+  private categoryService = inject(CategoriesService); // Inyecta el servicio de categorías
   private cartService = inject(CartStateService);
 
   allProducts: Product[] = [];
@@ -43,7 +45,7 @@ export default class ProductsListComponent implements OnInit {
     };
 
   ngOnInit(): void {
-    this.loadCategories();
+    this.loadCategories(); // Llama al método para cargar las categorías
     this.loadAllProducts();
 
     // Suscribirse a la sección 'button' de la paleta activa
@@ -54,7 +56,7 @@ export default class ProductsListComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.productsService.getCategories().subscribe((res: string[]) => {
+    this.categoryService.getCategories().subscribe((res: string[]) => {
       this.categories = ['all', ...res];
     });
   }
