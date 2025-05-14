@@ -1,86 +1,73 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { BaseHttpService } from './base-http.service';
-import { Product } from '../interfaces/product.interface';
-import { environment } from '../../environments/environment.development';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Product } from '../interfaces/product.interface';  // Aquí importas la interfaz
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class ProductsService extends BaseHttpService {
-  getProducts(page: number, limit: number): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrlProducts}`, {
-      params: {
-        limit: limit.toString(),
-        page: page.toString(),
-      },
-    });
-  }
-  addProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(`${environment.API_URL}/products`, product);
-  }
+export class ProductsService {
+  private baseUrl = 'https://tdd-billing-backend.onrender.com/api'; // URL base actual
 
-  getProduct(id: string): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrlProducts}/${id}`);//return this.http.get<Product>(`${environment.API_URL_PRODUCTO_READBYID}/${id}`);
+  constructor(private http: HttpClient) {}
+
+  /**
+   * Obtiene los productos para una tienda específica por ID
+   * @param storeId - ID de la tienda
+   * @returns Observable<Product[]>
+   */
+  getProductsByStore(storeId: number): Observable<Product[]> {
+    const url = `${this.baseUrl}/products/store/${storeId}`;
+    return this.http.get<Product[]>(url);
   }
 
-  // Nuevos métodos para categorías
-  getCategories(): Observable<string[]> {
-    return this.http.get<string[]>(environment.API_URL_CATEGORIA_READALL);
+  /**
+   * Obtiene un producto por su ID
+   * @param productId - ID del producto
+   * @returns Observable<Product>
+   */
+  getProductById(productId: number): Observable<Product> {
+    const url = `${this.baseUrl}/products/${productId}`;
+    return this.http.get<Product>(url);
   }
 
-  getProductsByCategory(category: string): Observable<Product[]> {
-    return this.http.get<Product[]>(`${environment.API_URL}/products/category/${category}`);
+    getAllProducts(): Observable<Product[]> {
+    const url = `${this.baseUrl}/products`; // Asegúrate de que la URL sea correcta
+    return this.http.get<Product[]>(url);
   }
 
-  // Método adicional para traer todos los productos sin paginación
-  getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${environment.API_URL_PRODUCTO_READALL}`);
+    getProductsByCategory(category: string): Observable<Product[]> {
+    const url = `${this.baseUrl}/products/category/${category}`; // Ajusta la URL según tu API
+    return this.http.get<Product[]>(url);
+  }
+  /**
+   * Crea un nuevo producto
+   * @param product - Objeto de producto a crear
+   * @returns Observable<Product>
+   */
+  createProduct(product: Product): Observable<Product> {
+    const url = `${this.baseUrl}/products`;
+    return this.http.post<Product>(url, product);
   }
 
-  // Método para eliminar productos (lógica)
-  deleteProduct(id: string): Observable<void> {
-    return this.http.delete<void>(`${environment.API_URL_PRODUCTO_DELETELOGICALLY}/${id}`);
+  /**
+   * Actualiza un producto existente
+   * @param productId - ID del producto
+   * @param product - Objeto de producto con los nuevos datos
+   * @returns Observable<Product>
+   */
+  updateProduct(productId: number, product: Product): Observable<Product> {
+    const url = `${this.baseUrl}/products/${productId}`;
+    return this.http.put<Product>(url, product);
   }
 
-  // Método para actualizar producto
-  updateProduct(id: string, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${environment.API_URL_PRODUCTO_UPDATE}/${id}`, product);
+  /**
+   * Elimina un producto por su ID
+   * @param productId - ID del producto
+   * @returns Observable<void>
+   */
+  deleteProduct(productId: number): Observable<void> {
+    const url = `${this.baseUrl}/products/${productId}`;
+    return this.http.delete<void>(url);
   }
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class MockProductService {
-  private suppliers: Products[] = [
-    { id: 1, name: 'Product A', description: 'Lorem ipsum 1', category: 'Ropa' },
-    { id: 2, name: 'Product B', description: 'Lorem ipsum 2', category: 'Hogar' },
-    { id: 3, name: 'Product C', description: 'Lorem ipsum 3', category: 'Electronica' },
-    { id: 4, name: 'Product D', description: 'Lorem ipsum 4', category: 'Ropa' },
-  ];
-
-  getProductsList(): Observable<Products[]> {
-    return of(this.suppliers);
-  }
-
-  // Método simulado para categorías únicas
-  getCategories(): Observable<string[]> {
-    const categories = [...new Set(this.suppliers.map(p => p.category))];
-    return of(categories);
-  }
-
-  // Filtrar productos por categoría simulada
-  getProductsByCategory(category: string): Observable<Products[]> {
-    const filtered = this.suppliers.filter(p => p.category === category);
-    return of(filtered);
-  }
-}
-
-// Interfaz del mock
-export interface Products {
-  id: number;
-  name: string;
-  description: string;
-  category: string;
 }

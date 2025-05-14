@@ -10,7 +10,7 @@
     >
       <img
         class="h-20 w-20"
-        [src]="productCartItem().product.image"
+        [src]="productCartItem().product.url"
         alt="Product image"
       />
     </a>
@@ -87,7 +87,7 @@
         [routerLink]="['/product', productCartItem().product.id]"
         class="text-base font-medium hover:underline text-gray-900 dark:text-black"
       >
-        {{ productCartItem().product.title }}
+        {{ productCartItem().product.url }}
       </a>
 
       <p

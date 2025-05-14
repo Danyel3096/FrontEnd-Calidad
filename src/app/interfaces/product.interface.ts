@@ -1,16 +1,15 @@
 export interface Product {
   id: number;
-  title: string;
-  price: number;
+  name: string;
   description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+  price: number;
   stock: number;
+  url: string;
+  ratingRate: number;
+  ratingCount: number;
+  status: boolean;
 }
+
   
   export interface ProductItemCart {
     product: Product;
