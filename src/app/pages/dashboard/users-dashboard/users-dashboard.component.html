@@ -8,6 +8,7 @@
           <th>Apellidos</th>
           <th>Email</th>
           <th>Estado</th>
+          <th>Dirección</th>
           <th>Fecha creación</th>
           <th class="text-center no-export">Acciones</th>
         </tr>
@@ -84,6 +85,7 @@
               Please write your phone.
             </div>
           </div>
+          <!--
           <div *ngIf="modalMode !== 'view'" class="mb-3">
             <label class="form-label">Password</label>
             <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" required>
@@ -94,6 +96,7 @@
               Please write your password.
             </div>
           </div>
+          -->
           <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
           <div class="mb-3">
             <label class="form-label">Estado</label>

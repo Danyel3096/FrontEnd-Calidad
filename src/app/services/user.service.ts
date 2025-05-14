@@ -7,7 +7,7 @@ import { User } from '../interfaces/user.interface';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = 'https://tdd-billing-backend.onrender.com'; // URL base actual
+  private baseUrl = 'https://tdd-billing-backend.onrender.com/api'; // URL base actual
 
   constructor(private http: HttpClient) {}
 

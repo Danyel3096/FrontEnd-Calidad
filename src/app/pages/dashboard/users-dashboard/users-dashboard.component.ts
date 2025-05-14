@@ -16,13 +16,15 @@ import { UserService } from '../../../services/user.service';
 import { BootstrapInitService } from '../../../services/bootstrap-init.service';
 import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   standalone: true,
   imports: [CommonModule, FormsModule],
   selector: 'app-users-dashboard',
   templateUrl: './users-dashboard.component.html',
-  styleUrls: ['./users-dashboard.component.css']
+  styleUrls: ['./users-dashboard.component.css'],
+  providers: [DatePipe],
 })
 export class UsersDashboardComponent implements OnInit, AfterViewInit {
 
@@ -30,7 +32,8 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       private usersService: UserService,
       private bootstrapInit: BootstrapInitService,
       private bootstrapValidation: BootstrapValidationService,
-      private idiomaService: DatatableLanguageService
+      private idiomaService: DatatableLanguageService,
+      private datePipe: DatePipe
   ) {}
 
   selectedUser: User | null = null;
@@ -39,6 +42,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   userModal: any;
   dataTable: any;
   users: User[] = [];
+  storeId: number = 2;
 
   ngOnInit(): void {
     this.getUsers();
@@ -58,7 +62,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   }
 
   getUsers(): void {
-    this.usersService.getUsers().subscribe({
+    this.usersService.getUsersByStore(this.storeId).subscribe({
       next: (data) => {
         this.users = data;
         console.log("Usuarios cargados:", this.users);
@@ -88,8 +92,15 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
         { data: 'firstName' },
         { data: 'lastName' },
         { data: 'email' },
-        { data: 'status' },
-        { data: 'createdAt' },
+        { 
+          data: 'status',
+          render: data => data ? 'Activo' : 'Inactivo'
+        },
+        { data: 'address' },
+        { 
+          data: 'createdAt',
+          render: data => this.datePipe.transform(data, 'dd/MM/yyyy')
+         },
         {
           data: null,
           orderable: false,
@@ -145,7 +156,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       phoneNumber: '',
       address: '',
       password: '',
-      role: 'Customer',
+      role: '',
       status: true,
       createdAt: new Date().toISOString(),
       photoUrl: ''
@@ -198,6 +209,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     if (!this.selectedUser) return;
 
     if (this.modalMode === 'edit') {
+      console.log('Editando usuario:', this.selectedUser);
       this.usersService.updateUser(this.selectedUser!.id!, this.selectedUser!).subscribe(updatedUser => {
         const index = this.users.findIndex(u => u.id === updatedUser.id);
         if (index !== -1) {
