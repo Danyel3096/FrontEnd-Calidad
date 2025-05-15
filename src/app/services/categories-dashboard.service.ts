@@ -23,6 +23,11 @@ export class CategoriesService {
    * @param storeId - ID de la tienda
    * @returns Observable<Category[]>
    */
+
+  getCategories(): Observable<string[]> {
+    const url = `${this.baseUrl}/categories`; // Asegúrate de que la URL sea correcta
+    return this.http.get<string[]>(url);
+  }
   getCategoriesByStore(storeId: number): Observable<Category[]> {
     const url = `${this.baseUrl}/categories/store/${storeId}`;
     return this.http.get<Category[]>(url);

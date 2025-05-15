@@ -12,7 +12,6 @@ interface State {
 @Injectable({
   providedIn: 'root'
 })
-
 export class ProductDetailStateService {
 
   constructor() { }
@@ -29,7 +28,7 @@ export class ProductDetailStateService {
     actionSources: {
       getById: (_state, $: Observable<string>) =>
         $.pipe(
-          switchMap((id) => this.productsService.getProduct(id)),
+          switchMap((id) => this.productsService.getProductById(+id)), // Cambié getProduct a getProductById
           map((data) => ({ product: data, status: 'success' as const })),
         ),
     },
