@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user.interface';
+import { environment } from '../../environments/environment.development'; // Cambia la ruta según tu estructura de carpetas
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,14 @@ export class UserService {
    * Obtiene todos los usuarios
    * @returns Observable<User[]>
    */
-  getUsers(): Observable<User[]> {
+  
+  /*getUsers(): Observable<User[]> {
     const url = `${this.baseUrl}/users`;
+    return this.http.get<User[]>(url);
+  }
+  */
+  getUsers(): Observable<User[]> {
+    const url = `${environment.API_URL_USUARIO_REGISTRO}`;
     return this.http.get<User[]>(url);
   }
 
@@ -26,7 +33,7 @@ export class UserService {
    * @returns Observable<User[]>
    */
   getUsersByStore(storeId: number): Observable<User[]> {
-    const url = `${this.baseUrl}/users/store/${storeId}`;
+    const url = `${environment.API_URL_USUARIO_REGISTRO}/store/${storeId}`;
     return this.http.get<User[]>(url);
   }
 
@@ -57,6 +64,7 @@ export class UserService {
    * @returns Observable<User>
    */
   updateUser(userId: number, user: User): Observable<User> {
+    delete user.id; // Eliminar el ID del objeto user antes de enviarlo
     const url = `${this.baseUrl}/users/${userId}`;
     return this.http.put<User>(url, user);
   }
