@@ -18,6 +18,9 @@ import { BootstrapValidationService } from '../../../services/bootstrap-validati
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
 import { DatePipe } from '@angular/common';
 
+interface UserWithMessage extends User {
+  message?: string;
+}
 @Component({
   standalone: true,
   imports: [CommonModule, FormsModule],
@@ -35,6 +38,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       private idiomaService: DatatableLanguageService,
       private datePipe: DatePipe
   ) {}
+
 
   selectedUser: User | null = null;
   tempUser: User | null = null;
@@ -198,36 +202,100 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
+  
+
   saveUserChanges(): void {
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
     form.classList.add('was-validated');
-
+  
     if (!this.bootstrapValidation.validateForm(form)) {
       return;
     }
-
+  
     if (!this.selectedUser) return;
-
+  
     if (this.modalMode === 'edit') {
+      this.selectedUser.password = "12345";
       console.log('Editando usuario:', this.selectedUser);
-      this.usersService.updateUser(this.selectedUser!.id!, this.selectedUser!).subscribe(updatedUser => {
-        const index = this.users.findIndex(u => u.id === updatedUser.id);
-        if (index !== -1) {
-          this.users[index] = updatedUser;
+  
+      this.usersService.updateUser(this.selectedUser!.id!, this.selectedUser!).subscribe({
+        next: (updatedUser : UserWithMessage) => {
+          const index = this.users.findIndex(u => u.id === updatedUser.id);
+          if (index !== -1) {
+            this.users[index] = updatedUser;
+          }
+  
+          Swal.fire({
+            icon: 'success',
+            title: 'Guardado',
+            text: `Los cambios han sido guardados correctamente.\nMensaje del servidor: ${updatedUser.message || 'Actualización exitosa.'}`,
+            didOpen: () => {
+              const titleEl = document.querySelector('.swal2-title');
+              if (titleEl) {
+                titleEl.setAttribute('style', 'color: black;');
+              }
+            }
+          });
+  
+          this.redrawTable();
+          this.userModal.hide();
+        },
+        error: (err) => {
+          console.error('Error al actualizar:', err);
+  
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `No se pudo actualizar el usuario.\nMensaje del servidor: ${err.error?.message || 'Error desconocido.'}`,
+            didOpen: () => {
+              const titleEl = document.querySelector('.swal2-title');
+              if (titleEl) {
+                titleEl.setAttribute('style', 'color: black;');
+              }
+            }
+          });
         }
-        Swal.fire('Guardado', 'Los cambios han sido guardados correctamente', 'success');
-        this.redrawTable();
-        this.userModal.hide();
       });
+  
     } else if (this.modalMode === 'create') {
-      this.usersService.createUser(this.selectedUser).subscribe(newUser => {
-        this.users.push(newUser);
-        Swal.fire('Guardado', 'El nuevo usuario ha sido creado', 'success');
-        this.redrawTable();
-        this.userModal.hide();
+      this.usersService.createUser(this.selectedUser).subscribe({
+        next: (newUser:UserWithMessage) => {
+          this.users.push(newUser);
+  
+          Swal.fire({
+            icon: 'success',
+            title: 'Guardado',
+            text: `El nuevo usuario ha sido creado.\nMensaje del servidor: ${newUser.message || 'Creación exitosa.'}`,
+            didOpen: () => {
+              const titleEl = document.querySelector('.swal2-title');
+              if (titleEl) {
+                titleEl.setAttribute('style', 'color: black;');
+              }
+            }
+          });
+  
+          this.redrawTable();
+          this.userModal.hide();
+        },
+        error: (err) => {
+          console.error('Error al crear usuario:', err);
+  
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `No se pudo crear el usuario.\nMensaje del servidor: ${err.error?.message || 'Error desconocido.'}`,
+              didOpen: () => {
+              const titleEl = document.querySelector('.swal2-title');
+              if (titleEl) {
+                titleEl.setAttribute('style', 'color: black;');
+              }
+            }
+          });
+        }
       });
     }
   }
+  
 
   redrawTable(): void {
     this.dataTable.clear();

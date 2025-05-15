@@ -99,11 +99,21 @@
           -->
           <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
           <div class="mb-3">
+            <p *ngIf="modalMode === 'view'" hidden>{{ selectedUser.password }}</p>
+            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedUser.password" name="password" hidden placeholder="12345"/>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+            <div class="invalid-feedback">
+              Please select your password.
+            </div>
+          </div>
+          <div class="mb-3">
             <label class="form-label">Estado</label>
             <p *ngIf="modalMode === 'view'">{{ selectedUser.status }}</p>
             <select *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedUser.status" name="status">
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
+              <option value="true">Activo</option>
+              <option value="false">Inactivo</option>
             </select>
             <div class="valid-feedback">
               Looks good!
