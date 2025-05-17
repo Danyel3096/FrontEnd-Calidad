@@ -202,24 +202,47 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
+  handleImageUpload(event: any) {
+    const file = event.target.files[0];
+    if (file && this.selectedUser) {
+      this.selectedUser.photo = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const preview = reader.result as string;
+        if (this.selectedUser !== null) {
+          this.selectedUser.photoUrl = preview;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   
 
   saveUserChanges(): void {
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
     form.classList.add('was-validated');
   
-    if (!this.bootstrapValidation.validateForm(form)) {
-      return;
-    }
-  
+    if (!this.bootstrapValidation.validateForm(form)) return;
     if (!this.selectedUser) return;
   
     if (this.modalMode === 'edit') {
-      this.selectedUser.password = "12345";
-      console.log('Editando usuario:', this.selectedUser);
+      this.selectedUser.password = '12345'; // temporal o requerido por el backend
   
-      this.usersService.updateUser(this.selectedUser!.id!, this.selectedUser!).subscribe({
-        next: (updatedUser : UserWithMessage) => {
+      
+
+      /*for (const key in this.selectedUser) {
+        const value = (this.selectedUser as any)[key];
+        if (value !== undefined && value !== null) {
+          formData.append(key, value);
+        }
+      }
+      */
+
+  
+      this.usersService.updateUser(this.selectedUser.id!, this.selectedUser!).subscribe({
+        next: (updatedUser: UserWithMessage) => {
           const index = this.users.findIndex(u => u.id === updatedUser.id);
           if (index !== -1) {
             this.users[index] = updatedUser;
@@ -242,7 +265,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
         },
         error: (err) => {
           console.error('Error al actualizar:', err);
-  
+          
           Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -259,7 +282,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   
     } else if (this.modalMode === 'create') {
       this.usersService.createUser(this.selectedUser).subscribe({
-        next: (newUser:UserWithMessage) => {
+        next: (newUser: UserWithMessage) => {
           this.users.push(newUser);
   
           Swal.fire({
@@ -284,7 +307,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
             icon: 'error',
             title: 'Error',
             text: `No se pudo crear el usuario.\nMensaje del servidor: ${err.error?.message || 'Error desconocido.'}`,
-              didOpen: () => {
+            didOpen: () => {
               const titleEl = document.querySelector('.swal2-title');
               if (titleEl) {
                 titleEl.setAttribute('style', 'color: black;');
@@ -295,6 +318,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       });
     }
   }
+  
   
 
   redrawTable(): void {

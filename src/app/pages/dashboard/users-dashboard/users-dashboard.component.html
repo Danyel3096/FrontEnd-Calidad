@@ -123,6 +123,11 @@
             </div>
           </div>
           <div class="mb-3">
+            <label class="form-label">Imagen</label>
+            <input type="file" class="form-control" (change)="handleImageUpload($event)" *ngIf="modalMode === 'edit'">
+            <img *ngIf="selectedUser?.photo" [src]="selectedUser.photo" class="img-thumbnail mt-2" width="100">
+          </div>
+          <div class="mb-3">
             <label class="form-label">Fecha de Creación</label>
             <p *ngIf="modalMode === 'view'">{{ selectedUser.createdAt }}</p>
             <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.createdAt" name="createdAt" readonly required>
