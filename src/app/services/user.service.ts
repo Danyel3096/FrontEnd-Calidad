@@ -63,10 +63,27 @@ export class UserService {
    * @param user - Datos del usuario a actualizar
    * @returns Observable<User>
    */
+
   updateUser(userId: number, user: User): Observable<User> {
-    delete user.id; // Eliminar el ID del objeto user antes de enviarlo
     const url = `${this.baseUrl}/users/${userId}`;
-    return this.http.put<User>(url, user);
+    const formData = new FormData();
+  
+    delete user.photoUrl;
+    delete user.id;
+
+    const file = user.photo;
+    delete user.photo;
+
+    const jsonBlob = new Blob([JSON.stringify(user)], { type: 'application/json' });
+    formData.append('user', jsonBlob);
+    
+    if (file) {
+      console.log('file:', file);
+      formData.append('file', file);
+    }
+    //formData.append('user', userData);
+  
+    return this.http.put<User>(url, formData);
   }
 
   /**
