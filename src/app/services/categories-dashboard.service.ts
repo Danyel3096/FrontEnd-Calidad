@@ -14,20 +14,16 @@ export interface Category {
   providedIn: 'root'
 })
 export class CategoriesService {
-  private baseUrl = 'https://tdd-billing-backend.onrender.com/api'; // URL base actual
+  private baseUrl = 'https://tdd-billing-backend.onrender.com/api'; 
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Obtiene las categorías para una tienda específica por ID
-   * @param storeId - ID de la tienda
-   * @returns Observable<Category[]>
-   */
-
-  getCategories(): Observable<string[]> {
-    const url = `${this.baseUrl}/categories`; // Asegúrate de que la URL sea correcta
-    return this.http.get<string[]>(url);
+  // Cambié el tipo de retorno para que devuelva Category[]
+  getCategories(): Observable<Category[]> {
+    const url = `${this.baseUrl}/categories`;
+    return this.http.get<Category[]>(url);
   }
+
   getCategoriesByStore(storeId: number): Observable<Category[]> {
     const url = `${this.baseUrl}/categories/store/${storeId}`;
     return this.http.get<Category[]>(url);
@@ -47,5 +43,4 @@ export class CategoriesService {
     const url = `${this.baseUrl}/categories`;
     return this.http.post<Category>(url, category);
   }
-
 }

@@ -8,6 +8,7 @@ export interface Product {
   ratingRate: number;
   ratingCount: number;
   status: boolean;
+  category?: string;
 }
 
   

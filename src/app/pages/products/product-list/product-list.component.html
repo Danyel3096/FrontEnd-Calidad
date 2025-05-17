@@ -1,27 +1,28 @@
-<div class="tw">
+<div class="tw space-y-6 p-4">
   <!-- Filtro por categorías -->
   <app-dynamic-page-tabs
-    [tabs]="categories"
+    [tabs]="categoryNames"
     [selectedTabItem]="selectedCategory"
     [color]="color"
     (tabChange)="onCategoryChange($event)">
   </app-dynamic-page-tabs>
 
-
-  <!-- Listado de productos -->
-  <div class="tw grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+  <!-- Tarjetas de productos -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
     <app-product-card
       *ngFor="let product of paginatedProducts; trackBy: trackById"
       [product]="product"
-      (addToCart)="addToCart($event)"
-    />
+      (addToCart)="addToCart($event)">
+    </app-product-card>
   </div>
 
   <!-- Paginación -->
-  <app-dynamic-page-pagination
-    [totalPages]="totalPages"
-    [currentPage]="currentPage"
-    [color]="color"
-    (pageChange)="pageChanged($event)">
-  </app-dynamic-page-pagination>
+  <div class="pt-4">
+    <app-dynamic-page-pagination
+      [totalPages]="totalPages"
+      [currentPage]="currentPage"
+      [color]="color"
+      (pageChange)="pageChanged($event)">
+    </app-dynamic-page-pagination>
+  </div>
 </div>

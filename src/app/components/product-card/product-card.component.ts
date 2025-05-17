@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from '../../interfaces/product.interface';
 import { RouterLink } from '@angular/router';
 
@@ -10,13 +10,12 @@ import { RouterLink } from '@angular/router';
   styles: ``,
 })
 export class ProductCardComponent {
-  product = input.required<Product>();
-
-  addToCart = output<Product>();
+  @Input() product!: Product; // Recibe el producto como input
+  @Output() addToCart = new EventEmitter<Product>(); // Emite el producto al agregar al carrito
 
   add(event: Event) {
     event.stopPropagation();
     event.preventDefault();
-    this.addToCart.emit(this.product());
+    this.addToCart.emit(this.product);
   }
 }
