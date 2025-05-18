@@ -45,21 +45,26 @@ export class ProductsService {
    * @param product - Objeto de producto a crear
    * @returns Observable<Product>
    */
-  createProduct(product: Product): Observable<Product> {
-    const url = `${this.baseUrl}/products`;
-    return this.http.post<Product>(url, product);
-  }
+/**
+ * Crea un nuevo producto usando FormData
+ * @param productData - Objeto FormData con los datos del producto
+ * @returns Observable<Product>
+ */
+createProduct(productData: FormData): Observable<Product> {
+  const url = `${this.baseUrl}/products`;
+  return this.http.post<Product>(url, productData);
+}
 
-  /**
-   * Actualiza un producto existente
-   * @param productId - ID del producto
-   * @param product - Objeto de producto con los nuevos datos
-   * @returns Observable<Product>
-   */
-  updateProduct(productId: number, product: Product): Observable<Product> {
-    const url = `${this.baseUrl}/products/${productId}`;
-    return this.http.put<Product>(url, product);
-  }
+/**
+ * Actualiza un producto existente usando FormData
+ * @param productId - ID del producto
+ * @param productData - Objeto FormData con los nuevos datos
+ * @returns Observable<Product>
+ */
+updateProduct(productId: number, productData: FormData): Observable<Product> {
+  const url = `${this.baseUrl}/products/${productId}`;
+  return this.http.put<Product>(url, productData);
+}
 
   /**
    * Elimina un producto por su ID

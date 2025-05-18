@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ProductCardComponent } from '../../../components/product-card/product-card.component';
 import { CartStateService } from '../../../services/cart-state.service';
 import { ProductsService } from '../../../services/product.service';
-import { CategoriesService } from '../../../services/categories-dashboard.service'; // Importa el servicio de categorías
+import { CategoriesService } from '../../../services/categories-dashboard.service';
 import { Product } from '../../../interfaces/product.interface';
+import { Category } from '../../../interfaces/category.interface';
 import { TabsColors } from '../../../interfaces/dynamic-colors.interface';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 import { DynamicPagePaginationComponent } from '../../../components/dynamic-page-pagination/dynamic-page-pagination.component';
@@ -18,65 +19,95 @@ import { DynamicPageTabsComponent } from '../../../components/dynamic-page-tabs/
 })
 export default class ProductsListComponent implements OnInit {
   private productsService = inject(ProductsService);
-  private categoryService = inject(CategoriesService); // Inyecta el servicio de categorías
+  private categoryService = inject(CategoriesService);
   private cartService = inject(CartStateService);
+  private themeService = inject(DynamicThemeService);
 
   allProducts: Product[] = [];
   paginatedProducts: Product[] = [];
+  categories: Category[] = [];
+  categoryNames: string[] = [];
+  productsPerPage = 6;
 
-  categories: string[] = [];
-  selectedCategory: string = 'all';
+  selectedCategoryId: string | 'Todos' = 'Todos';
 
-  hoveredTabItem: number | string | null = null;
-  selectedTabItem: string | null = null;
-
-  hoveredPage: number | null = null;
   itemsPerPage = 6;
   currentPage = 1;
   totalPages = 1;
 
-  private themeService = inject(DynamicThemeService);
+  isLoading = false;
+  hasError = false;
 
   color: TabsColors = {
-      background: '#ccc',
-      text: '#000',
-      hoverBackground: '#bbb',
-      hoverText: '#111'
-    };
+    background: '#ccc',
+    text: '#000',
+    hoverBackground: '#bbb',
+    hoverText: '#111'
+  };
 
   ngOnInit(): void {
-    this.loadCategories(); // Llama al método para cargar las categorías
+    this.loadCategories();
     this.loadAllProducts();
 
-    // Suscribirse a la sección 'button' de la paleta activa
     this.themeService.getSection('tabs').subscribe(colors => {
-      console.log('Tabs colors:', colors);
       this.color = colors;
     });
   }
 
   loadCategories(): void {
-    this.categoryService.getCategories().subscribe((res: string[]) => {
-      this.categories = ['all', ...res];
+    this.categoryService.getCategories().subscribe({
+      next: (res: Category[]) => {
+        if (res?.length) {
+          this.categories = res;
+          this.categoryNames = ['Todos', ...res.map(cat => cat.name)];
+        }
+      },
+      error: (err) => {
+        console.error('Error cargando categorías', err);
+        this.categoryNames = ['Todos'];
+      }
     });
   }
 
   loadAllProducts(): void {
-    this.productsService.getAllProducts().subscribe((res: Product[]) => {
-      this.allProducts = res;
-      this.updatePagination();
+    this.isLoading = true;
+    this.hasError = false;
+
+    this.productsService.getAllProducts().subscribe({
+      next: (res: Product[]) => {
+        this.allProducts = res;
+        this.updatePagination();
+        this.isLoading = false;
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      }
     });
   }
 
-  loadProductsByCategory(category: string): void {
-    if (category === 'all') {
+  loadProductsByCategory(categoryName: string | 'Todos'): void {
+    if (categoryName === this.selectedCategoryId) return;
+
+    this.selectedCategoryId = categoryName;
+    this.isLoading = true;
+    this.hasError = false;
+
+    if (categoryName === 'Todos') {
       this.loadAllProducts();
       return;
     }
 
-    this.productsService.getProductsByCategory(category).subscribe((res: Product[]) => {
-      this.allProducts = res;
-      this.updatePagination();
+    this.productsService.getAllProducts().subscribe({
+      next: (res: Product[]) => {
+        this.allProducts = res.filter(p => p.category.name === categoryName);
+        this.updatePagination();
+        this.isLoading = false;
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      }
     });
   }
 
@@ -100,9 +131,9 @@ export default class ProductsListComponent implements OnInit {
     } else if (typeof page === 'number') {
       this.currentPage = page;
     }
-  
+
     this.setPaginatedProducts();
-  }  
+  }
 
   addToCart(product: Product): void {
     this.cartService.state.add({ product, quantity: 1 });
@@ -112,13 +143,7 @@ export default class ProductsListComponent implements OnInit {
     return product.id;
   }
 
-  onCategoryChange(category: string): void {
-    this.selectedCategory = category;
-    this.loadProductsByCategory(category);
-  }
-  
-  selectTab(category: string): void {
-    this.selectedTabItem = category;
-    this.onCategoryChange(category); // si ya lo usabas para cambiar datos, se mantiene
+  onCategoryChange(categoryName: string): void {
+    this.loadProductsByCategory(categoryName);
   }
 }

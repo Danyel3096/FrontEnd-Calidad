@@ -1,27 +1,64 @@
-<div class="tw">
-  <!-- Filtro por categorías -->
+<div class="tw space-y-6 p-4">
+  <!-- Tabs de categorías -->
   <app-dynamic-page-tabs
-    [tabs]="categories"
-    [selectedTabItem]="selectedCategory"
+    [tabs]="categoryNames"
+    [selectedTabItem]="selectedCategoryId"
     [color]="color"
     (tabChange)="onCategoryChange($event)">
   </app-dynamic-page-tabs>
 
+  <!-- Skeleton Placeholder estilo Bootstrap -->
+  <ng-container *ngIf="isLoading; else productGrid">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      <div class="col" *ngFor="let _ of [1,2,3,4,5,6]">
+        <div class="card bg-light" aria-hidden="true">
+          <div class="card-header placeholder-glow">
+            <span class="placeholder col-4"></span>
+          </div>
+          <img src="https://via.placeholder.com/300x200?text=Loading"
+               class="card-img-top"
+               alt="..."
+               style="object-fit: cover; width: 300px; height: 200px;">
+          <div class="card-body">
+            <h5 class="card-title placeholder-glow">
+              <span class="placeholder col-6"></span>
+            </h5>
+            <p class="card-text placeholder-glow">
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-6"></span>
+              <span class="placeholder col-8"></span>
+            </p>
+            <a class="btn btn-primary disabled placeholder col-6" tabindex="-1"></a>
+          </div>
+          <div class="card-footer text-muted placeholder-glow">
+            <span class="placeholder col-3"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
-  <!-- Listado de productos -->
-  <div class="tw grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    <app-product-card
-      *ngFor="let product of paginatedProducts; trackBy: trackById"
-      [product]="product"
-      (addToCart)="addToCart($event)"
-    />
-  </div>
+  <!-- Lista real de productos -->
+  <ng-template #productGrid>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      <div class="col" *ngFor="let product of paginatedProducts; trackBy: trackById">
+        <app-product-card
+          [product]="product"
+          (addToCart)="addToCart($event)">
+        </app-product-card>
+      </div>
+    </div>
+  </ng-template>
 
   <!-- Paginación -->
-  <app-dynamic-page-pagination
-    [totalPages]="totalPages"
-    [currentPage]="currentPage"
-    [color]="color"
-    (pageChange)="pageChanged($event)">
-  </app-dynamic-page-pagination>
+  <div class="pt-4" *ngIf="!isLoading">
+    <app-dynamic-page-pagination
+      [totalPages]="totalPages"
+      [currentPage]="currentPage"
+      [color]="color"
+      (pageChange)="pageChanged($event)">
+    </app-dynamic-page-pagination>
+  </div>
 </div>
