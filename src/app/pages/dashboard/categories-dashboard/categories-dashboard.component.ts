@@ -2,8 +2,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
-import { CategoriesService, Category } from '../../../services/categories-dashboard.service';
-
+import { CategoriesService } from '../../../services/categories-dashboard.service';
+import { Category } from '../../../interfaces/category.interface';
 import $ from 'jquery';
 import 'datatables.net-bs5';
 import 'datatables.net-buttons-bs5';

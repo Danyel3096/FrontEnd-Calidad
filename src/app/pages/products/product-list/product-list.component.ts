@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ProductCardComponent } from '../../../components/product-card/product-card.component';
 import { CartStateService } from '../../../services/cart-state.service';
 import { ProductsService } from '../../../services/product.service';
-import { CategoriesService, Category } from '../../../services/categories-dashboard.service';
+import { CategoriesService } from '../../../services/categories-dashboard.service';
 import { Product } from '../../../interfaces/product.interface';
+import { Category } from '../../../interfaces/category.interface';
 import { TabsColors } from '../../../interfaces/dynamic-colors.interface';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 import { DynamicPagePaginationComponent } from '../../../components/dynamic-page-pagination/dynamic-page-pagination.component';
@@ -28,8 +29,7 @@ export default class ProductsListComponent implements OnInit {
   categoryNames: string[] = [];
   productsPerPage = 6;
 
-
-  selectedCategory: string = 'Todos';
+  selectedCategoryId: string | 'Todos' = 'Todos';
 
   itemsPerPage = 6;
   currentPage = 1;
@@ -86,10 +86,10 @@ export default class ProductsListComponent implements OnInit {
     });
   }
 
-  loadProductsByCategory(categoryName: string): void {
-    if (categoryName === this.selectedCategory) return;
+  loadProductsByCategory(categoryName: string | 'Todos'): void {
+    if (categoryName === this.selectedCategoryId) return;
 
-    this.selectedCategory = categoryName;
+    this.selectedCategoryId = categoryName;
     this.isLoading = true;
     this.hasError = false;
 
@@ -98,9 +98,9 @@ export default class ProductsListComponent implements OnInit {
       return;
     }
 
-    this.productsService.getProductsByCategory(categoryName).subscribe({
+    this.productsService.getAllProducts().subscribe({
       next: (res: Product[]) => {
-        this.allProducts = res;
+        this.allProducts = res.filter(p => p.category.name === categoryName);
         this.updatePagination();
         this.isLoading = false;
       },

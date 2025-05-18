@@ -28,6 +28,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   storeId: number = 2;
   productModal: any;
   dataTable: any;
+  selectedImageFile: File | null = null; // NUEVA propiedad para imagen
 
   constructor(private productsService: ProductsService) {}
 
@@ -182,9 +183,8 @@ columns: [
       price: 0,
       stock: 0,
       url: '',
-      ratingRate: 0,
-      ratingCount: 0,
       status: true
+      
     };
     this.modalMode = 'create';
     this.productModal.show();
@@ -192,27 +192,45 @@ columns: [
 
   // ========== GUARDAR CAMBIOS ==========
 
+// ========== GUARDAR CAMBIOS ==========
+
   saveProductChanges(): void {
+    const formData = new FormData();
+
+    // Agregar campos al formData
+    formData.append('name', this.selectedProduct.name);
+    formData.append('description', this.selectedProduct.description);
+    formData.append('price', this.selectedProduct.price);
+    formData.append('stock', this.selectedProduct.stock);
+    formData.append('status', this.selectedProduct.status);
+
+    // Agregar imagen si existe
+    if (this.selectedImageFile) {
+      formData.append('image', this.selectedProduct?.url);
+    }
+
     if (this.modalMode === 'create') {
-      this.productsService.createProduct(this.selectedProduct).subscribe({
+      this.productsService.createProduct(formData).subscribe({
         next: (data) => {
           this.products.push(data);
           this.redrawTable();
           this.productModal.hide();
           Swal.fire('Éxito', 'Producto creado correctamente', 'success');
+          this.selectedImageFile = null; // limpiar imagen seleccionada
         },
         error: () => {
           Swal.fire('Error', 'Hubo un problema al crear el producto', 'error');
         }
       });
     } else if (this.modalMode === 'edit' && this.selectedProduct.id) {
-      this.productsService.updateProduct(this.selectedProduct.id, this.selectedProduct).subscribe({
+      this.productsService.updateProduct(this.selectedProduct.id, formData).subscribe({
         next: (data) => {
           const index = this.products.findIndex(p => p.id === data.id);
           if (index !== -1) this.products[index] = data;
           this.redrawTable();
           this.productModal.hide();
           Swal.fire('Éxito', 'Producto actualizado correctamente', 'success');
+          this.selectedImageFile = null;
         },
         error: () => {
           Swal.fire('Error', 'Hubo un problema al actualizar el producto', 'error');
@@ -220,6 +238,9 @@ columns: [
       });
     }
   }
+
+
+
 
   // ========== ELIMINAR PRODUCTO ==========
 
