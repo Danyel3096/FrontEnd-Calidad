@@ -19,6 +19,7 @@ export class ProductCardComponent implements OnInit {
   @Input() product!: Product; // Recibe el producto como input
   @Output() addToCart = new EventEmitter<Product>(); // Emite el producto al agregar al carrito
 
+  isHovered = false;
   activePalette!: ThemeColors;
 
   constructor(private dynamicThemeService: DynamicThemeService, /* … */) { }
@@ -32,11 +33,24 @@ export class ProductCardComponent implements OnInit {
     textBody: ''
   };
 
+  pageButtonsColor: ThemeColors['pageButtons'] = {
+    background: '',
+    text: '',
+    hoverBackground:'',
+    hoverText: ''
+  };
+
   ngOnInit(): void {
     // SUSCRÍBETE a la sección 'home page' del tema activo
     this.dynamicThemeService.getSection('homePage').subscribe(colors => {
       this.homePageColor = colors;
       console.log('Footer colors:', this.homePageColor);
+    });
+
+    // SUSCRÍBETE a la sección 'home page' del tema activo
+    this.dynamicThemeService.getSection('pageButtons').subscribe(colors => {
+      this.pageButtonsColor = colors;
+      console.log('Footer colors:', this.pageButtonsColor);
     });
   }
 

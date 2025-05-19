@@ -94,9 +94,9 @@
       "fontSizeText": "0.5rem"
     },
     "pageButtons": {
-      "background": "#3b82f6",
+      "background": "#28de1b",
       "text": "#ffffff",
-      "hoverBackground": "#60a5fa",
+      "hoverBackground": "#70cf69",
       "hoverText": "#1e293b"
     },
     "titleNavbar": {
