@@ -14,7 +14,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
         <li class="nav-item">
           <app-dynamic-navbar-button
-            label="Products"
+            label="Productos"
             routerLink="/products"
             routerLinkActive="active"
             (click)="closeNavbar()">
@@ -22,7 +22,7 @@
         </li>
         <li class="nav-item">
           <app-dynamic-navbar-button
-            label="About"
+            label="Sobre nosotros"
             routerLink="/about"
             routerLinkActive="active"
             (click)="closeNavbar()">
@@ -30,7 +30,7 @@
         </li>
         <li class="nav-item">
           <app-dynamic-navbar-button
-            label="Contact"
+            label="Contactanos"
             routerLink="/contact"
             routerLinkActive="active"
             (click)="closeNavbar()">
@@ -40,7 +40,7 @@
           <!-- NOTA: Debe quedar solo un dashboard -->
           <li class="nav-item">
             <app-dynamic-navbar-button
-              label="Dashboard"
+              label="Panel de control"
               routerLink="/dashboard"
               routerLinkActive="active"
               (click)="closeNavbar()">
@@ -61,7 +61,7 @@
           </li>
           <li class="nav-item">
             <app-dynamic-navbar-button
-              label="Registrar"
+              label="Registrarce"
               routerLink="/signup"
               routerLinkActive="active"
               (click)="closeNavbar()">
@@ -95,7 +95,7 @@
                 }"
                 (mouseenter)="hoveredDropdownItem = 0"
                 (mouseleave)="hoveredDropdownItem = null">
-                  My profile
+                  Mi perfil
                 </a>
               </li>
               <li><a class="dropdown-item"
@@ -107,7 +107,7 @@
                 }"
                 (mouseenter)="hoveredDropdownItem = 1"
                 (mouseleave)="hoveredDropdownItem = null">
-                  Settings
+                  Ajustes
                 </a>
               </li>
               <li><hr class="dropdown-divider"></li>
@@ -120,14 +120,14 @@
                 }"
                 (mouseenter)="hoveredDropdownItem = 2"
                 (mouseleave)="hoveredDropdownItem = null">
-                  Recover password
+                Recuperar contraseña
                 </a>
               </li>
             </ul>
           </li>
           <li class="nav-item">
             <app-dynamic-navbar-button
-              label="Log out"
+              label="Cerrar sesión"
               (click)="logout()"
               (click)="closeNavbar()">
             </app-dynamic-navbar-button>
@@ -196,7 +196,7 @@
           <!-- Cambiar tema -->
           <app-dynamic-navbar-button
             icon="circle-half-stroke"
-            label="Change theme"
+            label="Cambiar tema"
             [isButtonOnly]="true"
             (buttonClick)="toggleTheme()"
             (click)="closeNavbar()">

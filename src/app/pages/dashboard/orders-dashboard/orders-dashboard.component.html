@@ -35,10 +35,10 @@
               <p *ngIf="modalMode === 'view'">{{ selectedUser.firstName }}</p>
               <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.firstName" name="firstName" required>
               <div class="valid-feedback">
-                Looks good!
+                Perfectoo!
               </div>
               <div class="invalid-feedback">
-                Please write your first name.
+                Porfavor escriba su nombre.
               </div>
             </div>
             <div class="mb-3">
@@ -46,10 +46,10 @@
               <p *ngIf="modalMode === 'view'">{{ selectedUser.lastName }}</p>
               <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.lastName" name="lastName" required>
               <div class="valid-feedback">
-                Looks good!
+                Perfectoo!
               </div>
               <div class="invalid-feedback">
-                Please write your last name.
+                Porfavor escriba su apellido.
               </div>
             </div>
             <div class="mb-3">
@@ -57,10 +57,10 @@
               <p *ngIf="modalMode === 'view'">{{ selectedUser.email }}</p>
               <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required>
               <div class="valid-feedback">
-                Looks good!
+                Perfectoo!
               </div>
               <div class="invalid-feedback">
-                Please write your email.
+                Porfavor escriba su correo electrónico.
               </div>
             </div>
             <div class="mb-3">
@@ -68,10 +68,10 @@
               <p *ngIf="modalMode === 'view'">{{ selectedUser.address }}</p>
               <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.address" name="address" required>
               <div class="valid-feedback">
-                Looks good!
+                Perfectoo!
               </div>
               <div class="invalid-feedback">
-                Please write your address.
+                Porfavor escriba su dirección.
               </div>
             </div>
             <div class="mb-3">
@@ -79,20 +79,20 @@
               <p *ngIf="modalMode === 'view'">{{ selectedUser.phone }}</p>
               <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedUser.phone" name="phone" required>
               <div class="valid-feedback">
-                Looks good!
+                Perfectoo!
               </div>
               <div class="invalid-feedback">
-                Please write your phone.
+                Porfavor escriba su teléfono.
               </div>
             </div>
             <div *ngIf="modalMode !== 'view'" class="mb-3">
               <label class="form-label">Password</label>
               <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" required>
               <div class="valid-feedback">
-                Looks good!
+                Perfectoo!
               </div>
               <div class="invalid-feedback">
-                Please write your password.
+                Porfavor escriba su contraseña.
               </div>
             </div>
             <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
@@ -104,10 +104,10 @@
                 <option value="Inactivo">Inactivo</option>
               </select>
               <div class="valid-feedback">
-                Looks good!
+                Perfectoo!
               </div>
               <div class="invalid-feedback">
-                Please select your status.
+                Porfavor seleccione su estado.
               </div>
             </div>
             <div class="mb-3">
@@ -116,10 +116,10 @@
               <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.creationDate" name="creationDate" readonly required>
             </div>
             <div class="valid-feedback">
-              Looks good!
+              Perfectoo!
             </div>
             <div class="invalid-feedback">
-              Please enter your registation date.
+              Porfavor seleccione su fecha de creación.
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
