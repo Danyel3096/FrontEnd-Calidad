@@ -14,20 +14,23 @@ import Swal from 'sweetalert2';
 import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
 import { BootstrapInitService } from '../../../services/bootstrap-init.service';
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'app-categories-dashboard',
   imports: [CommonModule, FormsModule],
   templateUrl: './categories-dashboard.component.html',
-  styleUrls: ['./categories-dashboard.component.css']
+  styleUrls: ['./categories-dashboard.component.css'],
+  providers: [DatePipe]
 })
 export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private categoriesService: CategoriesService,
     private bootstrapInit: BootstrapInitService,
     private bootstrapValidation: BootstrapValidationService,
-    private idiomaService: DatatableLanguageService
+    private idiomaService: DatatableLanguageService,
+    private datePipe: DatePipe
   ) {}
 
   selectedCategory: any = null;
@@ -87,7 +90,9 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
         {data: 'name'},
         {data: 'description'},
         {data: 'status'},
-        {data: 'createdAt'},
+        {data: 'createdAt',
+          render: data => this.datePipe.transform(data, 'dd/MM/yyyy')
+        },
         {
           data: null,
           orderable: false,
