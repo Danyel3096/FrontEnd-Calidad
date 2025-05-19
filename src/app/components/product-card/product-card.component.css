@@ -1,0 +1,4 @@
+body > app-root > div > div > div > div > main > app-product-list > div > div > app-product-card:nth-child(1) > div > a > picture > img {
+    width: 250px;
+    height: 300px;
+}
