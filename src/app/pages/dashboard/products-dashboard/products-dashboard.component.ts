@@ -86,7 +86,7 @@ columns: [
   { data: 'price', title: 'Precio' },
   { data: 'stock', title: 'Stock' },
   {
-    data: 'image',
+    data: 'url',
     title: 'Imagen',
     render: (data: string) => `
       <img src="${data}" alt="Imagen del producto" width="60" height="60" 
