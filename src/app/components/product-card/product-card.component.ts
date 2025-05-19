@@ -5,11 +5,12 @@ import { RouterLink } from '@angular/router';
 
 import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { ThemeColors } from '../../interfaces/dynamic-colors.interface';
+import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RatingStarsComponent],
   templateUrl: './product-card.component.html',
   styles: ``,
 })
