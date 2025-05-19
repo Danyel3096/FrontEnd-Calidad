@@ -3,17 +3,17 @@
   color: sidebarColor.text
 }">
   <a routerLink="/dashboard" class="sidebar-brand block p-4 text-lg font-bold">
-    <span>User Panel</span>
+    <span>Panel de control</span>
   </a>
   <hr>
 
   <ul class="nav flex-column">
-    
-    <li class="nav-item">
+
+    <!-- <li class="nav-item">
       <app-dynamic-sidebar-link routerLink="/dashboard" routerLinkActive="active" label="Dashboard" icon="fas fa-tachometer-alt"></app-dynamic-sidebar-link>
     </li>
-    <hr>
-
+    <hr> -->
+    
     <!-- ADMINISTRADOR -->
     <ng-container *ngIf="isAdmin()">
       <li class="nav-item">
