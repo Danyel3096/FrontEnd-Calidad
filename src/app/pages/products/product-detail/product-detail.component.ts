@@ -5,11 +5,12 @@ import { CartStateService } from '../../../services/cart-state.service';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';
 import { RatingStarsComponent } from '../../../components/rating-stars/rating-stars.component';
+import { RandomProductsComponent } from '../../../components/random-products/random-products.component';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [ CommonModule, CurrencyPipe, RatingStarsComponent],
+  imports: [ CommonModule, CurrencyPipe, RatingStarsComponent, RandomProductsComponent],
   templateUrl: './product-detail.component.html', 
   styleUrls: ['./product-detail.component.css'],
   providers: [ProductDetailStateService],

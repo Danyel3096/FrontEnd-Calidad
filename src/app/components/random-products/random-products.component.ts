@@ -1,11 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule, SlicePipe } from '@angular/common';
+import { ProductsService } from '../..//services/product.service';
+import { Product } from '../../interfaces/product.interface';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, SlicePipe],
   selector: 'app-random-products',
-  imports: [],
   templateUrl: './random-products.component.html',
-  styleUrl: './random-products.component.css'
+  styleUrls: ['./random-products.component.css']
 })
-export class RandomProductsComponent {
+export class RandomProductsComponent implements OnInit {
+  products: Product[] = [];
 
+  constructor(private productService: ProductsService) {}
+
+  ngOnInit(): void {
+    this.productService.getRandomProducts(3).subscribe({
+      next: (data: Product[]) => this.products = data,
+      error: (err: any) => console.error('Error cargando productos aleatorios', err)
+    });
+  }
 }
