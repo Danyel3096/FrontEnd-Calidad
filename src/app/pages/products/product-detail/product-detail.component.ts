@@ -2,20 +2,27 @@ import { Component, effect, inject, input } from '@angular/core';
 import { ProductDetailStateService } from '../../../services/product-detail-state.service';
 import { CurrencyPipe, CommonModule } from '@angular/common';
 import { CartStateService } from '../../../services/cart-state.service';
+import { DynamicThemeService } from '../../../services/dynamic-theme.service';
+import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';
+import { RatingStarsComponent } from '../../../components/rating-stars/rating-stars.component';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [ CommonModule, CurrencyPipe],
+  imports: [ CommonModule, CurrencyPipe, RatingStarsComponent],
   templateUrl: './product-detail.component.html', 
   styleUrls: ['./product-detail.component.css'],
   providers: [ProductDetailStateService],
 })
+
 export default class ProductDetailComponent {
   productDetailState = inject(ProductDetailStateService).state;
   cartState = inject(CartStateService).state;
 
   id = input.required<string>();
+
+  isHovered = false;
+  activePalette!: ThemeColors;
 
   // 360 View state
   is360Mode = false;
@@ -23,9 +30,41 @@ export default class ProductDetailComponent {
   currentFrame = 1;
   currentFrameUrl = this.getFrameUrl(1);
 
-  constructor() {
+  homePageColor: ThemeColors['homePage'] = {
+    backgroundPrimary: '',
+    backgroundSecondary: '',
+    backgroundTertiary: '',
+    backgroundQuaternary: '',
+    textTitle: '',
+    textBody: ''
+  };
+
+  pageButtonsColor: ThemeColors['pageButtons'] = {
+    background: '',
+    text: '',
+    hoverBackground:'',
+    hoverText: ''
+  };
+
+  constructor(
+    private dynamicThemeService: DynamicThemeService
+  ) {
     effect(() => {
       this.productDetailState.getById(this.id());
+    });
+  }
+
+  ngOnInit(): void {
+    // SUSCRÍBETE a la sección 'home page' del tema activo
+    this.dynamicThemeService.getSection('homePage').subscribe(colors => {
+      this.homePageColor = colors;
+      console.log('Footer colors:', this.homePageColor);
+    });
+
+    // SUSCRÍBETE a la sección 'home page' del tema activo
+    this.dynamicThemeService.getSection('pageButtons').subscribe(colors => {
+      this.pageButtonsColor = colors;
+      console.log('Footer colors:', this.pageButtonsColor);
     });
   }
 
