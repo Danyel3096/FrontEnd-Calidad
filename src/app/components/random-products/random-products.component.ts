@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, SlicePipe } from '@angular/common';
 import { ProductsService } from '../..//services/product.service';
 import { Product } from '../../interfaces/product.interface';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, SlicePipe],
+  imports: [CommonModule, SlicePipe, RouterLink],
   selector: 'app-random-products',
   templateUrl: './random-products.component.html',
   styleUrls: ['./random-products.component.css']
