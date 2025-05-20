@@ -27,7 +27,7 @@ interface UserWithMessage extends User {
   selector: 'app-users-dashboard',
   templateUrl: './users-dashboard.component.html',
   styleUrls: ['./users-dashboard.component.css'],
-  providers: [DatePipe],
+  providers: [DatePipe]
 })
 export class UsersDashboardComponent implements OnInit, AfterViewInit {
 
@@ -69,6 +69,18 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     this.usersService.getUsersByStore(this.storeId).subscribe({
       next: (data) => {
         this.users = data;
+        this.users.forEach(user => {
+          if (user.createdAt) {
+            const date = new Date(user.createdAt);
+            user.createdAt = date.toLocaleString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+          }
+        });
         console.log("Usuarios cargados:", this.users);
         this.redrawTable();
       },
@@ -162,7 +174,13 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       password: '',
       role: '',
       status: true,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toLocaleString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }),
       photoUrl: ''
     };
     this.modalMode = 'create';
