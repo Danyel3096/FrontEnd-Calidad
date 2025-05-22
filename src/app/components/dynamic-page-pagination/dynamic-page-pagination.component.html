@@ -32,8 +32,13 @@
       }"
       (mouseenter)="hoveredPage = typeof page === 'number' ? page : null"
       (mouseleave)="hoveredPage = null"
-      (click)="typeof page === 'number' ? onClick(page) : null"
-      [disabled]="typeof page !== 'number'"
+      (click)="
+        typeof page === 'number'
+          ? onClick(page)
+          : (page === 'prevEllipsis'
+              ? onEllipsisClick('prev')
+              : onEllipsisClick('next'))
+      "
     >
       {{ page === 'prevEllipsis' || page === 'nextEllipsis' ? '...' : page }}
     </button>

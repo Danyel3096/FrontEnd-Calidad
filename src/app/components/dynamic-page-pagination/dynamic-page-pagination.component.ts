@@ -39,23 +39,31 @@ export class DynamicPagePaginationComponent {
       start = Math.max(1, end - maxVisible + 1);
     }
 
-    // Siempre mostrar la primera página si no está en el rango
     if (start > 1) {
       pages.push(1);
-      if (start > 2) pages.push('prevEllipsis');
+      if (start > 2) pages.push('prevEllipsis'); // << Avanzar -10
     }
 
     for (let i = start; i <= end; i++) {
       pages.push(i);
     }
 
-    // Siempre mostrar la última página si no está en el rango
     if (end < total) {
-      if (end < total - 1) pages.push('nextEllipsis');
+      if (end < total - 1) pages.push('nextEllipsis'); // >> Avanzar +10
       pages.push(total);
     }
 
     return pages;
+  }
+
+  onEllipsisClick(direction: 'prev' | 'next') {
+    if (direction === 'prev') {
+      const newPage = Math.max(1, this.currentPage - 10);
+      this.onClick(newPage);
+    } else if (direction === 'next') {
+      const newPage = Math.min(this.totalPages, this.currentPage + 10);
+      this.onClick(newPage);
+    }
   }
 
   onClick(page: number | 'next' | 'previous') {
