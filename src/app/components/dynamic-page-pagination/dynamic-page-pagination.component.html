@@ -16,8 +16,9 @@
     </button>
   
     <!-- Botones numéricos -->
+    <!-- Botones numéricos con puntos suspensivos -->
     <button
-      *ngFor="let page of visiblePages"
+      *ngFor="let page of displayedPagination"
       class="px-3 py-1 border rounded"
       [ngStyle]="{
         backgroundColor:
@@ -29,13 +30,14 @@
             ? color.hoverText
             : color.text
       }"
-      (mouseenter)="hoveredPage = page"
+      (mouseenter)="hoveredPage = typeof page === 'number' ? page : null"
       (mouseleave)="hoveredPage = null"
-      (click)="onClick(page)"
+      (click)="typeof page === 'number' ? onClick(page) : null"
+      [disabled]="typeof page !== 'number'"
     >
-      {{ page }}
+      {{ page === 'prevEllipsis' || page === 'nextEllipsis' ? '...' : page }}
     </button>
-  
+
     <!-- Botón siguiente -->
     <button
       class="px-3 py-1 border rounded"

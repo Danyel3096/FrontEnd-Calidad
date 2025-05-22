@@ -23,26 +23,38 @@ export class DynamicPagePaginationComponent {
 
   hoveredPage: number | null = null;
 
-  get visiblePages(): number[] {
+  get displayedPagination(): (number | 'prevEllipsis' | 'nextEllipsis')[] {
+    const pages: (number | 'prevEllipsis' | 'nextEllipsis')[] = [];
+
     const total = this.totalPages;
     const current = this.currentPage;
-
     const maxVisible = 10;
     const half = Math.floor(maxVisible / 2);
 
     let start = Math.max(1, current - half);
     let end = start + maxVisible - 1;
 
-    // Ajuste si el final se pasa del total
     if (end > total) {
       end = total;
       start = Math.max(1, end - maxVisible + 1);
     }
 
-    const pages = [];
+    // Siempre mostrar la primera página si no está en el rango
+    if (start > 1) {
+      pages.push(1);
+      if (start > 2) pages.push('prevEllipsis');
+    }
+
     for (let i = start; i <= end; i++) {
       pages.push(i);
     }
+
+    // Siempre mostrar la última página si no está en el rango
+    if (end < total) {
+      if (end < total - 1) pages.push('nextEllipsis');
+      pages.push(total);
+    }
+
     return pages;
   }
 
