@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Product } from '../interfaces/product.interface';  // Aquí importas la interfaz
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ProductsService {
   private baseUrl = 'https://tdd-billing-backend.onrender.com/api'; // URL base actual
 
@@ -77,9 +78,7 @@ updateProduct(productId: number, productData: FormData): Observable<Product> {
   }
 
   getRandomProducts(count: number): Observable<Product[]> {
-  return this.getAllProducts().pipe(
-    map((products: any[]) => products.sort(() => 0.5 - Math.random()).slice(0, count))
-  );
-}
-
+    const url = `${this.baseUrl}/products/random/${count}`;
+    return this.http.get<Product[]>(url);
+  }
 }

@@ -17,23 +17,23 @@
   
     <!-- Botones numéricos -->
     <button
-      *ngFor="let page of [].constructor(totalPages); let i = index"
+      *ngFor="let page of visiblePages"
       class="px-3 py-1 border rounded"
       [ngStyle]="{
         backgroundColor:
-          hoveredPage === i + 1 || currentPage === i + 1
+          hoveredPage === page || currentPage === page
             ? color.hoverBackground
             : color.background,
         color:
-          hoveredPage === i + 1 || currentPage === i + 1
+          hoveredPage === page || currentPage === page
             ? color.hoverText
             : color.text
       }"
-      (mouseenter)="hoveredPage = i + 1"
+      (mouseenter)="hoveredPage = page"
       (mouseleave)="hoveredPage = null"
-      (click)="onClick(i + 1)"
+      (click)="onClick(page)"
     >
-      {{ i + 1 }}
+      {{ page }}
     </button>
   
     <!-- Botón siguiente -->
@@ -51,4 +51,3 @@
       »
     </button>
   </div>
-  

@@ -17,6 +17,7 @@ import { DynamicPageTabsComponent } from '../../../components/dynamic-page-tabs/
   imports: [CommonModule, ProductCardComponent, DynamicPagePaginationComponent, DynamicPageTabsComponent],
   templateUrl: './product-list.component.html',
 })
+
 export default class ProductsListComponent implements OnInit {
   private productsService = inject(ProductsService);
   private categoryService = inject(CategoriesService);
