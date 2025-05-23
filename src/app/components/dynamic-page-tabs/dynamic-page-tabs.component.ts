@@ -9,15 +9,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 
 export class DynamicPageTabsComponent {
-  @Input() tabs: string[] = [];
-  @Input() selectedTabItem: string = '';
+  @Input() tabs: { id: string | number, name: string }[] = [];
+  @Input() selectedTabItem: string | number = '';
   @Input() color: any = {};
 
-  @Output() tabChange = new EventEmitter<string>();
+  @Output() tabChange = new EventEmitter<string | number>();
 
-  hoveredTabItem: string | null = null;
+  hoveredTabItem: string | number | null = null;
 
-  onTabClick(tab: string): void {
-    this.tabChange.emit(tab);
+  onTabClick(tab: { id: string | number, name: string }): void {
+    this.tabChange.emit(tab.id);
   }
 }

@@ -10,6 +10,7 @@ import { TabsColors } from '../../../interfaces/dynamic-colors.interface';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 import { DynamicPagePaginationComponent } from '../../../components/dynamic-page-pagination/dynamic-page-pagination.component';
 import { DynamicPageTabsComponent } from '../../../components/dynamic-page-tabs/dynamic-page-tabs.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -24,17 +25,24 @@ export default class ProductsListComponent implements OnInit {
   private cartService = inject(CartStateService);
   private themeService = inject(DynamicThemeService);
 
-  allProducts: Product[] = [];
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  currentPage = 1;
+  pageSize = 5;
+  totalPages = 1; //Originalmente 0
+  storeId = 2;
+
   paginatedProducts: Product[] = [];
   categories: Category[] = [];
-  categoryNames: string[] = [];
+  categoryNames: { id: number; name: string }[] = [];
   productsPerPage = 6;
 
-  selectedCategoryId: string | 'Todos' = 'Todos';
+  selectedCategoryName: string | 'Todos' = 'Todos';
 
   itemsPerPage = 6;
-  currentPage = 1;
-  totalPages = 1;
 
   isLoading = false;
   hasError = false;
@@ -47,26 +55,59 @@ export default class ProductsListComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.loadCategories();
-    this.loadAllProducts();
-
+    // 1. Cargar colores
     this.themeService.getSection('tabs').subscribe(colors => {
       this.color = colors;
     });
+
+    // 2. Cargar categorías primero
+    this.loadCategories().then(() => {
+      // 3. Leer query params y cargar productos paginados
+      this.route.queryParams.subscribe(params => {
+        const pageParam = parseInt(params['page'], 10);
+        const sizeParam = parseInt(params['size'], 10);
+
+        this.currentPage = isNaN(pageParam) || pageParam < 1 ? 1 : pageParam;
+        this.pageSize = isNaN(sizeParam) || sizeParam < 1 ? 5 : sizeParam;
+
+        // Asegurar categoría válida
+        if (!this.selectedCategoryName) this.selectedCategoryName = 'Todos';
+
+        this.loadProducts(this.currentPage);
+      });
+    });
   }
 
-  loadCategories(): void {
-    this.categoryService.getCategories().subscribe({
-      next: (res: Category[]) => {
-        if (res?.length) {
-          this.categories = res;
-          this.categoryNames = ['Todos', ...res.map(cat => cat.name)];
+  loadCategories(): Promise<void> {
+    return new Promise((resolve) => {
+      this.categoryService.getCategories().subscribe({
+        next: (res: Category[]) => {
+          if (res?.length) {
+            this.categories = res;
+            this.categoryNames = [{ id: 0, name: 'Todos' }, ...res.map(cat => ({ id: cat.id, name: cat.name }))];
+          } else {
+            this.categoryNames = [{ id: 0, name: 'Todos' }];
+          }
+          this.selectedCategoryName = 'Todos'; // Default
+          resolve();
+        },
+        error: (err) => {
+          console.error('Error cargando categorías', err);
+          this.categoryNames = [{ id: 0, name: 'Todos' }];
+          this.selectedCategoryName = 'Todos';
+          resolve();
         }
-      },
-      error: (err) => {
-        console.error('Error cargando categorías', err);
-        this.categoryNames = ['Todos'];
-      }
+      });
+    });
+  }
+
+  loadProducts(page: number) {
+  const backendPageIndex = page - 1;
+
+  this.productsService.getProductsByPage(this.storeId, this.selectedCategoryName, backendPageIndex, this.pageSize)
+    .subscribe(response => {
+      this.paginatedProducts = response.content;
+      this.totalPages = response.totalPages;
     });
   }
 
@@ -76,7 +117,7 @@ export default class ProductsListComponent implements OnInit {
 
     this.productsService.getAllProducts().subscribe({
       next: (res: Product[]) => {
-        this.allProducts = res;
+        this.paginatedProducts = res;
         this.updatePagination();
         this.isLoading = false;
       },
@@ -88,9 +129,9 @@ export default class ProductsListComponent implements OnInit {
   }
 
   loadProductsByCategory(categoryName: string | 'Todos'): void {
-    if (categoryName === this.selectedCategoryId) return;
+    if (categoryName === this.selectedCategoryName) return;
 
-    this.selectedCategoryId = categoryName;
+    this.selectedCategoryName = categoryName;
     this.isLoading = true;
     this.hasError = false;
 
@@ -101,7 +142,7 @@ export default class ProductsListComponent implements OnInit {
 
     this.productsService.getAllProducts().subscribe({
       next: (res: Product[]) => {
-        this.allProducts = res.filter(p => p.category.name === categoryName);
+        this.paginatedProducts = res.filter(p => p.category.name === categoryName);
         this.updatePagination();
         this.isLoading = false;
       },
@@ -114,26 +155,33 @@ export default class ProductsListComponent implements OnInit {
 
   updatePagination(): void {
     this.currentPage = 1;
-    this.totalPages = Math.ceil(this.allProducts.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(this.paginatedProducts.length / this.itemsPerPage);
     this.setPaginatedProducts();
   }
 
   setPaginatedProducts(): void {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    this.paginatedProducts = this.allProducts.slice(start, end);
+    this.paginatedProducts = this.paginatedProducts.slice(start, end);
   }
 
-  pageChanged(page: number | 'next' | 'previous'): void {
-    if (page === 'previous' && this.currentPage > 1) {
-      this.currentPage--;
-    } else if (page === 'next' && this.currentPage < this.totalPages) {
-      this.currentPage++;
-    } else if (typeof page === 'number') {
-      this.currentPage = page;
-    }
+  onPageChange(page: number | 'next' | 'previous') {
+    let targetPage = this.currentPage;
 
-    this.setPaginatedProducts();
+    if (page === 'next') targetPage++;
+    else if (page === 'previous') targetPage--;
+    else targetPage = page;
+
+    if (targetPage < 1 || targetPage > this.totalPages) return;
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        page: targetPage,
+        size: this.pageSize
+      },
+      queryParamsHandling: 'merge'
+    });
   }
 
   addToCart(product: Product): void {

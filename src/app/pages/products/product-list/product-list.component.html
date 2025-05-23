@@ -2,7 +2,7 @@
   <!-- Tabs de categorías -->
   <app-dynamic-page-tabs
     [tabs]="categoryNames"
-    [selectedTabItem]="selectedCategoryId"
+    [selectedTabItem]="selectedCategoryName"
     [color]="color"
     (tabChange)="onCategoryChange($event)">
   </app-dynamic-page-tabs>
@@ -58,7 +58,7 @@
       [totalPages]="totalPages"
       [currentPage]="currentPage"
       [color]="color"
-      (pageChange)="pageChanged($event)">
+      (pageChange)="onPageChange($event)">
     </app-dynamic-page-pagination>
   </div>
 </div>
