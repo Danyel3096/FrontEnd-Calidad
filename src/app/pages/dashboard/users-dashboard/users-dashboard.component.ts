@@ -18,9 +18,12 @@ import { BootstrapValidationService } from '../../../services/bootstrap-validati
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
 import { DatePipe } from '@angular/common';
 
+import { getPdfHeader, getPdfFooter } from '../../../utils/pdf-utils';
+
 interface UserWithMessage extends User {
   message?: string;
 }
+
 @Component({
   standalone: true,
   imports: [CommonModule, FormsModule],
@@ -29,6 +32,7 @@ interface UserWithMessage extends User {
   styleUrls: ['./users-dashboard.component.css'],
   providers: [DatePipe]
 })
+
 export class UsersDashboardComponent implements OnInit, AfterViewInit {
 
   constructor(
@@ -39,7 +43,6 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       private datePipe: DatePipe
   ) {}
 
-
   selectedUser: User | null = null;
   tempUser: User | null = null;
   modalMode: 'view' | 'edit' | 'create' = 'view';
@@ -47,6 +50,11 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   dataTable: any;
   users: User[] = [];
   storeId: number = 2;
+
+  logoBase64: string = ''; // Asegúrate de asignar el valor base64 de tu logo aquí
+  companyName: string = 'Nombre de la Empresa';
+  reportTitle: string = 'Reporte de Usuarios';
+  userName: string = 'Nombre del Usuario'; // Puedes obtenerlo desde tu servicio de autenticación
 
   ngOnInit(): void {
     this.getUsers();
@@ -91,6 +99,8 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   }
 
   initDataTable(): void {
+    const fechaHora = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
+    
     this.dataTable = $('#usersTable').DataTable({
       language: this.idiomaService.getIdioma(),
       dom: "<'row'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end mb-2'B>>" +
@@ -100,7 +110,22 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
         { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
         { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
         { extend: 'excel', className: 'btn btn-info', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'pdf', className: 'btn btn-danger', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'pdf',
+          className: 'btn btn-danger',
+          exportOptions: { columns: ':not(.no-export)' },
+          customize: (doc: any) => {
+            doc.pageMargins = [40, 60, 40, 60];
+            doc.defaultStyle.fontSize = 10;
+            doc.styles.tableHeader.fontSize = 11;
+            doc.styles.tableHeader.bold = true;
+
+            // Encabezado
+            doc.header = getPdfHeader(this.logoBase64, this.companyName, this.reportTitle);
+
+            // Pie de página
+            doc.footer = getPdfFooter(this.userName, fechaHora);
+          }
+        },
         { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } }
       ],
       data: this.users,
