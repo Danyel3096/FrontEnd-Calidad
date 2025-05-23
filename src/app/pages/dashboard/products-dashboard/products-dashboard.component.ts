@@ -35,7 +35,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   // ========== CICLO DE VIDA ==========
 
   ngOnInit(): void {
-    this.getProducts();
+    //this.getProducts(); PENDIENTE
   }
 
   ngAfterViewInit(): void {
@@ -44,8 +44,8 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   }
 
   // ========== CONSULTA DE PRODUCTOS ==========
-
-  getProducts(): void {
+  
+  /*getProducts(): void { PENDIENTE
     this.productsService.getProductsByStore(this.storeId).subscribe({
       next: (data) => {
         this.products = data;
@@ -55,7 +55,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
         console.error('Error al obtener productos:', err);
       }
     });
-  }
+  }*/
 
   // ========== INICIALIZAR Y GESTIONAR DATATABLE ==========
 

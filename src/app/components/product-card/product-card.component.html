@@ -21,8 +21,8 @@
 
     <app-rating-stars [ratingRate]="product.ratingRate" [ratingCount]="product.ratingCount"></app-rating-stars>
 
-    <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
-      <strong>Categoría:</strong> {{ product.category.name }}
+    <p *ngIf="product.category?.name" class="text-sm text-gray-600 dark:text-gray-300 mb-2">
+      <strong>Categoría:</strong> {{ product.category?.name }}
     </p>
 
     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">

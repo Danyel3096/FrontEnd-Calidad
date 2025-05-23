@@ -40,7 +40,7 @@ export default class ProductsListComponent implements OnInit {
   categoryNames: { id: number; name: string }[] = [];
   productsPerPage = 6;
 
-  selectedCategoryName: string | 'Todos' = 'Todos';
+  selectedCategoryName: string | number = 0; // '0' equivale a "Todos"
 
   itemsPerPage = 6;
 
@@ -66,12 +66,13 @@ export default class ProductsListComponent implements OnInit {
       this.route.queryParams.subscribe(params => {
         const pageParam = parseInt(params['page'], 10);
         const sizeParam = parseInt(params['size'], 10);
+        const categoryParam = parseInt(params['category'], 10);
 
         this.currentPage = isNaN(pageParam) || pageParam < 1 ? 1 : pageParam;
         this.pageSize = isNaN(sizeParam) || sizeParam < 1 ? 5 : sizeParam;
 
-        // Asegurar categoría válida
-        if (!this.selectedCategoryName) this.selectedCategoryName = 'Todos';
+        // Si categoryParam es NaN (no existe o no es número), asigna 0, que es "Todos"
+        this.selectedCategoryName = isNaN(categoryParam) ? 0 : categoryParam;
 
         this.loadProducts(this.currentPage);
       });
@@ -102,67 +103,39 @@ export default class ProductsListComponent implements OnInit {
   }
 
   loadProducts(page: number) {
-  const backendPageIndex = page - 1;
+    const backendPageIndex = page;
+    if (page >= 1) {
+      const backendPageIndex = page - 1;
+    }
 
-  this.productsService.getProductsByPage(this.storeId, this.selectedCategoryName, backendPageIndex, this.pageSize)
-    .subscribe(response => {
+    this.productsService.getProductsByPage(
+      this.storeId,
+      backendPageIndex,
+      this.pageSize,
+      +this.selectedCategoryName // Convertir a número
+    ).subscribe(response => {
       this.paginatedProducts = response.content;
       this.totalPages = response.totalPages;
     });
   }
 
-  loadAllProducts(): void {
-    this.isLoading = true;
-    this.hasError = false;
+  loadProductsByCategory(categoryId: number): void {
+    if (categoryId === +this.selectedCategoryName) return;
 
-    this.productsService.getAllProducts().subscribe({
-      next: (res: Product[]) => {
-        this.paginatedProducts = res;
-        this.updatePagination();
-        this.isLoading = false;
-      },
-      error: () => {
-        this.hasError = true;
-        this.isLoading = false;
-      }
-    });
-  }
-
-  loadProductsByCategory(categoryName: string | 'Todos'): void {
-    if (categoryName === this.selectedCategoryName) return;
-
-    this.selectedCategoryName = categoryName;
-    this.isLoading = true;
-    this.hasError = false;
-
-    if (categoryName === 'Todos') {
-      this.loadAllProducts();
-      return;
-    }
-
-    this.productsService.getAllProducts().subscribe({
-      next: (res: Product[]) => {
-        this.paginatedProducts = res.filter(p => p.category.name === categoryName);
-        this.updatePagination();
-        this.isLoading = false;
-      },
-      error: () => {
-        this.hasError = true;
-        this.isLoading = false;
-      }
-    });
-  }
-
-  updatePagination(): void {
+    this.selectedCategoryName = categoryId.toString();
     this.currentPage = 1;
-    this.totalPages = Math.ceil(this.paginatedProducts.length / this.itemsPerPage);
-    this.setPaginatedProducts();
-  }
 
-  setPaginatedProducts(): void {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    this.paginatedProducts = this.paginatedProducts.slice(start, end);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        page: this.currentPage,
+        size: this.pageSize,
+        category: this.selectedCategoryName
+      },
+      queryParamsHandling: 'merge'
+    });
+
+    this.loadProducts(this.currentPage);
   }
 
   onPageChange(page: number | 'next' | 'previous') {
@@ -178,7 +151,8 @@ export default class ProductsListComponent implements OnInit {
       relativeTo: this.route,
       queryParams: {
         page: targetPage,
-        size: this.pageSize
+        size: this.pageSize,
+        category: this.selectedCategoryName
       },
       queryParamsHandling: 'merge'
     });
@@ -192,7 +166,7 @@ export default class ProductsListComponent implements OnInit {
     return product.id;
   }
 
-  onCategoryChange(categoryName: string): void {
-    this.loadProductsByCategory(categoryName);
+  onCategoryChange(categoryId: string | number): void {
+    this.loadProductsByCategory(+categoryId);
   }
 }

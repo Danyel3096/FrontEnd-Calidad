@@ -76,7 +76,7 @@ export class ProductsService {
 
     // Construir URL dinámicamente
     let url = `${this.baseUrl}/products/store/${storeId}`;
-    if (categoryId !== undefined && categoryId !== null && categoryId !== 0) {
+    if (categoryId !== undefined && categoryId !== null) {
       url += `/${categoryId}`;
     }
 
