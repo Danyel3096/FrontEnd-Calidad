@@ -1,9 +1,9 @@
 {
   "name": "Transportes Scout SAC",
-  "NIT": "01234567890",
+  "nit": "01234567890",
   "logo": "assets/logos/company-logo.png",
   "slogan": "Movemos lo que importa",
-  "telefono": "+51 999 999 999",
-  "direccion": "Av. Siempre Viva 123, Lima",
+  "phone": "+51 999 999 999",
+  "address": "Av. Siempre Viva 123, Lima",
   "email": "company@saas.com"
 }

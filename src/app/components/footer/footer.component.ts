@@ -3,6 +3,7 @@ import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { ThemeColors } from '../../interfaces/dynamic-colors.interface';
 import { CommonModule } from '@angular/common';
 import { SocialMediaService } from '../../services/social-media.service';
+import { CompanyService } from '../../services/company.service';
 
 @Component({
   standalone: true,
@@ -27,6 +28,7 @@ export class FooterComponent implements OnInit {
   VimeoUrl = 'https://vimeo.com/tuUsuario';
   GooglePlusUrl = 'https://plus.google.com/tuPagina';
 
+  company = inject(CompanyService).getCompany();
   social_media = inject(SocialMediaService).getSocialMedia();
   themeService = inject(DynamicThemeService);
 
