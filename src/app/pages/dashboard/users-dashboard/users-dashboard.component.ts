@@ -19,6 +19,7 @@ import { DatatableLanguageService } from '../../../services/datatable-language.s
 import { DatePipe } from '@angular/common';
 
 import { getPdfHeader, getPdfFooter } from '../../../utils/pdf-utils';
+import { ImageUtilService } from '../../../services/image-util.service';
 
 interface UserWithMessage extends User {
   message?: string;
@@ -40,7 +41,8 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       private bootstrapInit: BootstrapInitService,
       private bootstrapValidation: BootstrapValidationService,
       private idiomaService: DatatableLanguageService,
-      private datePipe: DatePipe
+      private datePipe: DatePipe,
+      private imageUtil: ImageUtilService
   ) {}
 
   selectedUser: User | null = null;
@@ -70,7 +72,12 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       this.modalMode = 'view';
     });
 
-    this.initDataTable();
+    this.imageUtil.convertImageToBase64('assets/logos/company-logo.png').then(base64 => {
+      this.logoBase64 = base64;
+      this.initDataTable(); // Asegúrate de llamar después de cargar el logo
+    });
+
+    //this.initDataTable();
   }
 
   getUsers(): void {
