@@ -53,9 +53,10 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   users: User[] = [];
   storeId: number = 2;
 
+  //TAREA: Utilizar localStorage o un servicio para obtener el ID de la tienda actual
   logoBase64: string = ''; // Asegúrate de asignar el valor base64 de tu logo aquí
   companyName: string = 'Nombre de la Empresa';
-  reportTitle: string = 'Reporte de Usuarios';
+  reportTitle: string = 'usuarios';
   userName: string = 'Nombre del Usuario'; // Puedes obtenerlo desde tu servicio de autenticación
 
   ngOnInit(): void {
@@ -116,12 +117,17 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
            "<'row'<'col-12'tr>>" +
            "<'row'<'col-3'i><'col-6 d-flex justify-content-center'p><'col-3 text-end custom-button-col mt-2'>>",
       buttons: [
-        { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
         { extend: 'excel', className: 'btn btn-info', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'csv', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'copy', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'colvis', className: 'btn btn-secondary', text: 'Columnas' },
         { extend: 'pdf',
           className: 'btn btn-danger',
-          exportOptions: { columns: ':not(.no-export)' },
+          exportOptions: { columns: function (idx: any, data: any, node: any) {
+              return $(node).is(':visible') && !$(node).hasClass('no-export');
+            }
+          },
           customize: (doc: any) => {
             //const nombreUsuario = 'Juan Pérez'; // Puedes reemplazarlo con tu variable dinámica
             const fechaHora = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
@@ -141,11 +147,13 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
                   width: 60
                 },
                 {
-                  text: 'Mi Empresa S.A.\n\nEl presente reporte corresponde al listado de usuarios',
+                  text: [
+                    { text: `${this.companyName}\n`, bold: true },
+                    { text: `El presente reporte corresponde al listado de ${this.reportTitle}` }
+                  ],
                   alignment: 'right',
                   margin: [10, 0],
                   fontSize: 12,
-                  bold: true
                 }
               ],
               margin: [0, 0, 0, 10]
@@ -184,8 +192,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
               }
             }
           }
-        },
-        { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } }
+        }
       ],
       data: this.users,
       columns: [
@@ -204,6 +211,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
         {
           data: null,
           orderable: false,
+          className: 'text-center no-export',
           render: (data: any, type: any, row: any) => `
             <div class="text-center"><button class="btn btn-sm btn-info btn-see-user" title="Ver" data-id="${row.id}"><i class="fas fa-eye"></i></button>
             <button class="btn btn-sm btn-warning btn-edit-user" title="Editar" data-id="${row.id}"><i class="fas fa-edit"></i></button>
