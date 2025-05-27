@@ -106,7 +106,9 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   }
 
   initDataTable(): void {
+    //const nombreUsuario = 'Juan Pérez'; // Puedes reemplazarlo con tu variable dinámica
     const fechaHora = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
+    //const fechaHora = new Date().toLocaleString();
     
     this.dataTable = $('#usersTable').DataTable({
       language: this.idiomaService.getIdioma(),
@@ -121,16 +123,66 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
           className: 'btn btn-danger',
           exportOptions: { columns: ':not(.no-export)' },
           customize: (doc: any) => {
-            doc.pageMargins = [40, 60, 40, 60];
+            //const nombreUsuario = 'Juan Pérez'; // Puedes reemplazarlo con tu variable dinámica
+            const fechaHora = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
+            //const fechaHora = new Date().toLocaleString();
+
+            doc.pageOrientation = 'landscape';
+            doc.pageMargins = [20, 30, 20, 30]; // Margen general (top, left, bottom, right)
             doc.defaultStyle.fontSize = 10;
-            doc.styles.tableHeader.fontSize = 11;
-            doc.styles.tableHeader.bold = true;
+            //doc.styles.tableHeader.fontSize = 11;
+            //doc.styles.tableHeader.bold = true;
+
+            // Encabezado: Logo y título
+            doc.content.unshift({
+              columns: [
+                {
+                  image: this.logoBase64,
+                  width: 60
+                },
+                {
+                  text: 'Mi Empresa S.A.\n\nEl presente reporte corresponde al listado de usuarios',
+                  alignment: 'right',
+                  margin: [10, 0],
+                  fontSize: 12,
+                  bold: true
+                }
+              ],
+              margin: [0, 0, 0, 10]
+            });
 
             // Encabezado
-            doc.header = getPdfHeader(this.logoBase64, this.companyName, this.reportTitle);
-
+            //doc.header = getPdfHeader(this.logoBase64, this.companyName, this.reportTitle);
+            
+            doc.footer = (currentPage: number, pageCount: number) => ({
+              columns: [
+                { text: `Generado por: ${this.userName}`, alignment: 'left', margin: [40, 0] },
+                { text: `Fecha: ${fechaHora}`, alignment: 'right', margin: [0, 0, 40, 0] }
+              ],
+              fontSize: 9
+            });
             // Pie de página
-            doc.footer = getPdfFooter(this.userName, fechaHora);
+            //doc.footer = getPdfFooter(this.userName, fechaHora);
+            
+            // Estilo de tabla
+            // Asegura que la tabla use el 100% del ancho disponible
+            const table = doc.content.find((el: any) => el.table);
+            const body = table.table.body;
+            const colCount = body[0].length;
+            table.table.widths = Array(colCount).fill('*');// Asignar ancho proporcional a columnas
+            table.width = 700; // fuerza un ancho menor que el total de la hoja
+
+            // Centrar contenido en celdas (excepto cabecera si prefieres alineación distinta)
+            for (let i = 1; i < body.length; i++) {
+              for (let j = 0; j < body[i].length; j++) {
+                if (typeof body[i][j] === 'string') {
+                  body[i][j] = { text: body[i][j], alignment: 'center', noWrap: true };
+                } else if (typeof body[i][j] === 'object') {
+                  body[i][j].alignment = 'center';
+                  body[i][j].noWrap = true;
+                }
+              }
+            }
           }
         },
         { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } }
