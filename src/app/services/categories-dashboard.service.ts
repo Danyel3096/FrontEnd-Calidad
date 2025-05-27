@@ -18,9 +18,9 @@ export class CategoriesService {
     return this.http.get<Category[]>(url);
   }
 
-  getCategoriesByStore(storeId: number): Observable<Category[]> {
+  getCategoriesByStore(storeId: number): Observable<{ content: Category[] }> {
     const url = `${this.baseUrl}/categories/store/${storeId}`;
-    return this.http.get<Category[]>(url);
+    return this.http.get<{ content: Category[] }>(url);
   }
 
   deleteCategory(categoryId: number): Observable<void> {
