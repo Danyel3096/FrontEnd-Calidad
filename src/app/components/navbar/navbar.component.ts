@@ -34,11 +34,14 @@ interface Notificacion {
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
+
 export class NavbarComponent implements OnInit {
   company = inject(CompanyService).getCompany();
   cartState = inject(CartStateService).state;
   login: LoginService = inject(LoginService); // Asegúrate de que el servicio está correctamente inyectado
   themeService = inject(DynamicThemeService);
+
+  themeIcon: string = 'moon'; // valor por defecto
 
   hoveredDropdownItem: number | string | null = null;
   isLoggedIn = false;
@@ -120,6 +123,10 @@ export class NavbarComponent implements OnInit {
 
     this.themeService.getActivePalette().subscribe(palette => {
       this.activePalette = palette;
+    });
+
+    this.themeService.getDarkMode().subscribe(isDark => {
+      this.themeIcon = isDark ? 'moon' : 'sun'; // Iconos para cambiar el modo
     });
   }
 

@@ -108,7 +108,8 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
 
   initDataTable(): void {
     //const nombreUsuario = 'Juan Pérez'; // Puedes reemplazarlo con tu variable dinámica
-    const fechaHora = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
+    const fecha = this.datePipe.transform(new Date(), 'dd/MM/yyyy') || '';
+    const hora = this.datePipe.transform(new Date(), 'hh:mm a') || '';
     //const fechaHora = new Date().toLocaleString();
     
     this.dataTable = $('#usersTable').DataTable({
@@ -124,6 +125,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
         { extend: 'colvis', className: 'btn btn-secondary', text: 'Columnas' },
         { extend: 'pdf',
           className: 'btn btn-danger',
+          title: '', // ← Esto evita que ponga "Dashboard component" como título
           exportOptions: { columns: function (idx: any, data: any, node: any) {
               return $(node).is(':visible') && !$(node).hasClass('no-export');
             }
@@ -148,7 +150,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
                 },
                 {
                   text: [
-                    { text: `${this.companyName}\n`, bold: true },
+                    { text: `${this.companyName}\n`, bold: true, italics: true },
                     { text: `El presente reporte corresponde al listado de ${this.reportTitle}` }
                   ],
                   alignment: 'right',
@@ -164,8 +166,8 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
             
             doc.footer = (currentPage: number, pageCount: number) => ({
               columns: [
-                { text: `Generado por: ${this.userName}`, alignment: 'left', margin: [40, 0] },
-                { text: `Fecha: ${fechaHora}`, alignment: 'right', margin: [0, 0, 40, 0] }
+                { text: `Generado por: ${this.userName}`, alignment: 'left', margin: [40, 0], italics: true },
+                { text: `Fecha: ${fecha} a las ${hora}`, alignment: 'right', margin: [0, 0, 40, 0], italics: true }
               ],
               fontSize: 9
             });

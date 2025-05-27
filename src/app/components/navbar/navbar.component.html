@@ -195,8 +195,8 @@
         <li class="nav-item">
           <!-- Cambiar tema -->
           <app-dynamic-navbar-button
-            icon="circle-half-stroke"
-            label="Cambiar tema"
+            [icon]="themeIcon"
+            label=""
             [isButtonOnly]="true"
             (buttonClick)="toggleTheme()"
             (click)="closeNavbar()">
