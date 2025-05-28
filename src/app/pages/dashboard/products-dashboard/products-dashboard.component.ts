@@ -42,6 +42,8 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
     this.initDataTable();
   }
 
+  // ========== CONSULTA DE PRODUCTOS ==========
+  
   getProducts(): void {
     this.productsService.getProductsByPage(this.storeId, 1, 100).subscribe({
       next: (data) => {
@@ -54,6 +56,8 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  // ========== INICIALIZAR Y GESTIONAR DATATABLE ==========
 
   initDataTable(): void {
     this.dataTable = $('#productsTable').DataTable({
