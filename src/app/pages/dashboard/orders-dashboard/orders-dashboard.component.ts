@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { BootstrapInitService } from '../../../services/bootstrap-init.service';
 import { BootstrapValidationService } from '../../../services/bootstrap-validation.service';
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
+import { DatePipe } from '@angular/common';
 
 import { OrdersService } from '../../../services/orders.service';
 import { Order } from '../../../interfaces/orders.interface';
@@ -22,7 +23,8 @@ import { Order } from '../../../interfaces/orders.interface';
   selector: 'app-orders-dashboard',
   imports: [CommonModule, FormsModule],
   templateUrl: './orders-dashboard.component.html',
-  styleUrls: ['./orders-dashboard.component.css']
+  styleUrls: ['./orders-dashboard.component.css'],
+    providers: [DatePipe]
 })
 export class OrdersDashboardComponent implements OnInit, AfterViewInit {
   selectedOrder: Order | null = null;
@@ -39,7 +41,8 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
     private bootstrapInit: BootstrapInitService,
     private bootstrapValidation: BootstrapValidationService,
     private idiomaService: DatatableLanguageService,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private datePipe: DatePipe,
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +69,18 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
       this.ordersService.getSalesByStore(this.storeId).subscribe({
         next: (data: Order[]) => {
           this.orders = data;
+          this.orders.forEach(order => {
+          if (order.createdAt) {
+            const date = new Date(order.createdAt);
+            order.createdAt = date.toLocaleString('es-ES', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+          }
+        });
           this.saveOrdersToLocalStorage();  // Guardar en localStorage después de cargar
           this.initDataTable();
         },
@@ -109,7 +124,7 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
         { data: 'id' },
         { data: 'storeId' },
         { data: 'userId' },
-        { data: 'saleDate' },
+        { data: 'saleDate',    render: data => this.datePipe.transform(data, 'dd/MM/yyyy') },
         { data: 'paymentMethod' },
         { data: 'totalAmount', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
         { data: 'status' },

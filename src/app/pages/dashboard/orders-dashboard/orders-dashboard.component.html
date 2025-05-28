@@ -30,22 +30,9 @@
       </div>
       <div class="modal-body">
         <div *ngIf="selectedOrder">
-          <div class="mb-3">
-            <label for="orderId" class="form-label">ID</label>
-            <input type="text" class="form-control" id="orderId" [value]="selectedOrder.id" readonly />
-          </div>
+     
 
-          <div class="mb-3">
-            <label for="storeId" class="form-label">ID Tienda</label>
-            <input type="text" class="form-control" id="storeId" [(ngModel)]="selectedOrder.storeId" name="storeId" [readonly]="modalMode === 'view'" required />
-            <div class="invalid-feedback">Este campo es obligatorio.</div>
-          </div>
-
-          <div class="mb-3">
-            <label for="userId" class="form-label">ID Usuario</label>
-            <input type="number" class="form-control" id="userId" [(ngModel)]="selectedOrder.userId" name="userId" [readonly]="modalMode === 'view'" required />
-            <div class="invalid-feedback">Este campo es obligatorio.</div>
-          </div>
+         
 
           <div class="mb-3">
             <label for="saleDate" class="form-label">Fecha de Venta</label>
