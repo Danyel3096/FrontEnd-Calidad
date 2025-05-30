@@ -18,6 +18,9 @@ import { BootstrapValidationService } from '../../../services/bootstrap-validati
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
 import { DatePipe } from '@angular/common';
 
+import { DynamicThemeService } from '../../../services/dynamic-theme.service';// Copy Paste aquí
+import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';// Copy Paste aquí
+
 import { getPdfHeader, getPdfFooter } from '../../../utils/pdf-utils';
 import { ImageUtilService } from '../../../services/image-util.service';
 
@@ -42,8 +45,26 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       private bootstrapValidation: BootstrapValidationService,
       private idiomaService: DatatableLanguageService,
       private datePipe: DatePipe,
-      private imageUtil: ImageUtilService
+      private imageUtil: ImageUtilService,
+      private dynamicThemeService: DynamicThemeService,// Copy Paste aquí
   ) {}
+
+  // Copy Paste desde aquí
+  pageContentColors: ThemeColors['pageContent'] = {
+      backgroundPage: '',
+      backgroundSecondary: '',
+      textTitle: '',
+      textBody: '',
+      fontFamily: '',
+      fontSizeH1: '',
+      fontSizeH2: '',
+      fontSizeH3: '',
+      fontSizeH4: '',
+      fontSizeH5: '',
+      fontSizeH6: '',
+      fontSizeText: ''
+    };
+    // Copy Paste hasta aquí
 
   selectedUser: User | null = null;
   tempUser: User | null = null;
@@ -60,6 +81,25 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   userName: string = 'Nombre del Usuario'; // Puedes obtenerlo desde tu servicio de autenticación
 
   ngOnInit(): void {
+    // Copy Paste desde aquí
+    this.dynamicThemeService.getDarkMode().subscribe(isDark => {
+      console.log('StoresDashboardComponent detectó isDarkMode:', isDark);
+      document.documentElement.classList.toggle('dark', isDark);
+    });
+
+    this.dynamicThemeService.getSection('pageContent').subscribe(colors => {
+      console.log('StoresDashboardComponent detectó pageContent:', colors);
+      // Aplica los estilos globales al body o al root
+      const root = document.documentElement;
+
+      this.pageContentColors = colors;
+
+      Object.entries(colors).forEach(([key, value]) => {
+        root.style.setProperty(`--${key}`, value);
+      });
+    });
+    // Copy Paste hasta aquí
+    
     this.getUsers();
   }
 
