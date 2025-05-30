@@ -1,0 +1,22 @@
+/* Estilos para el área de drop */
+.drop-area {
+    min-height: 150px;
+    border: 2px dashed #ced4da;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .drop-area.dragover {
+    background-color: rgba(13, 110, 253, 0.1);
+    border-color: #0d6efd;
+  }
+  
+  .drop-area p {
+    margin: 0;
+    color: #6c757d;
+  }

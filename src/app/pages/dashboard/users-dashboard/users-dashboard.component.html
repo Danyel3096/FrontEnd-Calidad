@@ -122,11 +122,36 @@
               Porfavor seleccione el estado.
             </div>
           </div>
+
           <div class="mb-3">
             <label class="form-label">Imagen</label>
-            <input type="file" class="form-control" (change)="handleImageUpload($event)" *ngIf="modalMode === 'edit'">
-            <img *ngIf="selectedUser?.photo" [src]="selectedUser.photo" class="img-thumbnail mt-2" width="100">
+            <div
+              class="drop-area form-control"
+              (drop)="onDrop($event)"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              style="min-height: 100px; border: 2px dashed #ccc;"
+            >
+              <p *ngIf="!selectedUser?.photo">Arrastra aquí tu imagen</p>
+              <img *ngIf="selectedUser?.photo" [src]="selectedUser.photo" class="img-thumbnail mt-2" width="100">
+              <input
+                type="file"
+                class="form-control d-none"
+                (change)="handleImageUpload($event)"
+                #fileInput
+                accept="image/*"
+                *ngIf="modalMode === 'edit'"
+              />
+            </div>
+            <button
+              *ngIf="modalMode === 'edit'"
+              class="btn btn-sm btn-outline-secondary mt-2"
+              (click)="onSelectImage($event)"
+            >
+              Seleccionar imagen
+            </button>
           </div>
+          
           <div class="mb-3">
             <label class="form-label">Fecha de Creación</label>
             <p *ngIf="modalMode === 'view'">{{ selectedUser.createdAt }}</p>

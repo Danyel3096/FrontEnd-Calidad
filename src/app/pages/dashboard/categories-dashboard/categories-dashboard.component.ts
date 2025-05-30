@@ -61,7 +61,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   getCategories(): void {
     this.categoriesService.getCategoriesByStore(this.storeId).subscribe({
       next: (data) => {
-        this.categories = data;
+        this.categories = data?.content || [];
         console.log("Categorías cargadas:", this.categories);
         this.redrawTable(); // Inicializa la tabla después de cargar los datos
       },
