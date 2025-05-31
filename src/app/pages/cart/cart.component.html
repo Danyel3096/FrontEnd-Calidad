@@ -24,15 +24,38 @@
       </div>
     </div>
 
-    <!-- Repeat product rows as needed -->
+    <div class="row">
+      <!-- Contenedor de productos -->
+      <div class="col-8">
+        <ng-container *ngIf="isLoading; else cartGrid">
+          <p>Cargando carrito...</p>
+        </ng-container>
 
-    <div class="row justify-content-end">
-      <div class="col-md-4">
-        <div class="d-flex justify-content-between border-top pt-3">
-          <span class="fw-bold">Total</span>
-          <span class="fw-bold">$2,299</span>
+        <!-- Template con productos -->
+        <ng-template #cartGrid>
+          <div class="d-flex flex-column gap-3">
+            <div *ngFor="let cartItem of state.products(); trackBy: trackById">
+              <app-cart-item
+                class="block"
+                [productCartItem]="cartItem"
+                (onRemove)="onRemove($event)"
+                (onDecrease)="onDecrease($event)"
+                (onIncrease)="onIncrease($event)">
+              </app-cart-item>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Contenedor del resumen -->
+      <div class="col-4">
+        <div class="border-top pt-3">
+          <div class="d-flex justify-content-between mb-2">
+            <span class="fw-bold">Total</span>
+            <span class="fw-bold">$2,299</span>
+          </div>
+          <button class="btn btn-primary w-100">Checkout</button>
         </div>
-        <button class="btn btn-primary w-100 mt-3">Checkout</button>
       </div>
     </div>
   </div>
