@@ -22,13 +22,13 @@
 <div id="userModal" class="modal fade" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"><!-- Copy Paste de ngStyle -->
         <h5 class="modal-title">
           {{ modalMode === 'view' ? 'Ver Usuario' : 'Editar Usuario' }}
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body" *ngIf="selectedUser">
+      <div class="modal-body" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }" *ngIf="selectedUser"><!-- Copy Paste de ngStyle -->
         <form #userForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveUserChanges()">
           <div class="mb-3">
             <label class="form-label">Nombres</label>
@@ -122,11 +122,36 @@
               Porfavor seleccione el estado.
             </div>
           </div>
+
           <div class="mb-3">
             <label class="form-label">Imagen</label>
-            <input type="file" class="form-control" (change)="handleImageUpload($event)" *ngIf="modalMode === 'edit'">
-            <img *ngIf="selectedUser?.photo" [src]="selectedUser.photo" class="img-thumbnail mt-2" width="100">
+            <div
+              class="drop-area form-control"
+              (drop)="onDrop($event)"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              style="min-height: 100px; border: 2px dashed #ccc;"
+            >
+              <p *ngIf="!selectedUser?.photo">Arrastra aquí tu imagen</p>
+              <img *ngIf="selectedUser?.photo" [src]="selectedUser.photo" class="img-thumbnail mt-2" width="100">
+              <input
+                type="file"
+                class="form-control d-none"
+                (change)="handleImageUpload($event)"
+                #fileInput
+                accept="image/*"
+                *ngIf="modalMode === 'edit'"
+              />
+            </div>
+            <button
+              *ngIf="modalMode === 'edit'"
+              class="btn btn-sm btn-outline-secondary mt-2"
+              (click)="onSelectImage($event)"
+            >
+              Seleccionar imagen
+            </button>
           </div>
+          
           <div class="mb-3">
             <label class="form-label">Fecha de Creación</label>
             <p *ngIf="modalMode === 'view'">{{ selectedUser.createdAt }}</p>
@@ -138,7 +163,7 @@
           <div class="invalid-feedback">
             Porfavor seleccione su fecha de creación.
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"><!-- Copy Paste de ngStyle -->
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
           </div>
