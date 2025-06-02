@@ -1,5 +1,5 @@
 export interface Order {
-  id: number;
+  id?: number;
   storeId: number;
   userId: number | null; // ✅ Permite null
   saleDate: string;
@@ -8,4 +8,6 @@ export interface Order {
   status: string;
   deleted?: boolean;
   createdAt?: string;
+  saleDetails?: any[];
+  
 }

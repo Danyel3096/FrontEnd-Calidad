@@ -36,6 +36,8 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
 
   orders: Order[] = [];
   storeId: number = 2;
+  userId = Number(localStorage.getItem('user_id')) || 0;
+
 
   constructor(
     private bootstrapInit: BootstrapInitService,
@@ -67,28 +69,34 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
       this.initDataTable();
     } else {
       this.ordersService.getSalesByStore(this.storeId).subscribe({
-        next: (data: Order[]) => {
-          this.orders = data;
-          this.orders.forEach(order => {
-          if (order.createdAt) {
-            const date = new Date(order.createdAt);
-            order.createdAt = date.toLocaleString('es-ES', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            });
-          }
+  next: (data: Order[]) => {
+    this.orders = data.map(order => ({
+      ...order,
+  storeId: (order as any).store?.id || null
+    }));
+
+    this.orders.forEach(order => {
+      if (order.createdAt) {
+        const date = new Date(order.createdAt);
+        order.createdAt = date.toLocaleString('es-ES', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
         });
-          this.saveOrdersToLocalStorage();  // Guardar en localStorage después de cargar
-          this.initDataTable();
-        },
-        error: (err) => {
-          Swal.fire('Error', 'No se pudieron cargar las órdenes', 'error');
-          console.error(err);
-        }
-      });
+      }
+    });
+
+    this.saveOrdersToLocalStorage();  // Guardar en localStorage después de cargar
+    this.initDataTable();
+  },
+  error: (err) => {
+    Swal.fire('Error', 'No se pudieron cargar las órdenes', 'error');
+    console.error(err);
+  }
+});
+
     }
   }
 
@@ -136,9 +144,7 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
               <button class="btn btn-sm btn-info btn-see-order" title="Ver" data-id="${row.id}">
                 <i class="fas fa-eye"></i>
               </button>
-              <button class="btn btn-sm btn-warning btn-edit-order" title="Editar" data-id="${row.id}">
-                <i class="fas fa-edit"></i>
-              </button>
+
               <button class="btn btn-sm btn-danger btn-delete-order" title="Eliminar" data-id="${row.id}">
                 <i class="fas fa-trash"></i>
               </button>
@@ -190,41 +196,52 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 createOrder(): void {
-  this.selectedOrder = {
-    id: 0,
-    storeId: this.storeId,
-    userId: null,
-    saleDate: new Date().toISOString().split('T')[0],
-    paymentMethod: '',
-    totalAmount: 0,
-    status: 'Activo'
-  };
+this.selectedOrder = {
+  id: 0,
+  storeId: this.storeId,
+  userId: this.userId,
+  saleDate: new Date().toISOString(),
+  paymentMethod: 'Efectivo',
+  totalAmount: 0,
+  status: 'Pendiente'
+};
+
+
   this.modalMode = 'create';
   this.orderModal?.show();
 }
 
 
-  saveOrderChanges(): void {
-    const form = document.querySelector('form.needs-validation') as HTMLFormElement;
-    form.classList.add('was-validated');
 
-    if (!this.bootstrapValidation.validateForm(form)) return;
-    if (!this.selectedOrder) return;
+saveOrderChanges(): void {
+  const form = document.querySelector('form.needs-validation') as HTMLFormElement;
+  form.classList.add('was-validated');
 
-    if (this.modalMode === 'edit') {
-      const index = this.orders.findIndex(o => o.id === this.selectedOrder!.id);
-      if (index !== -1) this.orders[index] = { ...this.selectedOrder };
-    } else if (this.modalMode === 'create') {
-      const newId = this.orders.length ? Math.max(...this.orders.map(o => o.id)) + 1 : 1;
-      this.selectedOrder.id = newId;
-      this.orders.push(this.selectedOrder);
-    }
+  if (!this.bootstrapValidation.validateForm(form)) return;
+  if (!this.selectedOrder) return;
 
-    this.saveOrdersToLocalStorage();
-    Swal.fire('Guardado', 'La orden ha sido guardada correctamente.', 'success');
-    this.orderModal?.hide();
-    this.redrawTable();
+  console.log('Datos a enviar:', this.selectedOrder);  // <--- aquí
+
+  if (this.modalMode === 'edit') {
+    console.warn('Edición aún no implementada para el backend.');
+  } else if (this.modalMode === 'create') {
+    delete this.selectedOrder.id;
+    this.ordersService.createOrder(this.selectedOrder).subscribe({
+      next: (createdOrder) => {
+        this.orders.push(createdOrder);
+        Swal.fire('Guardado', 'La orden ha sido guardada correctamente.', 'success');
+        this.orderModal?.hide();
+        this.redrawTable();
+      },
+      error: (error) => {
+        console.error('Error al guardar la orden:', error);
+        Swal.fire('Error', 'No se pudo guardar la orden. Intenta nuevamente.', 'error');
+      }
+    });
   }
+}
+
+
 
   seeOrder(order: Order): void {
     this.selectedOrder = { ...order };
@@ -239,29 +256,34 @@ createOrder(): void {
     this.orderModal?.show();
   }
 
-  deleteOrder(order: Order): void {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: `¿Seguro que deseas eliminar la orden con ID ${order.id}?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.ordersService.deleteSale(order.id).subscribe({
-          next: () => {
-            this.orders = this.orders.filter(o => o.id !== order.id);
-            this.saveOrdersToLocalStorage();
-            this.redrawTable();
-            Swal.fire('Eliminado', 'La orden ha sido eliminada', 'success');
-          },
-          error: (err) => {
-            Swal.fire('Error', 'No se pudo eliminar la orden', 'error');
-            console.error(err);
-          }
-        });
-      }
-    });
+ deleteOrder(order: Order): void {
+  if (order.id === undefined) {
+    Swal.fire('Error', 'La orden no tiene un ID válido', 'error');
+    return;
   }
+
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: `¿Seguro que deseas eliminar la orden con ID ${order.id}?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.ordersService.deleteSale(order.id!).subscribe({
+        next: () => {
+          this.orders = this.orders.filter(o => o.id !== order.id);
+          this.saveOrdersToLocalStorage();
+          this.redrawTable();
+          Swal.fire('Eliminado', 'La orden ha sido eliminada', 'success');
+        },
+        error: (err) => {
+          Swal.fire('Error', 'No se pudo eliminar la orden', 'error');
+          console.error(err);
+        }
+      });
+    }
+  });
+}
 }

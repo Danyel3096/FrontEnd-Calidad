@@ -55,9 +55,9 @@
           <div class="mb-3">
             <label for="status" class="form-label">Estado</label>
             <select id="status" class="form-select" [(ngModel)]="selectedOrder.status" name="status" [disabled]="modalMode === 'view'" required>
-              <option value="Activo">Activo</option>
-              <option value="Cancelado">Cancelado</option>
-              <option value="Completado">Completado</option>
+              <option value="ACTIVE">Activo</option>
+              <option value="CANCELED">Cancelado</option>
+              <option value="COMPLETED">Completado</option>
             </select>
             <div class="invalid-feedback">Seleccione un estado válido.</div>
           </div>
