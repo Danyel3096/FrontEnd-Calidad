@@ -1,94 +1,56 @@
-<div class="rounded-lg border border-gray-200 bg-gray-800 p-4 shadow-sm dark:border-gray-700 dark:bg-white md:p-6">
-  <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-    <a
-      [routerLink]="['/product', productCartItem().product.id]"
-      class="shrink-0 md:order-1"
-    >
-      <img
-        class="h-20 w-20"
-        [src]="productCartItem().product.url"
-        alt="Product image"
+<div class="row cart-item align-items-center mb-3">
+  <div class="col-md-3">
+    <img
+      [src]="productCartItem().product.url"
+      [alt]="productCartItem().product.name"
+      class="img-fluid rounded"
+      style="max-height: 100px; object-fit: contain;"
+    />
+  </div>
+
+  <div class="col-md-5">
+    <h5 class="card-title">{{ productCartItem().product.name }}</h5>
+    <p class="text-muted">Categoría: {{ productCartItem().product.category || 'N/A' }}</p>
+  </div>
+
+  <div class="col-md-2">
+    <div class="input-group">
+      <button
+        class="btn btn-outline-secondary btn-sm"
+        type="button"
+        (click)="productCartItem().quantity > 1 ? onDecrease.emit(productCartItem()) : null"
+        aria-label="Disminuir cantidad"
+      >
+        -
+      </button>
+      <input
+        type="text"
+        class="form-control form-control-sm text-center quantity-input"
+        [value]="productCartItem().quantity"
+        readonly
+        style="max-width: 80px"
       />
-    </a>
-
-    <label for="counter-input" class="sr-only">Choose quantity:</label>
-    <div class="flex items-center justify-between md:order-3 md:justify-end">
-      <div class="flex items-center">
-        <button
-          type="button"
-          id="decrement-button"
-          data-input-counter-decrement="counter-input"
-          class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-          (click)="productCartItem().quantity > 0 ? onDecrease.emit(productCartItem()) : null">
-          <i class="fa-solid fa-minus"></i>
-        </button>
-        <input
-          type="text"
-          id="counter-input"
-          data-input-counter
-          class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
-          placeholder=""
-          [value]="productCartItem().quantity"
-          disabled
-          required
-        />
-        <button
-          type="button"
-          id="increment-button"
-          data-input-counter-increment="counter-input"
-          class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-          (click)="onIncrease.emit(productCartItem())">
-          <i class="fa-solid fa-plus"></i>
-        </button>
-      </div>
-      <div class="text-end md:order-4 md:w-32">
-        <p class="text-base font-bold text-gray-900 dark:text-white">
-          {{ productCartItem().product.price | currency }}
-        </p>
-      </div>
-    </div>
-
-    <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-      <a
-        [routerLink]="['/product', productCartItem().product.id]"
-        class="text-base font-medium hover:underline text-gray-900 dark:text-black"
+      <button
+        class="btn btn-outline-secondary btn-sm"
+        type="button"
+        (click)="onIncrease.emit(productCartItem())"
+        aria-label="Aumentar cantidad"
       >
-        {{ productCartItem().product.url }}
-      </a>
-
-      <p
-        class="truncate-description text-base text-gray-800 dark:text-black"
-        [title]="productCartItem().product.description"
-      >
-        {{ productCartItem().product.description }}
-      </p>
-
-      <div class="flex items-center gap-4">
-        <button
-          type="button"
-          class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
-          (click)="onRemove.emit(productCartItem().product.id)"
-        >
-          <svg
-            class="me-1.5 h-5 w-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18 17.94 6M18 18 6.06 6"
-            />
-          </svg>
-          Eliminar
-        </button>
-      </div>
+        +
+      </button>
     </div>
+  </div>
+
+  <div class="col-md-2 text-end">
+    <p class="fw-bold">
+      {{ (productCartItem().product.price * productCartItem().quantity) | currency }}
+    </p>
+    <button
+      class="btn btn-sm btn-outline-danger"
+      (click)="onRemove.emit(productCartItem().product.id)"
+      aria-label="Eliminar producto"
+    >
+      <i class="bi bi-trash"></i>
+    </button>
   </div>
 </div>
