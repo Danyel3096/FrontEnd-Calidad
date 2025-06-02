@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import printJS from 'print-js';
 import {
   Chart,
   BarElement,
@@ -217,4 +218,29 @@ export class MetricsDashboardComponent implements AfterViewInit {
       },
     });
   }
+
+  imprimirMetricas() {
+  const canvases = document.querySelectorAll('canvas');
+  canvases.forEach((canvas) => {
+    const img = document.createElement('img');
+    img.src = (canvas as HTMLCanvasElement).toDataURL();
+    img.style.width = '100%';
+    img.style.maxHeight = '400px';
+    img.style.marginBottom = '20px';
+    canvas.parentElement?.appendChild(img);
+    canvas.style.display = 'none';
+  });
+
+  setTimeout(() => {
+    window.print();
+
+    // Restaurar canvas después de imprimir
+    canvases.forEach((canvas) => {
+      canvas.style.display = 'block';
+      const imgs = canvas.parentElement?.querySelectorAll('img');
+      imgs?.forEach((img) => img.remove());
+    });
+  }, 500);
+}
+
 }

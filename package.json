@@ -65,6 +65,7 @@
     "ngxtension": "^5.0.0",
     "pdfmake": "^0.2.19",
     "postcss": "^8.5.3",
+    "print-js": "^1.6.0",
     "rimraf": "^6.0.1",
     "rxjs": "~7.8.2",
     "sweetalert2": "^11.6.13",

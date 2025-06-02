@@ -169,6 +169,7 @@
                 color: hoveredDropdownItem === 'notifs' ? color.hoverText : color.text
               }">
               <i class="fa-solid fa-bell"></i>
+
               <!-- Badge de cantidad -->
               <span *ngIf="notificacionesSinLeer() > 0"
                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
@@ -177,26 +178,43 @@
               </span>
             </a>
 
-            <!-- Menú desplegable -->
-            <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end" style="max-height: 300px; overflow-y: auto;">
+            <!-- Menú desplegable de notificaciones -->
+            <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end p-2 shadow"
+                style="max-height: 300px; overflow-y: auto; width: 320px;">
+              
               <!-- Si no hay notificaciones -->
               <li *ngIf="notifications.length === 0" class="dropdown-item text-muted">
                 No hay notificaciones
               </li>
 
               <!-- Lista de notificaciones -->
-              <li *ngFor="let notif of notifications">
-                <div class="dropdown-item d-flex flex-column"
-                    [class.bg-light]="!notif.isRead"
-                    [style.fontWeight]="!notif.isRead ? 'bold' : 'normal'">
-                  <span>{{ notif.title }}</span>
-                  <small class="text-muted">{{ notif.message}}</small>
-                  <small class="text-muted">{{ notif.createdAt | date:'short' }}</small>
+              <li *ngFor="let notif of notifications" class="mb-2">
+                <div class="dropdown-item d-flex flex-column rounded"
+                    [ngClass]="{
+                      'bg-white border-start border-4 border-primary': !notif.isRead,
+                      'bg-light': notif.isRead
+                    }">
+                  <!-- Título -->
+                  <span class="fw-bold text-dark">
+                    {{ notif.title }}
+                  </span>
+
+                  <!-- Mensaje -->
+                  <span class="text-secondary small">
+                    {{ notif.message }}
+                  </span>
+
+                  <!-- Fecha -->
+                  <span class="text-muted small mt-1">
+                    {{ notif.createdAt | date:'short' }}
+                  </span>
                 </div>
               </li>
 
               <!-- Divider -->
-              <li *ngIf="notifications.length > 0"><hr class="dropdown-divider" /></li>
+              <li *ngIf="notifications.length > 0">
+                <hr class="dropdown-divider" />
+              </li>
 
               <!-- Botón de marcar como leídas -->
               <li *ngIf="notificacionesSinLeer() > 0">

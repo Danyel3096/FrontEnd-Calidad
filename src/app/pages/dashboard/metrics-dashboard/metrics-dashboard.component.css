@@ -1,0 +1,86 @@
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  #metricas-container, #metricas-container * {
+    visibility: visible !important;
+  }
+
+  #metricas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white;
+    z-index: 9999;
+  }
+
+  .no-print, .btn, button {
+    display: none !important;
+  }
+
+  /* KPIs en fila horizontal (5 en una fila) */
+  #metricas-container .row.mb-5.justify-content-center.text-center {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    gap: 5px;
+    margin-bottom: 0.5rem !important;
+  }
+
+  #metricas-container .col-md-2.col-6 {
+    width: 19% !important; 
+    flex: 0 0 auto !important;
+    padding: 2px !important;
+  }
+
+  #metricas-container .card {
+    padding: 0.4rem !important;
+    margin: 0 auto !important;
+    height: auto !important;
+  }
+
+  #metricas-container .card h4 {
+    font-size: 0.75rem !important;
+    margin: 0 !important;
+  }
+
+  #metricas-container .card small {
+    font-size: 0.6rem !important;
+  }
+
+  /* Menor espacio entre secciones */
+  #metricas-container .row.mb-5 {
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Gráficas compactas */
+  #metricas-container canvas {
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 120px !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  #metricas-container h5 {
+    font-size: 0.85rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  /* Columnas gráficas */
+  .col-md-6 {
+    width: 50% !important;
+  }
+
+  .col-md-4 {
+    width: 33.33% !important;
+  }
+
+  /* Evitar cortes de tarjeta */
+  .card {
+    page-break-inside: avoid;
+  }
+}

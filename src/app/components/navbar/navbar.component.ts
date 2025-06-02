@@ -75,6 +75,7 @@ export class NavbarComponent implements OnInit {
     // Verificación de si el usuario existe y tiene la estructura esperada
     if (this.user) {
       console.log('Usuario actual:', this.user);  // Solo para depurar
+      this.cargarNotificaciones(this.user.id);
     } else {
       console.log('No hay usuario logueado');
     }
@@ -82,6 +83,9 @@ export class NavbarComponent implements OnInit {
     this.login.loginStatusSubject.subscribe(() => {
       this.isLoggedIn = this.login.isLoggedIn();
       this.user = this.login.getUser();
+      if (this.user) {
+        this.cargarNotificaciones(this.user.id);
+      }
     });
 
     this.dynamicThemeService.getSection('navbar').subscribe(colors => {
