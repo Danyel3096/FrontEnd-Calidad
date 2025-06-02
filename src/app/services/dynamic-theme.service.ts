@@ -50,7 +50,19 @@ export class DynamicThemeService {
   private config$: Observable<ThemeConfig> = this.http
   .get<ThemeConfig>('assets/config/theme.json')
   .pipe(
-    tap(cfg => console.log('config$ cargó:', cfg)),      // <-- Aquí el console.log
+    map(jsonConfig => {
+      const localOverride = localStorage.getItem('themeOverride');
+      if (localOverride) {
+        try {
+          const override = JSON.parse(localOverride) as ThemeConfig;
+          console.log('Cargando override desde localStorage');
+          return override;
+        } catch {
+          console.warn('Error parseando override local, se usa JSON original');
+        }
+      }
+      return jsonConfig;
+    }),
     catchError(() => {
       console.warn('Error cargando theme.json, usando fallback');
       return of(this.fallbackConfig);
@@ -125,4 +137,14 @@ export class DynamicThemeService {
   getConfig(): Observable<ThemeConfig> {
     return this.config$;
   }
+
+  private configSubject = new BehaviorSubject<ThemeConfig>(this.fallbackConfig);
+  updateThemeConfig(newConfig: ThemeConfig) {
+    this.configSubject.next(newConfig);
+  }
+  
+  forceUpdate(config: ThemeConfig) {
+    this.updateThemeConfig(config);
+  }
+
 }

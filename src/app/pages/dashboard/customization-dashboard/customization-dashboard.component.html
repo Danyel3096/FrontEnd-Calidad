@@ -1,65 +1,38 @@
 <!-- <p>customization-dashboard works!</p> -->
-<form [formGroup]="themeForm" (ngSubmit)="applyChanges()" *ngIf="themeForm">
+<form [formGroup]="themeForm" (ngSubmit)="onSubmit()" *ngIf="themeForm">
+  <h2>Editar Colores - Modo Claro</h2>
+  <div formGroupName="light">
+    <div formGroupName="pageButtons">
+      <label>Background:</label>
+      <input formControlName="background" type="color" />
 
-  <fieldset formGroupName="homePage">
-    <legend>Home Page</legend>
-    <label>
-      Primary Background:
-      <input type="color" formControlName="backgroundPrimary" />
-    </label>
-    <label>
-      Secondary Background:
-      <input type="color" formControlName="backgroundSecondary" />
-    </label>
-    <label>
-      Tertiary Background:
-      <input type="color" formControlName="backgroundTertiary" />
-    </label>
-    <label>
-      Quaternary Background:
-      <input type="color" formControlName="backgroundQuaternary" />
-    </label>
-    <label>
-      Title Text:
-      <input type="color" formControlName="textTitle" />
-    </label>
-    <label>
-      Body Text:
-      <input type="color" formControlName="textBody" />
-    </label>
-  </fieldset>
+      <label>Text:</label>
+      <input formControlName="text" type="color" />
 
-  <fieldset formGroupName="navbar">
-    <legend>Navbar</legend>
-    <label>
-      Background:
-      <input type="color" formControlName="background" />
-    </label>
-    <label>
-      Text:
-      <input type="color" formControlName="text" />
-    </label>
-  </fieldset>
+      <label>Hover Background:</label>
+      <input formControlName="hoverBackground" type="color" />
 
-  <fieldset formGroupName="footer">
-    <legend>Footer</legend>
-    <label>
-      Background:
-      <input type="color" formControlName="background" />
-    </label>
-    <label>
-      Text:
-      <input type="color" formControlName="text" />
-    </label>
-    <label>
-      Hover Background:
-      <input type="color" formControlName="hoverBackground" />
-    </label>
-    <label>
-      Hover Text:
-      <input type="color" formControlName="hoverText" />
-    </label>
-  </fieldset>
+      <label>Hover Text:</label>
+      <input formControlName="hoverText" type="color" />
+    </div>
+  </div>
 
-  <button type="submit">Aplicar Cambios</button>
+  <h2>Editar Colores - Modo Oscuro</h2>
+  <div formGroupName="dark">
+    <div formGroupName="pageButtons">
+      <label>Background:</label>
+      <input formControlName="background" type="color" />
+
+      <label>Text:</label>
+      <input formControlName="text" type="color" />
+
+      <label>Hover Background:</label>
+      <input formControlName="hoverBackground" type="color" />
+
+      <label>Hover Text:</label>
+      <input formControlName="hoverText" type="color" />
+    </div>
+  </div>
+
+  <button type="submit">Guardar Cambios</button>
 </form>
