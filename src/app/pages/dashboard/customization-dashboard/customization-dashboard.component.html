@@ -1,17 +1,1 @@
 <!-- <p>customization-dashboard works!</p> -->
- <form [formGroup]="themeForm" (ngSubmit)="onSubmit()" class="theme-form">
-  <div *ngFor="let sectionKey of getThemeSectionKeys()" class="section">
-    <h3>{{ sectionKey }}</h3>
-    <div *ngFor="let colorKey of getColorKeys(sectionKey)" class="color-row">
-      <label>
-        {{ colorKey }}
-        <input
-          type="color"
-          [formControlName]="sectionKey + '.' + colorKey"
-        />
-        <span>{{ themeForm.get(sectionKey + '.' + colorKey)?.value }}</span>
-      </label>
-    </div>
-  </div>
-  <button type="submit">Guardar Cambios</button>
-</form>
