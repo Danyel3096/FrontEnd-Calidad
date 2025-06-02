@@ -1,22 +1,47 @@
-export interface ThemeSection {
-  [colorKey: string]: string; // Ej: "background": "#000000"
+export interface ThemeColors {
+  homePage: ColorSection;
+  pageContent: ContentSection;
+  pageButtons: ColorSection;
+  titleNavbar: { color: string };
+  navbar: ColorSection;
+  navbarButtons: ColorSection;
+  sidebar: ColorSection;
+  sidebarButtons: ColorSection;
+  tabs: ColorSection;
+  pagination: ColorSection;
+  footer: FooterSection;
 }
 
-export interface Theme {
-  homePage: ThemeSection;
-  pageContent: ThemeSection;
-  pageButtons: ThemeSection;
-  titleNavbar: ThemeSection;
-  navbar: ThemeSection;
-  navbarButtons: ThemeSection;
-  sidebar: ThemeSection;
-  sidebarButtons: ThemeSection;
-  tabs: ThemeSection;
-  pagination: ThemeSection;
-  footer: ThemeSection;
+export interface ThemeConfig {
+  light: ThemeColors;
+  dark: ThemeColors;
 }
 
-export interface ThemeData {
-  light: Theme;
-  dark: Theme;
+interface ColorSection {
+  background?: string;
+  backgroundPrimary?: string;
+  backgroundSecondary?: string;
+  backgroundTertiary?: string;
+  backgroundQuaternary?: string;
+  text?: string;
+  textTitle?: string;
+  textBody?: string;
+  hoverBackground?: string;
+  hoverText?: string;
+}
+
+interface ContentSection extends ColorSection {
+  fontFamily: string;
+  fontSizeH1: string;
+  fontSizeH2: string;
+  fontSizeH3: string;
+  fontSizeH4: string;
+  fontSizeH5: string;
+  fontSizeH6: string;
+  fontSizeText: string;
+}
+
+interface FooterSection extends ColorSection {
+  link: string;
+  hoverLink: string;
 }

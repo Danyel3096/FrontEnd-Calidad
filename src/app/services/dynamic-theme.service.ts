@@ -121,4 +121,8 @@ export class DynamicThemeService {
     const current = this.isDarkMode$.getValue();
     this.setDarkMode(!current);
   }
+
+  getConfig(): Observable<ThemeConfig> {
+    return this.config$;
+  }
 }

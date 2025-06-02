@@ -1,6 +1,65 @@
 <!-- <p>customization-dashboard works!</p> -->
-<app-theme-editor
-  [themeData]="themeJson"
-  [themeType]="'light'"
-  (themeUpdated)="onThemeUpdated($event)"
-></app-theme-editor>
+<form [formGroup]="themeForm" (ngSubmit)="applyChanges()" *ngIf="themeForm">
+
+  <fieldset formGroupName="homePage">
+    <legend>Home Page</legend>
+    <label>
+      Primary Background:
+      <input type="color" formControlName="backgroundPrimary" />
+    </label>
+    <label>
+      Secondary Background:
+      <input type="color" formControlName="backgroundSecondary" />
+    </label>
+    <label>
+      Tertiary Background:
+      <input type="color" formControlName="backgroundTertiary" />
+    </label>
+    <label>
+      Quaternary Background:
+      <input type="color" formControlName="backgroundQuaternary" />
+    </label>
+    <label>
+      Title Text:
+      <input type="color" formControlName="textTitle" />
+    </label>
+    <label>
+      Body Text:
+      <input type="color" formControlName="textBody" />
+    </label>
+  </fieldset>
+
+  <fieldset formGroupName="navbar">
+    <legend>Navbar</legend>
+    <label>
+      Background:
+      <input type="color" formControlName="background" />
+    </label>
+    <label>
+      Text:
+      <input type="color" formControlName="text" />
+    </label>
+  </fieldset>
+
+  <fieldset formGroupName="footer">
+    <legend>Footer</legend>
+    <label>
+      Background:
+      <input type="color" formControlName="background" />
+    </label>
+    <label>
+      Text:
+      <input type="color" formControlName="text" />
+    </label>
+    <label>
+      Hover Background:
+      <input type="color" formControlName="hoverBackground" />
+    </label>
+    <label>
+      Hover Text:
+      <input type="color" formControlName="hoverText" />
+    </label>
+  </fieldset>
+
+  <button type="submit">Aplicar Cambios</button>
+</form>
