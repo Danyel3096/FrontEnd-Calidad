@@ -68,10 +68,10 @@ export class LoginComponent implements OnInit {
         // Redirigimos según el rol
         if (role === 'ADMIN') {
           this.router.navigate(['/dashboard']);
-        } else if (role === 'VENDEDOR') {
-          this.router.navigate(['/ventas']);
-        } else if (role === 'BODEGUERO') {
-          this.router.navigate(['/inventario']);
+        } else if (role === 'CASHIER') {
+          this.router.navigate(['/home']);
+        } else if (role === 'WAREHOUSE') {
+          this.router.navigate(['/home']);
         } else if (role === 'CUSTOMER'){
           this.router.navigate(['/home']);
         }

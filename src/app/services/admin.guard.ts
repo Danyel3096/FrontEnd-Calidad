@@ -29,7 +29,7 @@ export class AdminGuard implements CanActivate {
     const role = this.loginService.getUserRole();
 
     // Permitir acceso a ADMIN o CUSTOMER
-    if (role === 'ADMIN' || role === 'CUSTOMER') {
+    if (role === 'ADMIN' || role === 'CUSTOMER' || role === 'WAREHOUSE' || role === 'CASHIER') {
       return true;
     }
 

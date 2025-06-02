@@ -49,10 +49,10 @@
       </li>
     </ng-container>
 
-    <!-- VENDEDOR-->
-    <ng-container *ngIf="isVendedor()">
-      <li class="nav-item">
-        <app-dynamic-sidebar-link routerLink="orders" routerLinkActive="active" label="Órdenes" icon="fas fa-shopping-cart"></app-dynamic-sidebar-link>
+    <!-- CASHIER-->
+    <ng-container *ngIf="isCashier()">
+     <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="products" routerLinkActive="active" label="Productos" icon="fas fa-boxes-stacked"></app-dynamic-sidebar-link><!-- fa-box -->
       </li>
     </ng-container>
 
@@ -63,10 +63,10 @@
       </li>
     </ng-container>
 
-    <!-- BODEGUERO -->
-    <ng-container *ngIf="isBodeguero()">
-      <li class="nav-item">
-        <app-dynamic-sidebar-link routerLink="stock" routerLinkActive="active" label="Stock Bodeguero" icon="fas fa-truck-loading"></app-dynamic-sidebar-link>
+    <!-- WAREHOUSE -->
+    <ng-container *ngIf="isWarehouse()">
+         <li class="nav-item">
+        <app-dynamic-sidebar-link routerLink="products" routerLinkActive="active" label="Productos" icon="fas fa-boxes-stacked"></app-dynamic-sidebar-link><!-- fa-box -->
       </li>
     </ng-container>
 
