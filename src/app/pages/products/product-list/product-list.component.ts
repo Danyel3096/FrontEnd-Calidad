@@ -31,7 +31,7 @@ export default class ProductsListComponent implements OnInit {
   ) {}
 
   currentPage = 1;
-  pageSize = 5;
+  pageSize = 8;
   totalPages = 1; //Originalmente 0
   storeId = 2;
 
