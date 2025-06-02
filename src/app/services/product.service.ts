@@ -60,6 +60,8 @@ export class ProductsService {
     let url = `${this.baseUrl}/products/store/${storeId}`;
     if (categoryId !== undefined && categoryId !== null) {
       url += `/${categoryId}`;
+    } else {
+      url += `/0`; // Si tu backend requiere siempre un categoryId
     }
 
     return this.http.get<any>(url, { params });

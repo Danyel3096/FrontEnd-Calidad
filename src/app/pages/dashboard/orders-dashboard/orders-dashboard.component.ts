@@ -72,7 +72,7 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
   next: (data: Order[]) => {
     this.orders = data.map(order => ({
       ...order,
-  storeId: (order as any).store?.id || null
+     storeId: (order as any).store?.id || null
     }));
 
     this.orders.forEach(order => {
