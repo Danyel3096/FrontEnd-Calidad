@@ -40,7 +40,10 @@ API_URL_SALES_BY_CREATE: `${API_URL_BASE}api/sales`,
   // Login (autenticación)
   API_URL_USUARIO_LOGIN: `${API_URL_BASE}rest/auth/login`, // URL de login actualizada
   API_URL_USUARIO_REGISTRO: `${API_URL_BASE}api/users`,
-  API_URL_USUARIO_UPDATE: `${API_URL_BASE}users/`
+  API_URL_USUARIO_UPDATE: `${API_URL_BASE}users/`,
+
+  // Notificaciones
+  API_URL_NOTIFICACIONES: `${API_URL_BASE}api/notifications`
 
 };
 

@@ -9,14 +9,9 @@ import { DynamicThemeService } from '../../services/dynamic-theme.service';
 import { CompanyService } from '../../services/company.service';
 import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarButtonsColors, ThemeColors } from '../../interfaces/dynamic-colors.interface';
+import { NotificationService } from '../../services/notification.service';
+import { Notification } from '../../interfaces/notification.interface';
 
-interface Notificacion {
-  id: number;
-  titulo: string;
-  mensaje: string;
-  fecha: Date;
-  leido: boolean;
-}
 
 @Component({
   standalone: true,
@@ -40,6 +35,7 @@ export class NavbarComponent implements OnInit {
   cartState = inject(CartStateService).state;
   login: LoginService = inject(LoginService); // Asegúrate de que el servicio está correctamente inyectado
   themeService = inject(DynamicThemeService);
+  notificationService = inject(NotificationService);
 
   themeIcon: string = 'moon'; // valor por defecto
 
@@ -51,32 +47,11 @@ export class NavbarComponent implements OnInit {
   isNavbarCollapsed = true; // Controla el estado del colapso
   isHovered = false;
 
-  // Notificaciones
-  notificaciones: Notificacion[] = [
-    {
-      id: 1,
-      titulo: 'Stock actualizado',
-      mensaje: 'Se actualizó el producto "Monitor"',
-      fecha: new Date(),
-      leido: false
-    },
-    {
-      id: 2,
-      titulo: 'Producto eliminado',
-      mensaje: 'El producto "Teclado" fue eliminado del inventario',
-      fecha: new Date(new Date().getTime() - 3600000),
-      leido: false
-    },
-    {
-      id: 3,
-      titulo: 'Nuevo producto agregado',
-      mensaje: 'Se agregó "Mouse inalámbrico"',
-      fecha: new Date(new Date().getTime() - 7200000),
-      leido: true
-    }
-  ];
+  
 
   constructor(private dynamicThemeService: DynamicThemeService) {}
+
+  notifications: Notification[] = [];
 
   titleColor: ThemeColors['titleNavbar'] = { color: '#000' };
 
@@ -148,11 +123,32 @@ export class NavbarComponent implements OnInit {
   }
 
   // Notificaciones
+  cargarNotificaciones(userId: number): void {
+    this.notificationService.getNotificationsByUser(userId).subscribe({
+      next: (notifs) => {
+        this.notifications = notifs.sort((a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      },
+      error: (err) => {
+        console.error('Error al cargar notificaciones:', err);
+      }
+    });
+  }
+
   notificacionesSinLeer(): number {
-    return this.notificaciones.filter(n => !n.leido).length;
+    return this.notifications.filter(n => !n.isRead).length;
   }
 
   marcarTodasComoLeidas(): void {
-    this.notificaciones = this.notificaciones.map(n => ({ ...n, leido: true }));
+    if (!this.user?.id) return;
+    this.notificationService.markAllAsRead(this.user.id).subscribe({
+      next: () => {
+        this.notifications = this.notifications.map(n => ({ ...n, is_read: true }));
+      },
+      error: (err) => {
+        console.error('Error al marcar notificaciones como leídas:', err);
+      }
+    });
   }
 }
