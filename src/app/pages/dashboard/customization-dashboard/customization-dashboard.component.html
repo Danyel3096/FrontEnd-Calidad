@@ -1,1 +1,6 @@
 <!-- <p>customization-dashboard works!</p> -->
+<app-theme-editor
+  [themeData]="themeJson"
+  [themeType]="'light'"
+  (themeUpdated)="onThemeUpdated($event)"
+></app-theme-editor>
