@@ -1,9 +1,5 @@
-<div
-  class="rounded-lg border border-gray-200 bg-gray-800 p-4 shadow-sm dark:border-gray-700 dark:bg-white md:p-6"
->
-  <div
-    class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0"
-  >
+<div class="rounded-lg border border-gray-200 bg-gray-800 p-4 shadow-sm dark:border-gray-700 dark:bg-white md:p-6">
+  <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
     <a
       [routerLink]="['/product', productCartItem().product.id]"
       class="shrink-0 md:order-1"
@@ -23,23 +19,8 @@
           id="decrement-button"
           data-input-counter-decrement="counter-input"
           class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-          (click)="productCartItem().quantity > 0 ? onDecrease.emit(productCartItem()) : null"
-        >
-          <svg
-            class="h-2.5 w-2.5 text-gray-900 dark:text-white"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 2"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M1 1h16"
-            />
-          </svg>
+          (click)="productCartItem().quantity > 0 ? onDecrease.emit(productCartItem()) : null">
+          <i class="fa-solid fa-minus"></i>
         </button>
         <input
           type="text"
@@ -56,23 +37,8 @@
           id="increment-button"
           data-input-counter-increment="counter-input"
           class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-          (click)="onIncrease.emit(productCartItem())"
-        >
-          <svg
-            class="h-2.5 w-2.5 text-gray-900 dark:text-white"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
+          (click)="onIncrease.emit(productCartItem())">
+          <i class="fa-solid fa-plus"></i>
         </button>
       </div>
       <div class="text-end md:order-4 md:w-32">

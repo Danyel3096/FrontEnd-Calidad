@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-cart-item',
   standalone: true,
-  imports: [CurrencyPipe,RouterLink],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.css',
 })
