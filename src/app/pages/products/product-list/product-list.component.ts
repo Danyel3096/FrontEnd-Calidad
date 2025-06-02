@@ -31,7 +31,7 @@ export default class ProductsListComponent implements OnInit {
   ) {}
 
   currentPage = 1;
-  pageSize = 5;
+  pageSize = 8;
   totalPages = 1; //Originalmente 0
   storeId = 2;
 
@@ -80,27 +80,31 @@ export default class ProductsListComponent implements OnInit {
   }
 
   loadCategories(): Promise<void> {
-    return new Promise((resolve) => {
-      this.categoryService.getCategories().subscribe({
-        next: (res: Category[]) => {
-          if (res?.length) {
-            this.categories = res;
-            this.categoryNames = [{ id: 0, name: 'Todos' }, ...res.map(cat => ({ id: cat.id, name: cat.name }))];
-          } else {
-            this.categoryNames = [{ id: 0, name: 'Todos' }];
-          }
-          this.selectedCategoryName = 'Todos'; // Default
-          resolve();
-        },
-        error: (err) => {
-          console.error('Error cargando categorías', err);
+  return new Promise((resolve) => {
+    this.categoryService.getCategoriesByStore(this.storeId).subscribe({
+      next: (response) => {
+        const content = response.content;
+        if (content?.length) {
+          this.categories = content;
+          this.categoryNames = [
+            { id: 0, name: 'Todos' },
+            ...content.map(cat => ({ id: cat.id, name: cat.name }))
+          ];
+        } else {
           this.categoryNames = [{ id: 0, name: 'Todos' }];
-          this.selectedCategoryName = 'Todos';
-          resolve();
         }
-      });
+        this.selectedCategoryName = 'Todos'; // Default
+        resolve();
+      },
+      error: (err) => {
+        console.error('Error cargando categorías', err);
+        this.categoryNames = [{ id: 0, name: 'Todos' }];
+        this.selectedCategoryName = 'Todos';
+        resolve();
+      }
     });
-  }
+  });
+}
 
   loadProducts(page: number) {
     const backendPageIndex = page;

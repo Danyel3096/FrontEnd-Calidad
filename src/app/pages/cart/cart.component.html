@@ -9,7 +9,7 @@
       </div>
 
       <ng-template #cartGrid>
-        <div class="card mb-4">
+        <div class="card mb-4 text-black">
           <div class="card-body">
             <div *ngFor="let cartItem of state.products(); trackBy: trackById">
               <app-cart-item
@@ -36,19 +36,19 @@
     <div class="col-lg-4">
       <div class="card cart-summary">
         <div class="card-body">
-          <h5 class="card-title mb-4">Resumen del Pedido</h5>
+          <h5 class="card-title mb-4 text-black">Resumen del Pedido</h5>
 
           <div class="d-flex justify-content-between mb-3">
-            <span>Subtotal</span>
-            <span>{{ subtotal | currency }}</span>
+            <span class="text-black">Subtotal</span>
+            <span class="text-black">{{ subtotal | currency }}</span>
           </div>
           <div class="d-flex justify-content-between mb-3">
-            <span>Envío</span>
-            <span>{{ shipping | currency }}</span>
+            <span class="text-black">Envío</span>
+            <span class="text-black">{{ shipping | currency }}</span>
           </div>
           <div class="d-flex justify-content-between mb-3">
-            <span>Impuestos</span>
-            <span>{{ tax | currency }}</span>
+            <span class="text-black">Impuestos</span>
+            <span class="text-black">{{ tax | currency }}</span>
           </div>
 
           <hr />

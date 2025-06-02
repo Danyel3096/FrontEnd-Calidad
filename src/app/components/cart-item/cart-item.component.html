@@ -9,8 +9,8 @@
   </div>
 
   <div class="col-md-5">
-    <h5 class="card-title">{{ productCartItem().product.name }}</h5>
-    <p class="text-muted">Categoría: {{ productCartItem().product.category || 'N/A' }}</p>
+    <h5 class="card-title text-black">{{ productCartItem().product.name }}</h5>
+    <!-- <p class="text-muted">Categoría: {{ productCartItem().product.category || 'N/A' }}</p> -->
   </div>
 
   <div class="col-md-2">
@@ -42,7 +42,8 @@
   </div>
 
   <div class="col-md-2 text-end">
-    <p class="fw-bold">
+    <p class="fw-bold text-black">
+      <!-- {{ productCartItem().quantity }} x -->
       {{ (productCartItem().product.price * productCartItem().quantity) | currency }}
     </p>
     <button
@@ -50,7 +51,7 @@
       (click)="onRemove.emit(productCartItem().product.id)"
       aria-label="Eliminar producto"
     >
-      <i class="bi bi-trash"></i>
+      <i class="fa-solid fa-xmark"></i>
     </button>
   </div>
 </div>
