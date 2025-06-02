@@ -47,8 +47,9 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   getProducts(): void {
     this.productsService.getProductsByPage(this.storeId, 1, 100).subscribe({
       next: (data) => {
+        this.products = data?.content || [];
         console.log('Productos obtenidos:', data);
-        this.products = data;
+        //this.products = data;
         this.redrawTable();
       },
       error: (err) => {
