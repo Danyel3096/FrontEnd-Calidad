@@ -31,60 +31,64 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   formSubmit() {
-    // Validación básica
-    this.inputError.email = this.loginData.email.trim() === '';
-    this.inputError.password = this.loginData.password.trim() === '';
+  // Validación básica
+  this.inputError.email = this.loginData.email.trim() === '';
+  this.inputError.password = this.loginData.password.trim() === '';
 
-    if (this.inputError.email || this.inputError.password) {
-      this.showAlert('Por favor, completa todos los campos.');
-      return;
-    }
-
-    this.loginService.generateToken(this.loginData).subscribe({
-      next: (data: any) => {
-        const token = data.token;
-        console.log('Token recibido:', token);
-        try {
-          const decoded: any = jwtDecode(token);
-          const role = decoded.role;
-          console.log('nombre decodificado:', decoded.firstName);
-          console.log('apellido decodificado:', decoded.lastName);
-
-          // Guardamos el usuario y el token
-          this.loginService.setUser({
-            sub: decoded.sub,
-            id: decoded.id,
-            role: decoded.role,
-            firstName: decoded.firstName,
-            lastName: decoded.lastName,
-            token: token // guardamos el token también
-          });
-
-          this.showSuccess();
-
-          // Redirigimos según el rol
-          if (role === 'ADMIN') {
-            this.router.navigate(['/dashboard']);
-          } else if (role === 'VENDEDOR') {
-            this.router.navigate(['/ventas']);
-          } else if (role === 'BODEGUERO') {
-            this.router.navigate(['/inventario']);
-          } else if (role === 'CUSTOMER'){
-            this.router.navigate(['/home']);
-          }
-
-          this.loginService.loginStatusSubject.next(true);
-
-        } catch (error) {
-          console.error('Token inválido:', error);
-          this.showAlert('Token inválido. Intente nuevamente.');
-        }
-      },
-      error: () => {
-        this.showAlert('Credenciales inválidas. Intente nuevamente.');
-      }
-    });
+  if (this.inputError.email || this.inputError.password) {
+    this.showAlert('Por favor, completa todos los campos.');
+    return;
   }
+
+  this.loginService.generateToken(this.loginData).subscribe({
+    next: (data: any) => {
+      const token = data.token;
+      console.log('Token recibido:', token);
+      try {
+        const decoded: any = jwtDecode(token);
+        const role = decoded.role;
+        console.log('nombre decodificado:', decoded.firstName);
+        console.log('apellido decodificado:', decoded.lastName);
+
+        // Guardamos el usuario y el token
+        this.loginService.setUser({
+          sub: decoded.sub,
+          id: decoded.id,
+          role: decoded.role,
+          firstName: decoded.firstName,
+          lastName: decoded.lastName,
+          token: token // guardamos el token también
+        });
+
+        // Aquí guardamos el user_id en localStorage para usarlo luego
+        localStorage.setItem('user_id', decoded.id.toString());
+
+        this.showSuccess();
+
+        // Redirigimos según el rol
+        if (role === 'ADMIN') {
+          this.router.navigate(['/dashboard']);
+        } else if (role === 'VENDEDOR') {
+          this.router.navigate(['/ventas']);
+        } else if (role === 'BODEGUERO') {
+          this.router.navigate(['/inventario']);
+        } else if (role === 'CUSTOMER'){
+          this.router.navigate(['/home']);
+        }
+
+        this.loginService.loginStatusSubject.next(true);
+
+      } catch (error) {
+        console.error('Token inválido:', error);
+        this.showAlert('Token inválido. Intente nuevamente.');
+      }
+    },
+    error: () => {
+      this.showAlert('Credenciales inválidas. Intente nuevamente.');
+    }
+  });
+}
+
 
   showAlert(message: string) {
     const modalElement = document.getElementById('alertModal');

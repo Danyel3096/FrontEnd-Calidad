@@ -1,61 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Product } from '../interfaces/product.interface';  // Aquí importas la interfaz
+import { Product } from '../interfaces/product.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ProductsService {
-  private baseUrl = 'https://tdd-billing-backend.onrender.com/api'; // URL base actual
+  private baseUrl = 'https://tdd-billing-backend.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Obtiene un producto por su ID
-   * @param productId - ID del producto
-   * @returns Observable<Product>
-   */
+  getProductsByStore(storeId: number): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/products/store/${storeId}`);
+  }
+
   getProductById(productId: number): Observable<Product> {
-    const url = `${this.baseUrl}/products/${productId}`;
-    return this.http.get<Product>(url);
+    return this.http.get<Product>(`${this.baseUrl}/products/${productId}`);
   }
 
-  /**
-   * Crea un nuevo producto
-   * @param product - Objeto de producto a crear
-   * @returns Observable<Product>
-   */
-  /**
-   * Crea un nuevo producto usando FormData
-   * @param productData - Objeto FormData con los datos del producto
-   * @returns Observable<Product>
-   */
+  getAllProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/products`);
+  }
+
+  getProductsByCategory(category: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/products/category/${category}`);
+  }
+
   createProduct(productData: FormData): Observable<Product> {
-    const url = `${this.baseUrl}/products`;
-    return this.http.post<Product>(url, productData);
+    return this.http.post<Product>(`${this.baseUrl}/products`, productData);
   }
 
-  /**
-   * Actualiza un producto existente usando FormData
-   * @param productId - ID del producto
-   * @param productData - Objeto FormData con los nuevos datos
-   * @returns Observable<Product>
-   */
   updateProduct(productId: number, productData: FormData): Observable<Product> {
-    const url = `${this.baseUrl}/products/${productId}`;
-    return this.http.put<Product>(url, productData);
+    return this.http.put<Product>(`${this.baseUrl}/products/${productId}`, productData);
   }
 
-  /**
-   * Elimina un producto por su ID
-   * @param productId - ID del producto
-   * @returns Observable<void>
-   */
   deleteProduct(productId: number): Observable<void> {
-    const url = `${this.baseUrl}/products/${productId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(`${this.baseUrl}/products/${productId}`);
   }
 
   getRandomProducts(count: number): Observable<Product[]> {

@@ -1,133 +1,72 @@
-<p>orders-dashboard works!</p>
-<div class="tw flex flex-col p-3 overflow-auto">
-    <div class="w-full overflow-x-auto">
-      <table id="usersTable" class="display table table-striped table-bordered w-full text-sm">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Email</th>
-            <th>Estado</th>
-            <th>Fecha de Creación</th>
-            <th class="text-center no-export">Acciones</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-    
-  <!-- Modal para Ver/Editar Usuario -->
-  <div id="userModal" class="modal fade" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            {{ modalMode === 'view' ? 'Ver Usuario' : 'Editar Usuario' }}
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body" *ngIf="selectedUser">
-          <form #userForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveUserChanges()">
-            <div class="mb-3">
-              <label class="form-label">Nombres</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedUser.firstName }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.firstName" name="firstName" required>
-              <div class="valid-feedback">
-                Perfectoo!
-              </div>
-              <div class="invalid-feedback">
-                Porfavor escriba su nombre.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Apellidos</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedUser.lastName }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.lastName" name="lastName" required>
-              <div class="valid-feedback">
-                Perfectoo!
-              </div>
-              <div class="invalid-feedback">
-                Porfavor escriba su apellido.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Email</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedUser.email }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required>
-              <div class="valid-feedback">
-                Perfectoo!
-              </div>
-              <div class="invalid-feedback">
-                Porfavor escriba su correo electrónico.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Address</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedUser.address }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.address" name="address" required>
-              <div class="valid-feedback">
-                Perfectoo!
-              </div>
-              <div class="invalid-feedback">
-                Porfavor escriba su dirección.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Phone</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedUser.phone }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="phone" class="form-control" [(ngModel)]="selectedUser.phone" name="phone" required>
-              <div class="valid-feedback">
-                Perfectoo!
-              </div>
-              <div class="invalid-feedback">
-                Porfavor escriba su teléfono.
-              </div>
-            </div>
-            <div *ngIf="modalMode !== 'view'" class="mb-3">
-              <label class="form-label">Password</label>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" required>
-              <div class="valid-feedback">
-                Perfectoo!
-              </div>
-              <div class="invalid-feedback">
-                Porfavor escriba su contraseña.
-              </div>
-            </div>
-            <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
-            <div class="mb-3">
-              <label class="form-label">Estado</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedUser.status }}</p>
-              <select *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedUser.status" name="status">
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-              </select>
-              <div class="valid-feedback">
-                Perfectoo!
-              </div>
-              <div class="invalid-feedback">
-                Porfavor seleccione su estado.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Fecha de Creación</label>
-              <p *ngIf="modalMode === 'view'">{{ selectedUser.creationDate }}</p>
-              <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.creationDate" name="creationDate" readonly required>
-            </div>
-            <div class="valid-feedback">
-              Perfectoo!
-            </div>
-            <div class="invalid-feedback">
-              Porfavor seleccione su fecha de creación.
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
-            </div>
-          </form>
+<div class="container mt-3">
+  <h2 class="mb-3">Gestión de Órdenes</h2>
+
+  <table id="ordersTable" class="table table-striped table-bordered nowrap" style="width:100%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>ID Tienda</th>
+        <th>ID Usuario</th>
+        <th>Fecha Venta</th>
+        <th>Método de Pago</th>
+        <th>Total</th>
+        <th>Estado</th>
+        <th class="no-export">Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <form class="modal-content needs-validation" novalidate (submit)="saveOrderChanges()">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderModalLabel">
+          {{ modalMode === 'view' ? 'Ver Orden' : modalMode === 'edit' ? 'Editar Orden' : 'Crear Orden' }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedOrder">
+     
+
+         
+
+          <div class="mb-3">
+            <label for="saleDate" class="form-label">Fecha de Venta</label>
+            <input type="date" class="form-control" id="saleDate" [(ngModel)]="selectedOrder.saleDate" name="saleDate" [readonly]="modalMode === 'view'" required />
+            <div class="invalid-feedback">Este campo es obligatorio.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="paymentMethod" class="form-label">Método de Pago</label>
+            <input type="text" class="form-control" id="paymentMethod" [(ngModel)]="selectedOrder.paymentMethod" name="paymentMethod" [readonly]="modalMode === 'view'" required />
+            <div class="invalid-feedback">Este campo es obligatorio.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="totalAmount" class="form-label">Total</label>
+            <input type="number" step="0.01" class="form-control" id="totalAmount" [(ngModel)]="selectedOrder.totalAmount" name="totalAmount" [readonly]="modalMode === 'view'" required />
+            <div class="invalid-feedback">Este campo es obligatorio y debe ser un número válido.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="status" class="form-label">Estado</label>
+            <select id="status" class="form-select" [(ngModel)]="selectedOrder.status" name="status" [disabled]="modalMode === 'view'" required>
+              <option value="ACTIVE">Activo</option>
+              <option value="CANCELED">Cancelado</option>
+              <option value="COMPLETED">Completado</option>
+            </select>
+            <div class="invalid-feedback">Seleccione un estado válido.</div>
+          </div>
         </div>
       </div>
-    </div>
+      <div class="modal-footer">
+        <button *ngIf="modalMode !== 'view'" type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </form>
   </div>
-  
+</div>

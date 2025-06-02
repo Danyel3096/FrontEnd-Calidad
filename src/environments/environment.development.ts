@@ -25,6 +25,9 @@ export const environment = {
   
   API_URL_PRODUCTO_READBYSTORE: `${API_URL_BASE}api/products/store/`, 
  
+// Ventas
+API_URL_SALES_BY_STORE: `${API_URL_BASE}api/sales/store/2`,
+API_URL_SALES_BY_CREATE: `${API_URL_BASE}api/sales`,
 
 
   // Categorías
