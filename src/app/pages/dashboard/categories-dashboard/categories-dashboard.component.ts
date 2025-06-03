@@ -16,6 +16,9 @@ import { BootstrapInitService } from '../../../services/bootstrap-init.service';
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
 import { DatePipe } from '@angular/common';
 
+import { DynamicThemeService } from '../../../services/dynamic-theme.service';// Copy Paste aquí
+import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';// Copy Paste aquí
+
 @Component({
   standalone: true,
   selector: 'app-categories-dashboard',
@@ -24,14 +27,33 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./categories-dashboard.component.css'],
   providers: [DatePipe]
 })
+
 export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private categoriesService: CategoriesService,
     private bootstrapInit: BootstrapInitService,
     private bootstrapValidation: BootstrapValidationService,
     private idiomaService: DatatableLanguageService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private dynamicThemeService: DynamicThemeService,// Copy Paste aquí
   ) {}
+
+  // Copy Paste desde aquí
+  pageContentColors: ThemeColors['pageContent'] = {
+      backgroundPage: '',
+      backgroundSecondary: '',
+      textTitle: '',
+      textBody: '',
+      fontFamily: '',
+      fontSizeH1: '',
+      fontSizeH2: '',
+      fontSizeH3: '',
+      fontSizeH4: '',
+      fontSizeH5: '',
+      fontSizeH6: '',
+      fontSizeText: ''
+    };
+    // Copy Paste hasta aquí
 
   selectedCategory: any = null;
   tempCategory: Category | null = null;
@@ -42,6 +64,25 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   storeId: number = 2;
 
   ngOnInit(): void {
+    // Copy Paste desde aquí
+    this.dynamicThemeService.getDarkMode().subscribe(isDark => {
+      console.log('StoresDashboardComponent detectó isDarkMode:', isDark);
+      document.documentElement.classList.toggle('dark', isDark);
+    });
+
+    this.dynamicThemeService.getSection('pageContent').subscribe(colors => {
+      console.log('StoresDashboardComponent detectó pageContent:', colors);
+      // Aplica los estilos globales al body o al root
+      const root = document.documentElement;
+
+      this.pageContentColors = colors;
+
+      Object.entries(colors).forEach(([key, value]) => {
+        root.style.setProperty(`--${key}`, value);
+      });
+    });
+    // Copy Paste hasta aquí
+
     this.getCategories();
   }
 
@@ -63,6 +104,12 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.categories = data?.content || [];
         console.log("Categorías cargadas:", this.categories);
+        this.categories.forEach((category) => {
+          if (category.createdAt) {
+            category.createdAt = this.datePipe.transform(category.createdAt, 'dd/MM/yyyy HH:mm') || '';
+          }
+        });
+        console.log('Categorias cargados x2:', this.categories);
         this.redrawTable(); // Inicializa la tabla después de cargar los datos
       },
       error: (err) => {
@@ -72,6 +119,9 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   }
 
   initDataTable(): void {
+    const fecha = this.datePipe.transform(new Date(), 'dd/MM/yyyy') || '';
+    const hora = this.datePipe.transform(new Date(), 'hh:mm a') || '';
+    
     this.dataTable = $('#categoriesTable').DataTable({
       language: this.idiomaService.getIdioma(),
       dom: "<'row'<'col-4'l><'col-4 d-flex justify-content-center'f><'col-4 text-end mb-2'B>>" +
@@ -86,12 +136,16 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
       ],
       data: this.categories,
       columns: [
-        {data: 'id'},
         {data: 'name'},
         {data: 'description'},
-        {data: 'status'},
-        {data: 'createdAt',
-          render: data => this.datePipe.transform(data, 'dd/MM/yyyy')
+        {
+          data: 'status',
+          render: function(data: boolean, type: any, row: any, meta: any) {
+            return data ? '<span class="badge bg-success"><i class="fa-solid fa-check"></i> Activo</span>' : '<span class="badge bg-danger"><i class="fa-solid fa-xmark"></i> Inactivo</span>';
+          }
+        },
+        {
+          data: 'createdAt'
         },
         {
           data: null,
@@ -138,7 +192,13 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
       name: '',
       description: '',
       status: true,
-      createdAt: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+      createdAt: new Date().toLocaleString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
     };
     this.modalMode = 'create';
     this.categoryModal.show();
