@@ -46,11 +46,11 @@
               <label class="form-label">Fecha de Creación</label>
               <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.createdAt" name="createdAt" disabled>
             </div>
+            <div class="modal-footer" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"><!-- Copy Paste de ngStyle -->>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </div>
           </form>
-        </div>
-        <div class="modal-footer" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"><!-- Copy Paste de ngStyle -->>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
         </div>
       </div>
     </div>

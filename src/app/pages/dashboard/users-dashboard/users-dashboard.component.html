@@ -85,18 +85,6 @@
               Porfavor escriba su número de teléfono.
             </div>
           </div>
-          <!--
-          <div *ngIf="modalMode !== 'view'" class="mb-3">
-            <label class="form-label">Password</label>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" required>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please write your password.
-            </div>
-          </div>
-          -->
           <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
           <div class="mb-3">
             <p *ngIf="modalMode === 'view'" hidden>{{ selectedUser.password }}</p>

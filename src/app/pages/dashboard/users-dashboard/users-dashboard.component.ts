@@ -132,14 +132,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
         this.users = data;
         this.users.forEach((user) => {
           if (user.createdAt) {
-            const date = new Date(user.createdAt);
-            user.createdAt = date.toLocaleString('es-ES', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-            });
+            user.createdAt = this.datePipe.transform(user.createdAt, 'dd/MM/yyyy HH:mm') || '';
           }
         });
         console.log('Usuarios cargados:', this.users);
@@ -193,11 +186,19 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
             columns: function (idx: any, data: any, node: any) {
               return $(node).is(':visible') && !$(node).hasClass('no-export');
             },
+            format: {
+              body: (data: any, row: any, column: any, node: any) => {
+                // Elimina HTML y centra
+                const div = document.createElement('div');
+                div.innerHTML = data;
+                return div.textContent?.trim() || '';
+              }
+            },
           },
           customize: (doc: any) => {
             //const nombreUsuario = 'Juan Pérez'; // Puedes reemplazarlo con tu variable dinámica
             const fechaHora =
-              this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
+            this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
             //const fechaHora = new Date().toLocaleString();
 
             doc.pageOrientation = 'landscape';
@@ -253,29 +254,44 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
               fontSize: 9,
             });
             // Pie de página
-            //doc.footer = getPdfFooter(this.userName, fechaHora);
-
-            // Estilo de tabla
+            
+            // Encuentra la tabla y da estilo de tabla
             // Asegura que la tabla use el 100% del ancho disponible
             const table = doc.content.find((el: any) => el.table);
             const body = table.table.body;
             const colCount = body[0].length;
-            table.table.widths = Array(colCount).fill('*'); // Asignar ancho proporcional a columnas
-            table.width = 700; // fuerza un ancho menor que el total de la hoja
+            // Calcular porcentaje para cada columna (en formato '20%' por ejemplo)
+            const equalPercent = (100 / colCount).toFixed(2) + '%';
+            table.table.widths = Array(colCount).fill(equalPercent);
 
-            // Centrar contenido en celdas (excepto cabecera si prefieres alineación distinta)
+            // Iterar desde la fila 1 (fila 0 es header)
             for (let i = 1; i < body.length; i++) {
               for (let j = 0; j < body[i].length; j++) {
                 if (typeof body[i][j] === 'string') {
                   body[i][j] = {
                     text: body[i][j],
                     alignment: 'center',
-                    noWrap: true,
+                    noWrap: j !== 2, // Solo la columna 2 permite wrap
                   };
                 } else if (typeof body[i][j] === 'object') {
                   body[i][j].alignment = 'center';
-                  body[i][j].noWrap = true;
+                  body[i][j].noWrap = j !== 1;
                 }
+              }
+            }
+
+            // Centrar encabezado (fila 0)
+            for (let j = 0; j < body[0].length; j++) {
+              const cell = body[0][j];
+              if (typeof cell === 'string') {
+                body[0][j] = {
+                  text: cell,
+                  alignment: 'center',
+                  bold: true,
+                };
+              } else {
+                cell.alignment = 'center';
+                cell.bold = true;
               }
             }
           },
@@ -288,12 +304,13 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
         { data: 'email' },
         {
           data: 'status',
-          render: (data) => (data ? 'Activo' : 'Inactivo'),
+          render: function(data: boolean, type: any, row: any, meta: any) {
+            return data ? '<span class="badge bg-success"><i class="fa-solid fa-check"></i> Activo</span>' : '<span class="badge bg-danger"><i class="fa-solid fa-xmark"></i> Inactivo</span>';
+          }
         },
         { data: 'address' },
         {
-          data: 'createdAt',
-          render: (data) => this.datePipe.transform(data, 'dd/MM/yyyy'),
+          data: 'createdAt'
         },
         {
           data: null,
@@ -351,13 +368,7 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       password: '',
       role: '',
       status: true,
-      createdAt: new Date().toLocaleString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
+      createdAt: this.datePipe.transform('dd/MM/yyyy HH:mm') || '',
       photoUrl: '',
     };
     this.modalMode = 'create';
