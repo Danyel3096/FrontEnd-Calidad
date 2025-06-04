@@ -112,6 +112,22 @@
           </div>
 
           <div class="mb-3">
+            <label class="form-label">Rol</label>
+            <p *ngIf="modalMode === 'view'">{{ selectedUser.role }}</p>
+            <select *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedUser.role" name="status">
+              <option value="administrator">Administrador</option>
+              <option value="warehouse">Warehouse</option>
+              <option value="customer">Cliente</option>
+            </select>
+            <div class="valid-feedback">
+              Perfectoo!
+            </div>
+            <div class="invalid-feedback">
+              Porfavor seleccione el estado.
+            </div>
+          </div>
+
+          <div class="mb-3">
             <label class="form-label">Imagen</label>
             <div
               class="drop-area form-control"
@@ -145,6 +161,8 @@
             <p *ngIf="modalMode === 'view'">{{ selectedUser.createdAt }}</p>
             <input *ngIf="modalMode === 'edit' || modalMode === 'create'" type="text" class="form-control" [(ngModel)]="selectedUser.createdAt" name="createdAt" readonly required>
           </div>
+
+
           <div class="valid-feedback">
             Perfectoo!
           </div>

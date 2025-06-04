@@ -37,15 +37,15 @@ this.role = this.loginService.getUserRole() ?? '';
     return this.role === 'ADMIN';
   }
 
-  isVendedor(): boolean {
-    return this.role === 'VENDEDOR';
+  isCashier(): boolean {
+    return this.role === 'CASHIER';
   }
 
   isCustomer(): boolean {
     return this.role === 'CUSTOMER';
   }
 
-  isBodeguero(): boolean {
-    return this.role === 'BODEGUERO';
+  isWarehouse(): boolean {
+    return this.role === 'WAREHOUSE';
   }
 }
