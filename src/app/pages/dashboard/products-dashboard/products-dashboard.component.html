@@ -17,9 +17,10 @@
               <th>Nombre</th>
               <th>Descripcion</th>
               <th>Precio</th>
-              <th>Foto</th>
-              <th>Stock</th>
-              <th>Acciones</th>
+              <!-- <th>Foto</th> -->
+              <th>Inventario</th>
+              <th>Estado</th>
+              <th class="text-center no-export">Acciones</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -54,7 +55,7 @@
             <input *ngIf="selectedProduct" type="number" class="form-control" [(ngModel)]="selectedProduct.price" name="price" [disabled]="modalMode === 'view'">
           </div>
           <div class="mb-3">
-            <label class="form-label">Stock</label>
+            <label class="form-label">Inventario</label>
             <input *ngIf="selectedProduct" type="number" class="form-control" [(ngModel)]="selectedProduct.stock" name="stock" [disabled]="modalMode === 'view'">
           </div>
           <div class="mb-3">

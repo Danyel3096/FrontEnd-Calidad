@@ -10,6 +10,7 @@ export interface Product {
   ratingCount: number;
   status: boolean;
   category?: Category;
+  createdAt: string;
 }
 
   
