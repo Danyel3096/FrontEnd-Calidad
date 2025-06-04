@@ -29,22 +29,46 @@
           <form #categoryForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveCategoryChanges()">
             <div class="mb-3">
               <label class="form-label">Nombre</label>
-              <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.name" name="name" [disabled]="modalMode === 'view'">
+              <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.name" name="name" [disabled]="modalMode === 'view'" required>
+              <div class="valid-feedback">
+                El nombre de la categoría es correcto
+              </div>
+              <div class="invalid-feedback">
+                Por favor escriba el nombre de la categoría
+              </div>
             </div>
             <div class="mb-3">
               <label class="form-label">Descripción</label>
-              <textarea *ngIf="selectedCategory" class="form-control" [(ngModel)]="selectedCategory.description" name="description" [disabled]="modalMode === 'view'"></textarea>
+              <textarea *ngIf="selectedCategory" class="form-control" [(ngModel)]="selectedCategory.description" name="description" [disabled]="modalMode === 'view'" required></textarea>
+              <div class="valid-feedback">
+                La descripción de la categoría es correcta
+              </div>
+              <div class="invalid-feedback">
+                Por favor escriba la descripción de la categoría
+              </div>
             </div>
             <div class="mb-3">
               <label class="form-label">Estado</label>
-              <select *ngIf="selectedCategory" class="form-control" [(ngModel)]="selectedCategory.status" name="status" [disabled]="modalMode === 'view'">
+              <select *ngIf="selectedCategory" class="form-control" [(ngModel)]="selectedCategory.status" name="status" [disabled]="modalMode === 'view'" required>
                 <option value="true">Activo</option>
                 <option value="false">Inactivo</option>
               </select>
+              <div class="valid-feedback">
+                El estado de la categoría es correcto
+              </div>
+              <div class="invalid-feedback">
+                Por favor seleccione el estado de la categoría
+              </div>
             </div>
             <div class="mb-3">
               <label class="form-label">Fecha de Creación</label>
-              <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.createdAt" name="createdAt" disabled>
+              <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.createdAt" name="createdAt" required disabled>
+              <div class="valid-feedback">
+                La fecha de creación de la categoría es correcta
+              </div>
+              <div class="invalid-feedback">
+                Por favor indique la fecha y hora de creación de la categoría
+              </div>
             </div>
             <div class="modal-footer" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"><!-- Copy Paste de ngStyle -->>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

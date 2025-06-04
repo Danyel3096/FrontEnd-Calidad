@@ -33,8 +33,17 @@ export class CategoriesService {
     return this.http.put<Category>(url, category);
   }
 
-  createCategory(category: Category): Observable<Category> {
+  createCategory(idStore: number, category: Category): Observable<Category> {
     const url = `${this.baseUrl}/categories`;
-    return this.http.post<Category>(url, category);
+    
+    // 1. Construyes el objeto `store`
+    const store = { id: idStore };
+
+    // 2. Luego formas el objeto final (puedes llamarlo como quieras)
+    const payload = {
+      store: store,
+      ...category // <-- esto descompone todos los campos de category (name, description, status, etc.)
+    };
+    return this.http.post<Category>(url, payload);
   }
 }

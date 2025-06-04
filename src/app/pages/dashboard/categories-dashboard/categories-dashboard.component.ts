@@ -341,7 +341,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
       name: '',
       description: '',
       status: true,
-      createdAt: this.datePipe.transform('dd/MM/yyyy HH:mm') || ''
+      createdAt: this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || ''
     };
     this.modalMode = 'create';
     this.categoryModal.show();
@@ -360,7 +360,7 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
         this.categoriesService.deleteCategory(category.id!).subscribe(() => {
           this.categories = this.categories.filter(u => u.id !== category.id);
           this.redrawTable();
-          Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
+          Swal.fire('Eliminado', 'La categoría ha sido eliminada', 'success');
         });
       }
     });
@@ -402,15 +402,19 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
   }
 
   saveCategoryChanges(): void {
-    console.log('Guardando cambios...');
+    console.log('Guardando cambios ddddd...');
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
     form.classList.add('was-validated');
+
+    console.log('modalMode:', this.modalMode);
 
     if (!this.bootstrapValidation.validateForm(form)) {
       return;
     }
-
+    
     if (!this.selectedCategory) return;
+
+    
 
     if (this.modalMode === 'edit') {
       this.categoriesService.UpdateCategory(this.selectedCategory!.id!, this.selectedCategory!).subscribe(updatedUser => {
@@ -423,9 +427,11 @@ export class CategoriesDashboardComponent implements OnInit, AfterViewInit {
         this.categoryModal.hide();
       });
     } else if (this.modalMode === 'create') {
-      this.categoriesService.createCategory(this.selectedCategory).subscribe(newCategory => {
+      delete this.selectedCategory.id; // Eliminar el campo id del objeto category antes de enviarlo
+      console.log('Creando nueva categoría:', this.selectedCategory);
+      this.categoriesService.createCategory(this.storeId, this.selectedCategory).subscribe(newCategory => {
         this.categories.push(newCategory);
-        Swal.fire('Guardado', 'El nuevo usuario ha sido creado', 'success');
+        Swal.fire('Guardado', 'La nueva categoría ha sido creada', 'success');
         this.redrawTable();
         this.categoryModal.hide();
       });

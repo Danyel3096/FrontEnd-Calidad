@@ -88,7 +88,7 @@ export default class ProductsListComponent implements OnInit {
           this.categories = content;
           this.categoryNames = [
             { id: 0, name: 'Todos' },
-            ...content.map(cat => ({ id: cat.id, name: cat.name }))
+            ...content.filter(cat => cat.id !== undefined).map(cat => ({ id: cat.id as number, name: cat.name }))
           ];
         } else {
           this.categoryNames = [{ id: 0, name: 'Todos' }];
