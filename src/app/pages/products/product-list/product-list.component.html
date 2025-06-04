@@ -1,4 +1,5 @@
 <div class="tw space-y-6 p-4">
+
   <!-- Tabs de categorías -->
   <app-dynamic-page-tabs
     [tabs]="categoryNames"
@@ -7,32 +8,32 @@
     (tabChange)="onCategoryChange($event)">
   </app-dynamic-page-tabs>
 
-  <!-- Skeleton Placeholder estilo Bootstrap -->
+  <!-- Skeleton Placeholder estilo Bootstrap con bordes redondeados -->
   <ng-container *ngIf="isLoading; else productGrid">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-      <div class="col" *ngFor="let _ of [1,2,3,4,5,6]">
-        <div class="card bg-light" aria-hidden="true">
-          <div class="card-header placeholder-glow">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 d-flex flex-wrap">
+      <div class="col" *ngFor="let _ of [1,2,3,4,5,6]" style="display: flex;">
+        <div class="card bg-light rounded-4 overflow-hidden shadow-sm flex-fill d-flex flex-column" aria-hidden="true" style="min-height: 430px;">
+          <div class="card-header placeholder-glow bg-white rounded-top-4">
             <span class="placeholder col-4"></span>
           </div>
           <img src="https://via.placeholder.com/300x200?text=Loading"
                class="card-img-top"
                alt="..."
-               style="object-fit: cover; width: 300px; height: 200px;">
-          <div class="card-body">
+               style="object-fit: cover; width: 100%; height: 200px;">
+          <div class="card-body bg-white flex-grow-1 d-flex flex-column">
             <h5 class="card-title placeholder-glow">
               <span class="placeholder col-6"></span>
             </h5>
-            <p class="card-text placeholder-glow">
+            <p class="card-text placeholder-glow flex-grow-1">
               <span class="placeholder col-7"></span>
               <span class="placeholder col-4"></span>
               <span class="placeholder col-4"></span>
               <span class="placeholder col-6"></span>
               <span class="placeholder col-8"></span>
             </p>
-            <a class="btn btn-primary disabled placeholder col-6" tabindex="-1"></a>
+            <a class="btn btn-primary disabled placeholder col-6 rounded-pill mt-auto" tabindex="-1"></a>
           </div>
-          <div class="card-footer text-muted placeholder-glow">
+          <div class="card-footer text-muted placeholder-glow bg-white rounded-bottom-4">
             <span class="placeholder col-3"></span>
           </div>
         </div>
@@ -40,14 +41,16 @@
     </div>
   </ng-container>
 
-  <!-- Lista real de productos -->
+  <!-- Lista real de productos con tarjetas redondeadas -->
   <ng-template #productGrid>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-      <div class="col" *ngFor="let product of paginatedProducts; trackBy: trackById">
-        <app-product-card
-          [product]="product"
-          (addToCart)="addToCart($event)">
-        </app-product-card>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 d-flex flex-wrap">
+      <div class="col" *ngFor="let product of paginatedProducts; trackBy: trackById" style="display: flex;">
+        <div class="card rounded-4 overflow-hidden shadow-sm flex-fill d-flex flex-column" style="min-height: 430px;">
+          <app-product-card
+            [product]="product"
+            (addToCart)="addToCart($event)">
+          </app-product-card>
+        </div>
       </div>
     </div>
   </ng-template>
@@ -61,4 +64,5 @@
       (pageChange)="onPageChange($event)">
     </app-dynamic-page-pagination>
   </div>
+
 </div>
