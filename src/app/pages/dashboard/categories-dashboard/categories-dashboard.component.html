@@ -3,8 +3,6 @@
     <table id="categoriesTable" class="display table table-striped table-bordered w-100">
       <thead>
         <tr>
-          <th>ID</th>
-          <!-- <th>ID Tienda</th> -->
           <th>Nombre</th>
           <th>Descripcion</th>
           <th>Estado</th>
@@ -12,20 +10,7 @@
           <th class="text-center no-export">Acciones</th> <!-- Columna de botones -->
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let category of categories">
-          <td>{{ category.id }}</td>
-          <td>{{ category.name }}</td>
-          <td>{{ category.description }}</td>
-          <td>{{ category.status }}</td>
-          <td>{{ category.createdAt | date: 'dd/MM/yyyy' }}</td>
-          <td class="text-center">
-            <button (click)="seeCategory(category)" class="btn btn-info btn-sm">Ver</button>
-            <button (click)="editCategory(category)" class="btn btn-warning btn-sm">Editar</button>
-            <button (click)="deleteCategory(category)" class="btn btn-danger btn-sm">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 </div>
@@ -34,22 +19,14 @@
 <div id="categoryModal" class="modal fade" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"><!-- Copy Paste de ngStyle -->>
           <h5 class="modal-title">
             {{ modalMode === 'view' ? 'Ver Categoría' : 'Editar Categoría' }}
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"><!-- Copy Paste de ngStyle -->>
           <form #categoryForm="ngForm" class="row g-3 needs-validation" novalidate (ngSubmit)="saveCategoryChanges()">
-            <div class="mb-3">
-              <label class="form-label">ID</label>
-              <input *ngIf="selectedCategory?.id" type="text" class="form-control" [value]="selectedCategory.id" disabled>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">ID Tienda</label>
-              <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.store_id" name="store_id" [disabled]="modalMode === 'view'">
-            </div>
             <div class="mb-3">
               <label class="form-label">Nombre</label>
               <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.name" name="name" [disabled]="modalMode === 'view'">
@@ -61,19 +38,19 @@
             <div class="mb-3">
               <label class="form-label">Estado</label>
               <select *ngIf="selectedCategory" class="form-control" [(ngModel)]="selectedCategory.status" name="status" [disabled]="modalMode === 'view'">
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
               </select>
             </div>
             <div class="mb-3">
               <label class="form-label">Fecha de Creación</label>
               <input *ngIf="selectedCategory" type="text" class="form-control" [(ngModel)]="selectedCategory.createdAt" name="createdAt" disabled>
             </div>
+            <div class="modal-footer" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"><!-- Copy Paste de ngStyle -->>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button *ngIf="modalMode === 'edit' || modalMode === 'create'" type="submit" class="btn btn-primary">Guardar Cambios</button>
         </div>
       </div>
     </div>
