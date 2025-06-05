@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './customization-dashboard.component.html',
   styleUrl: './customization-dashboard.component.css'
 })
+
 export class CustomizationDashboardComponent implements OnInit {
   themeForm!: FormGroup;
   currentConfig!: ThemeConfig;
