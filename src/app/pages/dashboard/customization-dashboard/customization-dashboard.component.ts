@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';
 import { ThemeColors, ThemeConfig } from '../../../interfaces/dynamic-colors.interface';
 import { HttpClient } from '@angular/common/http';
+import { NgbAccordionModule, NgbAccordionItem } from '@ng-bootstrap/ng-bootstrap';
+import { ThemeSectionFormComponent } from '../../../components/theme-section-form/theme-section-form.component';
 
 @Component({
   standalone: true,
   selector: 'app-customization-dashboard',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgbAccordionModule, NgbAccordionItem, ThemeSectionFormComponent],
   templateUrl: './customization-dashboard.component.html',
   styleUrl: './customization-dashboard.component.css'
 })
@@ -17,6 +19,9 @@ export class CustomizationDashboardComponent implements OnInit {
   themeForm!: FormGroup;
   currentConfig!: ThemeConfig;
 
+  sectionForms: { [key: string]: FormGroup } = {};
+  sectionKeys: string[] = [];
+
   constructor(
     private fb: FormBuilder,
     private themeService: DynamicThemeService,
@@ -24,10 +29,26 @@ export class CustomizationDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    /*
     this.themeService.getConfig().subscribe((config) => {
       this.currentConfig = config;
       console.log('Datos que llegaron al custom dashboard:', config.light.pageButtons);
       this.themeForm = this.buildForm(config);
+    });
+    */
+   this.themeService.getConfig().subscribe((config) => {
+      const lightTheme = config.light;
+
+      this.sectionKeys = Object.keys(lightTheme) as (keyof ThemeColors)[];
+      this.sectionKeys.forEach((key) => {
+        const section = (lightTheme as any)[key];
+        this.sectionForms[key] = this.fb.group(
+          Object.entries(section).reduce((group, [k, v]) => {
+            group[k] = [v];
+            return group;
+          }, {} as { [key: string]: any })
+        );
+      });
     });
   }
 
@@ -74,5 +95,12 @@ export class CustomizationDashboardComponent implements OnInit {
 
     // 🔄 Refrescar el tema activo
     this.themeService.forceUpdate(updatedConfig);
+  }
+
+  onSectionSubmit(sectionKey: string): void {
+    console.log(`🎯 Cambios guardados para la sección: ${sectionKey}`);
+    console.log(this.sectionForms[sectionKey].value);
+
+    // Aquí podrías guardar en localStorage, o emitir a un servicio
   }
 }
