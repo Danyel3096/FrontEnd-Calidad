@@ -18,6 +18,10 @@ import { DatePipe } from '@angular/common';
 import { OrdersService } from '../../../services/orders.service';
 import { Order } from '../../../interfaces/orders.interface';
 
+import { DynamicThemeService } from '../../../services/dynamic-theme.service';
+import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';
+import { ImageUtilService } from '../../../services/image-util.service';
+
 @Component({
   standalone: true,
   selector: 'app-orders-dashboard',
@@ -45,9 +49,48 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
     private idiomaService: DatatableLanguageService,
     private ordersService: OrdersService,
     private datePipe: DatePipe,
+    private dynamicThemeService: DynamicThemeService,
+    private imageUtil: ImageUtilService
   ) {}
 
+  pageContentColors: ThemeColors['pageContent'] = {
+    backgroundPage: '',
+    backgroundSecondary: '',
+    textTitle: '',
+    textBody: '',
+    fontFamily: '',
+    fontSizeH1: '',
+    fontSizeH2: '',
+    fontSizeH3: '',
+    fontSizeH4: '',
+    fontSizeH5: '',
+    fontSizeH6: '',
+    fontSizeText: ''
+  };
+
+   
+    logoBase64: string = ''; 
+    companyName: string = 'Nombre de la Empresa';
+    reportTitle: string = 'listado de Órdenes';
+    userName: string = 'Nombre del Usuario'; 
+
   ngOnInit(): void {
+    this.dynamicThemeService.getDarkMode().subscribe(isDark => {
+      console.log('StoresDashboardComponent detectó isDarkMode:', isDark);
+      document.documentElement.classList.toggle('dark', isDark);
+    });
+
+    this.dynamicThemeService.getSection('pageContent').subscribe(colors => {
+      console.log('StoresDashboardComponent detectó pageContent:', colors);
+
+      const root = document.documentElement;
+
+      this.pageContentColors = colors;
+
+      Object.entries(colors).forEach(([key, value]) => {
+        root.style.setProperty(`--${key}`, value);
+      });
+    });
     this.loadOrders();
   }
 
@@ -60,6 +103,13 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
       this.selectedOrder = null;
       this.modalMode = 'view';
     });
+
+    this.imageUtil
+      .convertImageToBase64('assets/logos/company-logo.png')
+      .then((base64) => {
+        this.logoBase64 = base64;
+        this.initDataTable()
+      });
   }
 
   private loadOrders(): void {
@@ -110,6 +160,9 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
   }
 
   private initDataTable(): void {
+    const fecha = this.datePipe.transform(new Date(), 'dd/MM/yyyy') || '';
+    const hora = this.datePipe.transform(new Date(), 'hh:mm a') || '';
+
     if (this.dataTable) {
       this.dataTable.destroy();
       $('#ordersTable').empty();
@@ -121,24 +174,157 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
            "<'row'<'col-12'tr>>" +
            "<'row'<'col-3'i><'col-6 d-flex justify-content-center'p><'col-3 text-end custom-button-col mt-2'>>",
       buttons: [
-        { extend: 'copyHtml5', className: 'btn btn-primary', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'csvHtml5', className: 'btn btn-success', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'excelHtml5', className: 'btn btn-info', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'pdfHtml5', className: 'btn btn-danger', exportOptions: { columns: ':not(.no-export)' } },
-        { extend: 'print', className: 'btn btn-warning', exportOptions: { columns: ':not(.no-export)' } }
+        {
+          extend: 'excel',
+          className: 'btn btn-info',
+          exportOptions: { columns: ':not(.no-export)' },
+        },
+        {
+          extend: 'csv',
+          className: 'btn btn-success',
+          exportOptions: { columns: ':not(.no-export)' },
+        },
+        {
+          extend: 'print',
+          className: 'btn btn-warning',
+          exportOptions: { columns: ':not(.no-export)' },
+        },
+        {
+          extend: 'copy',
+          className: 'btn btn-primary',
+          exportOptions: { columns: ':not(.no-export)' },
+        },
+        { extend: 'colvis', className: 'btn btn-secondary', text: 'Columnas' },
+        {
+          extend: 'pdf',
+          className: 'btn btn-danger',
+          title: '', // ← Esto evita que ponga "Dashboard component" como título
+          exportOptions: {
+            columns: function (idx: any, data: any, node: any) {
+              return $(node).is(':visible') && !$(node).hasClass('no-export');
+            },
+            format: {
+              body: (data: any, row: any, column: any, node: any) => {
+                // Elimina HTML y centra
+                const div = document.createElement('div');
+                div.innerHTML = data;
+                return div.textContent?.trim() || '';
+              }
+            },
+          },
+          customize: (doc: any) => {
+            //const nombreUsuario = 'Juan Pérez'; // Puedes reemplazarlo con tu variable dinámica
+            const fechaHora =
+              this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
+            //const fechaHora = new Date().toLocaleString();
+
+            doc.pageOrientation = 'landscape';
+            doc.pageMargins = [20, 30, 20, 30]; // Margen general (top, left, bottom, right)
+            doc.defaultStyle.fontSize = 10;
+            //doc.styles.tableHeader.fontSize = 11;
+            //doc.styles.tableHeader.bold = true;
+
+            // Encabezado: Logo y título
+            doc.content.unshift({
+              columns: [
+                {
+                  image: this.logoBase64,
+                  width: 60,
+                },
+                {
+                  text: [
+                    {
+                      text: `${this.companyName}\n`,
+                      bold: true,
+                      italics: true,
+                    },
+                    {
+                      text: `El presente reporte corresponde al listado de ${this.reportTitle}`,
+                    },
+                  ],
+                  alignment: 'right',
+                  margin: [10, 0],
+                  fontSize: 12,
+                },
+              ],
+              margin: [0, 0, 0, 10],
+            });
+
+            // Encabezado
+            //doc.header = getPdfHeader(this.logoBase64, this.companyName, this.reportTitle);
+
+            doc.footer = (currentPage: number, pageCount: number) => ({
+              columns: [
+                {
+                  text: `Generado por: ${this.userName}`,
+                  alignment: 'left',
+                  margin: [40, 0],
+                  italics: true,
+                },
+                {
+                  text: `Fecha: ${fecha} a las ${hora}`,
+                  alignment: 'right',
+                  margin: [0, 0, 40, 0],
+                  italics: true,
+                },
+              ],
+              fontSize: 9,
+            });
+            // Pie de página
+            
+            // Encuentra la tabla y da estilo de tabla
+            // Asegura que la tabla use el 100% del ancho disponible
+            const table = doc.content.find((el: any) => el.table);
+            const body = table.table.body;
+            const colCount = body[0].length;
+            // Calcular porcentaje para cada columna (en formato '20%' por ejemplo)
+            const equalPercent = (100 / colCount).toFixed(2) + '%';
+            table.table.widths = Array(colCount).fill(equalPercent);
+
+            // Iterar desde la fila 1 (fila 0 es header)
+            for (let i = 1; i < body.length; i++) {
+              for (let j = 0; j < body[i].length; j++) {
+                if (typeof body[i][j] === 'string') {
+                  body[i][j] = {
+                    text: body[i][j],
+                    alignment: 'center',
+                    noWrap: j !== 2, // Solo la columna 2 permite wrap
+                  };
+                } else if (typeof body[i][j] === 'object') {
+                  body[i][j].alignment = 'center';
+                  body[i][j].noWrap = j !== 1;
+                }
+              }
+            }
+
+            // Centrar encabezado (fila 0)
+            for (let j = 0; j < body[0].length; j++) {
+              const cell = body[0][j];
+              if (typeof cell === 'string') {
+                body[0][j] = {
+                  text: cell,
+                  alignment: 'center',
+                  bold: true,
+                };
+              } else {
+                cell.alignment = 'center';
+                cell.bold = true;
+              }
+            }
+          },
+        },
       ],
       data: this.orders,
       columns: [
-        { data: 'id' },
-        { data: 'storeId' },
-        { data: 'userId' },
-        { data: 'saleDate',    render: data => this.datePipe.transform(data, 'dd/MM/yyyy') },
-        { data: 'paymentMethod' },
-        { data: 'totalAmount', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-        { data: 'status' },
+        { data: 'saleDate', title: 'Fecha venta', className: 'text-center',    render: data => this.datePipe.transform(data, 'dd/MM/yyyy') },
+        { data: 'paymentMethod', className: 'text-center', title: 'Método de pago' },
+        { data: 'totalAmount', className: 'text-center', title: 'Total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+        { data: 'status', className: 'text-center', title: 'Estado' },
         {
           data: null,
+          title: 'Acciones',
           orderable: false,
+          className: 'text-center no-export',
           render: (data: any, type: any, row: Order) => `
             <div class="text-center">
               <button class="btn btn-sm btn-info btn-see-order" title="Ver" data-id="${row.id}">

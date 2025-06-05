@@ -60,7 +60,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   //TAREA: Utilizar localStorage o un servicio para obtener el ID de la tienda actual
   logoBase64: string = ''; // Asegúrate de asignar el valor base64 de tu logo aquí
   companyName: string = 'Nombre de la Empresa';
-  reportTitle: string = 'usuarios';
+  reportTitle: string = 'listado de Productos';
   userName: string = 'Nombre del Usuario'; // Puedes obtenerlo desde tu servicio de autenticación
 
 
