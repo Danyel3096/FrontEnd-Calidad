@@ -5,9 +5,9 @@ export interface Order {
   saleDate: string;
   paymentMethod: string;
   totalAmount: number;
-  status: string;
-  deleted?: boolean;
+  status: boolean;
   createdAt?: string;
-  saleDetails?: any[];
+  deleted: string;
+  
   
 }

@@ -13,15 +13,19 @@ export class OrdersService {
   constructor(private http: HttpClient) { }
 
   // Obtener todas las ventas de una tienda específica
-  getSalesByStore(storeId: number): Observable<Order[]> {   // <-- Aquí usamos Order[]
-    return this.http.get<Order[]>(`${this.baseUrl}/store/${storeId}`);
-  }
+getSalesByStore(storeId: number): Observable<Order[]> {
+  return this.http.get<Order[]>(`${this.baseUrl}/store/${storeId}`);
+}
+
   
 
 createOrder(order: Order): Observable<Order> {
   return this.http.post<Order>(this.baseUrl, order);
 }
-
+  UpdateCategory(id: number, order: Order): Observable<Order> {
+    const url = `${this.baseUrl}/categories/${id}`;
+    return this.http.put<Order>(url, order);
+  }
   
   // Eliminar una venta por su ID
   deleteSale(id: number): Observable<void> {
