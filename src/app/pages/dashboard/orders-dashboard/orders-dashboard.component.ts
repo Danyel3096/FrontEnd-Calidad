@@ -69,8 +69,8 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
       this.initDataTable();
     } else {
       this.ordersService.getSalesByStore(this.storeId).subscribe({
-  next: (data: Order[]) => {
-    this.orders = data.map(order => ({
+  next: (data) => {
+    this.orders.forEach((order) =>  ({
       ...order,
      storeId: (order as any).store?.id || null
     }));
@@ -203,7 +203,8 @@ this.selectedOrder = {
   saleDate: new Date().toISOString(),
   paymentMethod: 'Efectivo',
   totalAmount: 0,
-  status: 'Pendiente'
+  status: true,
+  deleted: 'false'
 };
 
 
