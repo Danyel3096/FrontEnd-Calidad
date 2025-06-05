@@ -386,38 +386,65 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
     this.productModal.show();
   }
 
+  private showSuccessAlert(message: string): void {
+    Swal.fire({
+      icon: 'success',
+      title: 'Guardado',
+      text: message,
+      didOpen: () => {
+        const titleEl = document.querySelector('.swal2-title');
+        if (titleEl) {
+          titleEl.setAttribute('style', 'color: black;');
+        }
+      },
+    });
+  }
+  
+  private showErrorAlert(title: string, err: any): void {
+    Swal.fire({
+      icon: 'error',
+      title,
+      text: `Mensaje del servidor: ${err?.error?.message || 'Error desconocido.'}`,
+      didOpen: () => {
+        const titleEl = document.querySelector('.swal2-title');
+        if (titleEl) {
+          titleEl.setAttribute('style', 'color: black;');
+        }
+      },
+    });
+  }
+
   saveProductChanges(): void {
-    console.log('Guardando cambios...');
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
     form.classList.add('was-validated');
-
-    if (!this.bootstrapValidation.validateForm(form)) {
-      return;
-    }
-
+  
+    if (!this.bootstrapValidation.validateForm(form)) return;
     if (!this.selectedProduct) return;
-
+  
+    // Armamos el objeto JSON que espera el backend dentro de FormData
     const productData = {
+      store: { id: this.selectedProduct.storeId },
+      category: { id: this.selectedProduct.categoryId },
+      user: { id: this.selectedProduct.userId },
       name: this.selectedProduct.name,
       description: this.selectedProduct.description,
       price: this.selectedProduct.price,
       stock: this.selectedProduct.stock,
+      url: this.selectedProduct.url || '', // Puede ser omitido si se carga la imagen
+      ratingRate: this.selectedProduct.ratingRate || 0,
+      ratingCount: this.selectedProduct.ratingCount || 0,
       status: this.selectedProduct.status,
     };
-
+  
     const formData = new FormData();
-
-    // JSON como archivo binario
-    const jsonBlob = new Blob([JSON.stringify(productData)], {
-      type: 'application/json',
-    });
+    const jsonBlob = new Blob([JSON.stringify(productData)], { type: 'application/json' });
     formData.append('product', jsonBlob);
-
-    // Imagen como archivo binario
+  
+    // Si hay imagen, la agregamos
     if (this.selectedImageFile) {
       formData.append('file', this.selectedImageFile);
     }
-
+  
     if (this.modalMode === 'create') {
       this.productsService.createProduct(formData).subscribe({
         next: (data) => {
@@ -427,32 +454,30 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
           Swal.fire('Éxito', 'Producto creado correctamente', 'success');
           this.selectedImageFile = null;
         },
-        error: () => {
-          Swal.fire('Error', 'Hubo un problema al crear el producto', 'error');
+        error: (err) => {
+          console.error(err);
+          Swal.fire('Error', err.error?.message || 'Error al crear el producto', 'error');
         },
       });
     } else if (this.modalMode === 'edit' && this.selectedProduct.id) {
-      this.productsService
-        .updateProduct(this.selectedProduct.id, formData)
-        .subscribe({
-          next: (data) => {
-            const index = this.products.findIndex((p) => p.id === data.id);
-            if (index !== -1) this.products[index] = data;
-            this.redrawTable();
-            this.productModal.hide();
-            Swal.fire('Éxito', 'Producto actualizado correctamente', 'success');
-            this.selectedImageFile = null;
-          },
-          error: () => {
-            Swal.fire(
-              'Error',
-              'Hubo un problema al actualizar el producto',
-              'error',
-            );
-          },
-        });
+      this.productsService.updateProduct(this.selectedProduct.id, formData).subscribe({
+        next: (data) => {
+          const index = this.products.findIndex((p) => p.id === data.id);
+          if (index !== -1) this.products[index] = data;
+          this.redrawTable();
+          this.productModal.hide();
+          Swal.fire('Éxito', 'Producto actualizado correctamente', 'success');
+          this.selectedImageFile = null;
+        },
+        error: (err) => {
+          console.error(err);
+          Swal.fire('Error', err.error?.message || 'Error al actualizar el producto', 'error');
+        },
+      });
     }
   }
+  
+
 
   deleteProduct(product: Product): void {
     Swal.fire({
@@ -474,10 +499,39 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   }
 
   handleImageUpload(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedImageFile = file;
-      console.log('Imagen cargada:', file);
+    const file = event?.target?.files?.[0];
+  if (file) {
+    this.selectedImageFile = file;
+    console.log('Imagen cargada:', file);
+
+    // Cargar vista previa
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.selectedProduct.url = reader.result as string;
+    };
+    reader.readAsDataURL(file);
     }
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.handleImageUpload({ target: { files } } as any);
+    }
+  }
+  
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+  
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+  }
+  
+  onSelectImage(event: MouseEvent): void {
+    event.preventDefault();
+    const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]');
+    fileInput?.click();
   }
 }

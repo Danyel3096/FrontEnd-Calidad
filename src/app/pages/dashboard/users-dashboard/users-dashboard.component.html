@@ -127,6 +127,7 @@
             </div>
           </div>
 
+          <!-- Imagen -->
           <div class="mb-3">
             <label class="form-label">Imagen</label>
             <div
@@ -134,21 +135,26 @@
               (drop)="onDrop($event)"
               (dragover)="onDragOver($event)"
               (dragleave)="onDragLeave($event)"
-              style="min-height: 100px; border: 2px dashed #ccc;"
+              style="min-height: 100px; border: 2px dashed #ccc"
             >
               <p *ngIf="!selectedUser?.photo">Arrastra aquí tu imagen</p>
-              <img *ngIf="selectedUser?.photo" [src]="selectedUser.photo" class="img-thumbnail mt-2" width="100">
+              <img
+                *ngIf="!selectedUser?.photo"
+                [src]="!selectedUser.photo"
+                class="img-thumbnail mt-2"
+                width="100"
+              />
               <input
                 type="file"
                 class="form-control d-none"
                 (change)="handleImageUpload($event)"
                 #fileInput
                 accept="image/*"
-                *ngIf="modalMode === 'edit'"
+                *ngIf="modalMode !== 'view'"
               />
             </div>
             <button
-              *ngIf="modalMode === 'edit'"
+              *ngIf="modalMode !== 'view'"
               class="btn btn-sm btn-outline-secondary mt-2"
               (click)="onSelectImage($event)"
             >
