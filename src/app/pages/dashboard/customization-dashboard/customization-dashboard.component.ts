@@ -6,6 +6,7 @@ import { ThemeColors, ThemeConfig } from '../../../interfaces/dynamic-colors.int
 import { HttpClient } from '@angular/common/http';
 import { NgbAccordionModule, NgbAccordionItem } from '@ng-bootstrap/ng-bootstrap';
 import { ThemeSectionFormComponent } from '../../../components/theme-section-form/theme-section-form.component';
+import { ThemeEditorService } from '../../../services/theme-editor.service';
 
 @Component({
   standalone: true,
@@ -25,18 +26,13 @@ export class CustomizationDashboardComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private themeService: DynamicThemeService,
-    private http: HttpClient
+    private http: HttpClient,
+    private themeEditorService: ThemeEditorService
   ) {}
 
   ngOnInit(): void {
-    /*
-    this.themeService.getConfig().subscribe((config) => {
-      this.currentConfig = config;
-      console.log('Datos que llegaron al custom dashboard:', config.light.pageButtons);
-      this.themeForm = this.buildForm(config);
-    });
-    */
    this.themeService.getConfig().subscribe((config) => {
+      this.currentConfig = config;
       const lightTheme = config.light;
 
       this.sectionKeys = Object.keys(lightTheme) as (keyof ThemeColors)[];
@@ -49,6 +45,9 @@ export class CustomizationDashboardComponent implements OnInit {
           }, {} as { [key: string]: any })
         );
       });
+
+      // Opcional: si quieres usar themeForm también
+      this.themeForm = this.buildForm(config);
     });
   }
 
@@ -73,7 +72,31 @@ export class CustomizationDashboardComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  onSectionSubmit(sectionKey: string): void {
+    const updatedSection = this.sectionForms[sectionKey].value;
+
+    const updatedTheme: ThemeConfig = {
+      ...this.currentConfig,
+      light: {
+        ...this.currentConfig.light,
+        [sectionKey]: updatedSection
+      },
+      dark: {
+        ...this.currentConfig.dark
+        // Opcional: aplica también en dark si quieres sincronía
+      }
+    };
+
+    this.themeEditorService.saveThemeConfig(updatedTheme).subscribe({
+      next: () => {
+        alert('Tema guardado correctamente en el servidor');
+        this.themeService.updateThemeConfig(updatedTheme); // 🔁 Aplica dinámicamente
+      },
+      error: err => console.error('Error guardando tema', err)
+    });
+  }
+
+  onFullSubmit(): void {
     if (!this.themeForm.valid) return;
 
     const updatedConfig: ThemeConfig = {
@@ -88,19 +111,13 @@ export class CustomizationDashboardComponent implements OnInit {
       }
     };
 
-    // 🔁 Guardar el nuevo archivo JSON en backend (o local si es solo front)
-    this.http
-      .put('/assets/config/theme.json', updatedConfig)
-      .subscribe(() => console.log('Guardado con éxito'));
-
-    // 🔄 Refrescar el tema activo
-    this.themeService.forceUpdate(updatedConfig);
+    this.themeEditorService.saveThemeConfig(updatedConfig).subscribe({
+      next: () => {
+        alert('Cambios guardados correctamente en el servidor');
+        this.themeService.updateThemeConfig(updatedConfig);
+      },
+      error: err => console.error('Error guardando tema', err)
+    });
   }
 
-  onSectionSubmit(sectionKey: string): void {
-    console.log(`🎯 Cambios guardados para la sección: ${sectionKey}`);
-    console.log(this.sectionForms[sectionKey].value);
-
-    // Aquí podrías guardar en localStorage, o emitir a un servicio
-  }
 }
