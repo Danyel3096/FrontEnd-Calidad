@@ -12,17 +12,17 @@ export class AboutComponent {
   teamMembers = [
     {
       name: 'Fernando Martínez',
-      role: 'Project Manager',
+      role: 'Administrador',
       image: 'assets/team/fernando.png'
     },
     {
       name: 'Lucía Gómez',
-      role: 'Frontend Developer',
+      role: 'Cajera',
       image: 'assets/team/lucia.png'
     },
     {
       name: 'Diego Ruiz',
-      role: 'Backend Developer',
+      role: 'Bodeguero',
       image: 'assets/team/diego.png'
     }
   ];
