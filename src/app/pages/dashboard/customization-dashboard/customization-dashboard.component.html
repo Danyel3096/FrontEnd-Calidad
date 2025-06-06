@@ -1,70 +1,59 @@
 <!-- <p>customization-dashboard works!</p> -->
-<h2 class="mb-4">Personalización de colores por sección</h2>
+<h2 class="mb-4">Personalización de colores por sección y modo</h2>
 
-<div ngbAccordion class="mb-4">
-  <div
-    *ngFor="let key of sectionKeys"
-    ngbAccordionItem
-    [collapsed]="false"
-    [disabled]="!sectionForms[key]"
-  >
-    <h2 ngbAccordionHeader>
-      <button ngbAccordionButton class="text-capitalize">
-        Sección: {{ key }}
-      </button>
-    </h2>
-    <div ngbAccordionCollapse>
-      <div ngbAccordionBody>
-        <app-theme-section-form
-          *ngIf="sectionForms[key]"
-          [sectionName]="key"
-          [formGroup]="sectionForms[key]"
-          (formSubmitted)="onSectionSubmit(key)"
-        />
+<!-- Pestañas Light / Dark -->
+<ul ngbNav #nav="ngbNav" [(activeId)]="activeMode" class="nav nav-pills mb-3">
+  <li [ngbNavItem]="'light'">
+    <a ngbNavLink>Modo Claro</a>
+    <ng-template ngbNavContent>
+      <!-- Accordion para modo Claro -->
+      <div ngbAccordion class="mb-4">
+        <div *ngFor="let key of sectionKeys" ngbAccordionItem>
+          <h2 ngbAccordionHeader>
+            <button ngbAccordionButton class="text-capitalize">Sección: {{ key }}</button>
+          </h2>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <app-theme-section-form
+                *ngIf="lightSectionForms[key]"
+                [sectionName]="key"
+                [formGroup]="lightSectionForms[key]"
+                (formSubmitted)="onSectionSubmit('light')">
+              </app-theme-section-form>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
+    </ng-template>
+  </li>
 
-<hr />
-<hr />
-<hr />
-<hr />
+  <li [ngbNavItem]="'dark'">
+    <a ngbNavLink>Modo Oscuro</a>
+    <ng-template ngbNavContent>
+      <!-- Accordion para modo Oscuro -->
+      <div ngbAccordion class="mb-4">
+        <div *ngFor="let key of sectionKeys" ngbAccordionItem>
+          <h2 ngbAccordionHeader>
+            <button ngbAccordionButton class="text-capitalize">Sección: {{ key }}</button>
+          </h2>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <app-theme-section-form
+                *ngIf="darkSectionForms[key]"
+                [sectionName]="key"
+                [formGroup]="darkSectionForms[key]"
+                (formSubmitted)="onSectionSubmit('dark')">
+              </app-theme-section-form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+</ul>
 
-<form [formGroup]="themeForm" (ngSubmit)="onFullSubmit()" *ngIf="themeForm">
-  <h2>Editar Colores - Modo Claro</h2>
-  <div formGroupName="light">
-    <div formGroupName="pageButtons">
-      <label>Background:</label>
-      <input formControlName="background" type="color" />
+<!-- 🚨 Necesario para renderizar contenido de ngbNav -->
+<div [ngbNavOutlet]="nav"></div>
 
-      <label>Text:</label>
-      <input formControlName="text" type="color" />
-
-      <label>Hover Background:</label>
-      <input formControlName="hoverBackground" type="color" />
-
-      <label>Hover Text:</label>
-      <input formControlName="hoverText" type="color" />
-    </div>
-  </div>
-
-  <h2>Editar Colores - Modo Oscuro</h2>
-  <div formGroupName="dark">
-    <div formGroupName="pageButtons">
-      <label>Background:</label>
-      <input formControlName="background" type="color" />
-
-      <label>Text:</label>
-      <input formControlName="text" type="color" />
-
-      <label>Hover Background:</label>
-      <input formControlName="hoverBackground" type="color" />
-
-      <label>Hover Text:</label>
-      <input formControlName="hoverText" type="color" />
-    </div>
-  </div>
-
-  <button type="submit">Guardar Cambios</button>
-</form>
+<!-- Botón general -->
+<button class="btn btn-primary mt-3" (click)="onFullSubmit()">Guardar Todos los Cambios</button>
