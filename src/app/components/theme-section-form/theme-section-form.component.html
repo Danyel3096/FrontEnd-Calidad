@@ -1,0 +1,23 @@
+<!-- <p>theme-section-form works!</p> -->
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="p-3">
+  <div *ngFor="let key of formGroup?.controls | keyvalue" class="mb-2">
+    <label [for]="key.key" class="form-label text-capitalize">{{ key.key }}</label>
+    <input
+      *ngIf="isColorField(key.key); else textField"
+      type="color"
+      class="form-control form-control-color"
+      [formControlName]="key.key"
+      [id]="key.key"
+    />
+    <ng-template #textField>
+      <input
+        type="text"
+        class="form-control"
+        [formControlName]="key.key"
+        [id]="key.key"
+      />
+    </ng-template>
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-3">Guardar sección "{{ sectionName }}"</button>
+</form>

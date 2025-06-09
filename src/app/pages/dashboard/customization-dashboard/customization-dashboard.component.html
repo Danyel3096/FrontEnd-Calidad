@@ -1,4 +1,36 @@
 <!-- <p>customization-dashboard works!</p> -->
+<h2 class="mb-4">Personalización de colores por sección</h2>
+
+<div ngbAccordion class="mb-4">
+  <div
+    *ngFor="let key of sectionKeys"
+    ngbAccordionItem
+    [collapsed]="false"
+    [disabled]="!sectionForms[key]"
+  >
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton class="text-capitalize">
+        Sección: {{ key }}
+      </button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <app-theme-section-form
+          *ngIf="sectionForms[key]"
+          [sectionName]="key"
+          [formGroup]="sectionForms[key]"
+          (formSubmitted)="onSectionSubmit(key)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr />
+<hr />
+<hr />
+<hr />
+
 <form [formGroup]="themeForm" (ngSubmit)="onSubmit()" *ngIf="themeForm">
   <h2>Editar Colores - Modo Claro</h2>
   <div formGroupName="light">

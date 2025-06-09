@@ -11,13 +11,15 @@
 
     <div class="row justify-content-center">
       <div class="col-12">
-        <table id="productsTable" class="display table table-striped table-bordered w-100 custom-table">
+        <table
+          id="productsTable"
+          class="display table table-striped table-bordered w-100 custom-table"
+        >
           <thead>
             <tr>
               <th>Nombre</th>
               <th>Descripcion</th>
               <th>Precio</th>
-              <!-- <th>Foto</th> -->
               <th>Inventario</th>
               <th>Estado</th>
               <th class="text-center no-export">Acciones</th>
@@ -34,40 +36,170 @@
 <div id="productModal" class="modal fade" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div
+        class="modal-header"
+        [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"
+      >
         <h5 class="modal-title">
-          {{ modalMode === 'view' ? 'Ver Producto' : (modalMode === 'edit' ? 'Editar Producto' : 'Crear Producto') }}
+          {{
+            modalMode === "view"
+              ? "Ver Producto"
+              : modalMode === "edit"
+                ? "Editar Producto"
+                : "Crear Producto"
+          }}
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
       </div>
-      <div class="modal-body">
-        <form #productForm="ngForm">
+
+      <div
+        class="modal-body"
+        [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"
+        *ngIf="selectedProduct"
+      >
+        <form
+          #productForm="ngForm"
+          class="row g-3 needs-validation"
+          novalidate
+          (ngSubmit)="saveProductChanges()"
+        >
+          <!-- Nombre -->
           <div class="mb-3">
             <label class="form-label">Nombre</label>
-            <input *ngIf="selectedProduct" type="text" class="form-control" [(ngModel)]="selectedProduct.name" name="name" [disabled]="modalMode === 'view'">
+            <p *ngIf="modalMode === 'view'">{{ selectedProduct.name }}</p>
+            <input
+              *ngIf="modalMode !== 'view'"
+              type="text"
+              class="form-control"
+              [(ngModel)]="selectedProduct.name"
+              name="name"
+              required
+            />
+            <div class="valid-feedback">Perfectoo!</div>
+            <div class="invalid-feedback">
+              Porfavor escriba el nombre del producto.
+            </div>
           </div>
+
+          <!-- Descripción -->
           <div class="mb-3">
             <label class="form-label">Descripción</label>
-            <textarea *ngIf="selectedProduct" class="form-control" [(ngModel)]="selectedProduct.description" name="description" [disabled]="modalMode === 'view'"></textarea>
+            <p *ngIf="modalMode === 'view'">
+              {{ selectedProduct.description }}
+            </p>
+            <textarea
+              *ngIf="modalMode !== 'view'"
+              class="form-control"
+              [(ngModel)]="selectedProduct.description"
+              name="description"
+              required
+            ></textarea>
+            <div class="valid-feedback">Perfectoo!</div>
+            <div class="invalid-feedback">
+              Porfavor escriba una descripción.
+            </div>
           </div>
+
+          <!-- Precio -->
           <div class="mb-3">
             <label class="form-label">Precio</label>
-            <input *ngIf="selectedProduct" type="number" class="form-control" [(ngModel)]="selectedProduct.price" name="price" [disabled]="modalMode === 'view'">
+            <p *ngIf="modalMode === 'view'">
+              {{ selectedProduct.price | currency }}
+            </p>
+            <input
+              *ngIf="modalMode !== 'view'"
+              type="number"
+              class="form-control"
+              [(ngModel)]="selectedProduct.price"
+              name="price"
+              required
+              min="0"
+              step="0.01"
+            />
+            <div class="valid-feedback">Perfectoo!</div>
+            <div class="invalid-feedback">
+              Porfavor escriba un precio válido.
+            </div>
           </div>
+
+          <!-- Inventario -->
           <div class="mb-3">
             <label class="form-label">Inventario</label>
-            <input *ngIf="selectedProduct" type="number" class="form-control" [(ngModel)]="selectedProduct.stock" name="stock" [disabled]="modalMode === 'view'">
+            <p *ngIf="modalMode === 'view'">{{ selectedProduct.stock }}</p>
+            <input
+              *ngIf="modalMode !== 'view'"
+              type="number"
+              class="form-control"
+              [(ngModel)]="selectedProduct.stock"
+              name="stock"
+              required
+              min="0"
+            />
+            <div class="valid-feedback">Perfectoo!</div>
+            <div class="invalid-feedback">
+              Porfavor escriba la cantidad en inventario.
+            </div>
           </div>
+
+          <!-- Imagen -->
           <div class="mb-3">
-            <label class="form-label">Foto</label>
-            <input type="file" class="form-control" (change)="handleImageUpload($event)" *ngIf="modalMode === 'edit' || modalMode === 'create'">
-            <img *ngIf="selectedProduct?.url" [src]="selectedProduct.url" class="img-thumbnail mt-2" width="100">
+            <label class="form-label">Imagen</label>
+            <div
+              class="drop-area form-control"
+              (drop)="onDrop($event)"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              style="min-height: 100px; border: 2px dashed #ccc"
+            >
+              <p *ngIf="!selectedProduct?.url">Arrastra aquí tu imagen</p>
+              <img
+                *ngIf="selectedProduct?.url"
+                [src]="selectedProduct.url"
+                class="img-thumbnail mt-2"
+                width="100"
+              />
+              <input
+                type="file"
+                class="form-control d-none"
+                (change)="handleImageUpload($event)"
+                #fileInput
+                accept="image/*"
+                *ngIf="modalMode !== 'view'"
+              />
+            </div>
+            <button
+              *ngIf="modalMode !== 'view'"
+              class="btn btn-sm btn-outline-secondary mt-2"
+              (click)="onSelectImage($event)"
+            >
+              Seleccionar imagen
+            </button>
+          </div>
+          <!-- Botones -->
+          <div
+            class="modal-footer"
+            [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }"
+          >
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+            <button
+              *ngIf="modalMode !== 'view'"
+              type="submit"
+              class="btn btn-primary"
+            >
+              Guardar Cambios
+            </button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button *ngIf="modalMode !== 'view'" type="button" class="btn btn-primary" (click)="saveProductChanges()">Guardar Cambios</button>
       </div>
     </div>
   </div>
