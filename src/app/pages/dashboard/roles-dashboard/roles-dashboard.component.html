@@ -1,13 +1,10 @@
 <div class="d-flex flex-row flex-shrink-0 row">
   <div class="col-12 flex-column flex-grow-1 p-3">
-    <table id="categoriesTable" class="display table table-striped table-bordered w-100">
+    <table id="rolesTable" class="display table table-striped table-bordered w-100">
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Descripcion</th>
-          <th>Estado</th>
-          <th>Fecha de Creación</th>
-          <th class="text-center no-export">Acciones</th> <!-- Columna de botones -->
+          <th>Nombre del Rol</th>
+          <th class="text-center no-export">Acciones</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -21,28 +18,11 @@
     <div class="modal-content">
       <div class="modal-header" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
         <h5 class="modal-title">Ver Rol</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
-        <form class="row g-3 needs-validation" novalidate>
-          <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input *ngIf="selectedRole" type="text" class="form-control" [value]="selectedRole.name" disabled>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <textarea *ngIf="selectedRole" class="form-control" [value]="selectedRole.description" disabled></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Estado</label>
-            <input *ngIf="selectedRole" type="text" class="form-control"
-              [value]="selectedRole.status === 'true' || selectedRole.status === true ? 'Activo' : 'Inactivo'" disabled>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Fecha de Creación</label>
-            <input *ngIf="selectedRole" type="text" class="form-control" [value]="selectedRole.createdAt" disabled>
-          </div>
-        </form>
+            <p>Nombre del rol: </p>
+   
       </div>
       <div class="modal-footer" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -50,5 +30,3 @@
     </div>
   </div>
 </div>
-<!-- Fin del Modal para Ver Rol -->
-

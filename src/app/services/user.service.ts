@@ -2,72 +2,50 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user.interface';
-import { environment } from '../../environments/environment.development'; // Cambia la ruta según tu estructura de carpetas
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = 'https://tdd-billing-backend.onrender.com/api'; // URL base actual
 
   constructor(private http: HttpClient) {}
 
   /**
    * Obtiene todos los usuarios
-   * @returns Observable<User[]>
    */
-  
-  /*getUsers(): Observable<User[]> {
-    const url = `${this.baseUrl}/users`;
-    return this.http.get<User[]>(url);
-  }
-  */
   getUsers(): Observable<User[]> {
-    const url = `${environment.API_URL_USUARIO_REGISTRO}`;
-    return this.http.get<User[]>(url);
+    return this.http.get<User[]>(environment.API_URL_USUARIO_REGISTRO);
   }
 
   /**
-   * Obtiene los usuarios para una tienda específica por ID
-   * @param storeId - ID de la tienda
-   * @returns Observable<User[]>
+   * Obtiene los usuarios por tienda
    */
   getUsersByStore(storeId: number): Observable<User[]> {
-    const url = `${environment.API_URL_USUARIO_REGISTRO}/store/${storeId}`;
-    return this.http.get<User[]>(url);
+    return this.http.get<User[]>(`${environment.API_URL_USUARIO_REGISTRO}/store/${storeId}`);
   }
 
   /**
-   * Obtiene un usuario por su ID
-   * @param userId - ID del usuario
-   * @returns Observable<User>
+   * Obtiene un usuario por ID
    */
   getUserById(userId: number): Observable<User> {
-    const url = `${this.baseUrl}/users/${userId}`;
-    return this.http.get<User>(url);
+    return this.http.get<User>(`${environment.API_URL_USUARIO_UPDATE}${userId}`);
   }
 
   /**
    * Crea un nuevo usuario
-   * @param user - Datos del usuario a crear
-   * @returns Observable<User>
    */
   createUser(user: User): Observable<User> {
-    const url = `${this.baseUrl}/users`;
-    return this.http.post<User>(url, user);
+    return this.http.post<User>(environment.API_URL_USUARIO_REGISTRO, user);
   }
 
   /**
-   * Actualiza los datos de un usuario
-   * @param userId - ID del usuario
-   * @param user - Datos del usuario a actualizar
-   * @returns Observable<User>
+   * Actualiza un usuario
    */
-
   updateUser(userId: number, user: User): Observable<User> {
-    const url = `${this.baseUrl}/users/${userId}`;
     const formData = new FormData();
-  
+
+    // Limpieza de propiedades innecesarias
     delete user.photoUrl;
     delete user.id;
 
@@ -76,24 +54,18 @@ export class UserService {
 
     const jsonBlob = new Blob([JSON.stringify(user)], { type: 'application/json' });
     formData.append('user', jsonBlob);
-    
+
     if (file) {
-      console.log('file:', file);
       formData.append('file', file);
     }
-    //formData.append('user', userData);
-  
-    return this.http.put<User>(url, formData);
+
+    return this.http.put<User>(`${environment.API_URL_USUARIO_UPDATE}${userId}`, formData);
   }
 
   /**
-   * Elimina un usuario por su ID
-   * @param userId - ID del usuario
-   * @returns Observable<void>
+   * Elimina un usuario
    */
   deleteUser(userId: number): Observable<void> {
-    const url = `${this.baseUrl}/users/${userId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(`${environment.API_URL_USUARIO_UPDATE}${userId}`);
   }
 }
-

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
 
 import { RolesDashboardService } from '../../../services/roles-dashboard.service';
-import { Role } from '../../../interfaces/role.interface';
+
 
 import $ from 'jquery';
 import 'datatables.net-bs5';
@@ -68,20 +68,13 @@ export class RolesDashboardComponent implements OnInit, AfterViewInit {
 
 
   selectedRole: any = null;
-  tempRole: Role | null = null;
+  tempRole: string | null = null;
   modalMode: 'view' | 'edit' | 'create' = 'view';
   roleModal: any;
    dataTable: any;
-  roles: Role[] = [];
-  storeId: number = 2;
+  roles: string[] = [];
+ 
 
-  users = [
-    { id: 1, image: '', firstName: 'Juan', lastName: 'Polinecio', email: 'juan@mail.com', address: 'Calle falsa 123', phone: '012345679', password: '1234', role: 'Admin', status: 'Activo', createdAt: '2024-03-01' },
-    { id: 2, image: '', firstName: 'Maria', lastName: 'Candela', email: 'maria@mail.com', address: 'Calle falsa 456', phone: '9876543210', password: 'abcd', role: 'Bodeguera', status: 'Inactivo', createdAt: '2024-03-05' },
-    { id: 3, image: '', firstName: 'Carlos', lastName: 'Castaño', email: 'carlos@mail.com', address: 'Calle falsa 789', phone: '012345679', password: '5678', role: 'Vendedor', status: 'Activo', createdAt: '2024-03-10' },
-    { id: 4, image: '', firstName: 'Joan', lastName: 'Sinner', email: 'joan@mail.com', address: 'Calle mocha ABC', phone: '9876543210', password: 'efgh', role: 'Customer', status: 'Activo', createdAt: '2024-03-15' },
-    { id: 5, image: '', firstName: 'Sebastian', lastName: 'ReSinner', email: 'sebastian@mail.com', address: 'Calle mocha DEF', phone: '012345679', password: 'ijkl', role: 'Sinner', status: 'Inactivo', createdAt: '2024-03-20' }
-  ];
 
   ngOnInit(): void {
 
@@ -126,25 +119,19 @@ export class RolesDashboardComponent implements OnInit, AfterViewInit {
 
     //this.initDataTable();
   }
+getRoles(): void {
+  this.RolesDashboardService.getRoles().subscribe({
+    next: (data) => {
+      this.roles = data || [];
+      console.log("Roles cargados:", this.roles);
+      this.redrawTable(); // Si estás usando DataTables o algo similar
+    },
+    error: (err) => {
+      console.error('Error al obtener roles:', err);
+    }
+  });
+}
 
-    getRoles(): void {
-    this.RolesDashboardService.getRolesByStore(this.storeId).subscribe({
-      next: (data) => {
-        this.roles = data?.content || [];
-        console.log("Roles cargadas:", this.roles);
-        this.roles.forEach((role) => {
-          if (role.createdAt) {
-            role.createdAt = this.datePipe.transform(role.createdAt, 'dd/MM/yyyy HH:mm') || '';
-          }
-        });
-        console.log('Roles cargados x2:', this.roles);
-        this.redrawTable(); // Inicializa la tabla después de cargar los datos
-      },
-      error: (err) => {
-        console.error('Error al obtener roles:', err);
-      }
-    });
-  }
 
 initDataTable(): void {
     const fecha = this.datePipe.transform(new Date(), 'dd/MM/yyyy') || '';
@@ -298,22 +285,14 @@ initDataTable(): void {
       ],
       data: this.roles,
       columns: [
-        {data: 'name'},
-        {data: 'description'},
-        {
-          data: 'status',
-          render: function(data: boolean, type: any, row: any, meta: any) {
-            return data ? '<span class="badge bg-success"><i class="fa-solid fa-check"></i> Activa</span>' : '<span class="badge bg-danger"><i class="fa-solid fa-xmark"></i> Inactiva</span>';
-          }
-        },
-        {
-          data: 'createdAt'
-        },
-        {
-          data: null,
+     
+       { title: 'Rol', data: 'name', render: (data, type, row, meta) => row },
+    {
+      title: 'Acciones',
+      data: null,
           orderable: false,
-          render: (data: any, type: any, row: any) => `
-            <div class="text-center"><button class="btn btn-sm btn-info btn-see-rele" title="Ver" data-id="${row.id}"><i class="fas fa-eye"></i></button>
+          render: (data: any, type: any, row: any , meta:any) => `
+            <div class="text-center"><button class="btn btn-sm btn-info btn-see-role" title="Ver" data-index="${meta.row}"><i class="fas fa-eye"></i></button>
             <button class="btn btn-sm btn-warning btn-edit-role" title="Editar" data-id="${row.id}"><i class="fas fa-edit"></i></button>
             <button class="btn btn-sm btn-danger btn-delete-role" title="Eliminar" data-id="${row.id}"><i class="fas fa-trash"></i></button></div>
           ` 
@@ -338,15 +317,19 @@ initDataTable(): void {
     this.bindTableActions();
   }
 
-  bindTableActions(): void {
-    $('#rolesTable').off('click', '.btn-see-role');
+ bindTableActions(): void {
+$('#rolesTable tbody').on('click', '.btn-see-role', function () {
+  const table = $('#rolesTable').DataTable();
+  const index = $(this).data('index'); // índice guardado en el botón
+  const role = table.row(index).data(); // obtienes el objeto completo del rol
+  console.log(role.name); // aquí tienes el nombre
+
+  // Por ejemplo, mostrar el nombre en un modal
+  $('#roleModal .modal-body p').text(`Nombre del rol: ${role.name}`);
+  $('#roleModal').modal('show');
+});
 
 
-    $('#rolesTable').on('click', '.btn-see-role', (e) => {
-      const id = +$(e.currentTarget).data('id');
-      const role = this.roles.find(u => u.id === id);
-      if (role) this.seeRole(role);
-    });
 
 
   }
