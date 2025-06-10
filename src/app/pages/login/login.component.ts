@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 import * as bootstrap from 'bootstrap';
+import { CategoriesService } from './../../services/categories-dashboard.service';
 import { first } from 'rxjs';
 
 @Component({
@@ -26,7 +27,11 @@ export class LoginComponent implements OnInit {
     password: false
   };
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private loginService: LoginService, 
+    private router: Router,
+    private categoryService: CategoriesService
+  ) {}
 
   ngOnInit(): void {}
 
