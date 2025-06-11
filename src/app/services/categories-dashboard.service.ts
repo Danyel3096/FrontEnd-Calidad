@@ -2,48 +2,37 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Category } from '../interfaces/category.interface';
-
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesService {
-  private baseUrl = 'https://tdd-billing-backend.onrender.com/api'; 
 
   constructor(private http: HttpClient) {}
 
-  // Cambié el tipo de retorno para que devuelva Category[]
   getCategories(): Observable<Category[]> {
-    const url = `${this.baseUrl}/categories`;
-    return this.http.get<Category[]>(url);
+    return this.http.get<Category[]>(environment.API_URL_CATEGORIA_READALL);
   }
 
   getCategoriesByStore(storeId: number): Observable<{ content: Category[] }> {
-    const url = `${this.baseUrl}/categories/store/${storeId}`;
-    return this.http.get<{ content: Category[] }>(url);
+    // Si vas a usar un storeId fijo como el "2" en tu env, puedes quitar el parámetro.
+    return this.http.get<{ content: Category[] }>(`${environment.API_URL_CATEGORIA_READBYID}`);
   }
 
   deleteCategory(categoryId: number): Observable<void> {
-    const url = `${this.baseUrl}/categories/${categoryId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(`${environment.API_URL_CATEGORIA_DELETELOGICALLY}${categoryId}`);
   }
 
   UpdateCategory(categoryId: number, category: Category): Observable<Category> {
-    const url = `${this.baseUrl}/categories/${categoryId}`;
-    return this.http.put<Category>(url, category);
+    return this.http.put<Category>(`${environment.API_URL_CATEGORIA_UPDATE}${categoryId}`, category);
   }
 
   createCategory(idStore: number, category: Category): Observable<Category> {
-    const url = `${this.baseUrl}/categories`;
-    
-    // 1. Construyes el objeto `store`
-    const store = { id: idStore };
-
-    // 2. Luego formas el objeto final (puedes llamarlo como quieras)
     const payload = {
-      store: store,
-      ...category // <-- esto descompone todos los campos de category (name, description, status, etc.)
+      store: { id: idStore },
+      ...category
     };
-    return this.http.post<Category>(url, payload);
+    return this.http.post<Category>(environment.API_URL_CATEGORIA_CREATE, payload);
   }
 }

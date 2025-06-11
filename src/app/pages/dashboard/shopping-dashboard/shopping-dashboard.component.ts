@@ -426,34 +426,33 @@ createOrder(): void {
     });
   }
 
-  saveOrderChanges(): void {
-    console.log('Guardando cambios...');
-    const form = document.querySelector('form.needs-validation') as HTMLFormElement;
-    form.classList.add('was-validated');
-
-    if (!this.bootstrapValidation.validateForm(form)) {
-      return;
-    }
-
-    if (!this.selectedOrder) return;
-if (this.modalMode === 'edit') {
-      this.ordersService.UpdateCategory(this.selectedOrder!.id!, this.selectedOrder!).subscribe(updatedUser => {
-        const index = this.orders.findIndex(u => u.id === updatedUser.id);
-        if (index !== -1) {
-          this.orders[index] = updatedUser;
-        }
-        Swal.fire('Guardado', 'Los cambios han sido guardados correctamente', 'success');
-        this.redrawTable();
-        this.orderModal.hide();
-      });
-    } else if (this.orderModal === 'create') {
-      this.ordersService.createOrder(this.selectedOrder).subscribe(newOrder => {
-        this.orders.push(newOrder);
-        Swal.fire('Guardado', 'El nuevo usuario ha sido creado', 'success');
-        this.redrawTable();
-        this.orderModal.hide();
-      });
-    }
+ saveOrderChanges(): void {
+   const form = document.querySelector('form.needs-validation') as HTMLFormElement;
+   form.classList.add('was-validated');
+ 
+   if (!this.bootstrapValidation.validateForm(form)) return;
+   if (!this.selectedOrder) return;
+ 
+   console.log('Datos a enviar:', this.selectedOrder);  // <--- aquí
+ 
+   if (this.modalMode === 'edit') {
+     console.warn('Edición aún no implementada para el backend.');
+   } else if (this.modalMode === 'create') {
+     delete this.selectedOrder.id;
+     this.ordersService.createOrder(this.selectedOrder).subscribe({
+       next: (createdOrder) => {
+         this.orders.push(createdOrder);
+         Swal.fire('Guardado', 'La orden ha sido guardada correctamente.', 'success');
+         this.orderModal?.hide();
+         this.redrawTable();
+       },
+       error: (error) => {
+         console.error('Error al guardar la orden:', error);
+         Swal.fire('Error', 'No se pudo guardar la orden. Intenta nuevamente.', 'error');
+       }
+     });
    }
+ }
+ 
   }
 

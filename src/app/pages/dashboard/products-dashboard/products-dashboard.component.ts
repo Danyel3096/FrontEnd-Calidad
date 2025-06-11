@@ -20,18 +20,15 @@ import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';
 import { ImageUtilService } from '../../../services/image-util.service';
 import { DatatableLanguageService } from '../../../services/datatable-language.service';
 
-
 @Component({
   standalone: true,
   selector: 'app-products-dashboard',
   imports: [CommonModule, FormsModule],
   templateUrl: './products-dashboard.component.html',
   styleUrls: ['./products-dashboard.component.css'],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class ProductsDashboardComponent implements OnInit, AfterViewInit {
-  
-
   constructor(
     private productsService: ProductsService,
     private bootstrapInit: BootstrapInitService,
@@ -39,7 +36,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
     private idiomaService: DatatableLanguageService,
     private datePipe: DatePipe,
     private imageUtil: ImageUtilService,
-    private dynamicThemeService: DynamicThemeService, 
+    private dynamicThemeService: DynamicThemeService,
   ) {}
 
   pageContentColors: ThemeColors['pageContent'] = {
@@ -63,7 +60,6 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   reportTitle: string = 'listado de Productos';
   userName: string = 'Nombre del Usuario'; // Puedes obtenerlo desde tu servicio de autenticación
 
-
   products: Product[] = [];
   selectedProduct: any = null;
   modalMode: 'view' | 'edit' | 'create' = 'view';
@@ -73,14 +69,14 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   selectedImageFile: File | null = null;
 
   ngOnInit(): void {
-    this.dynamicThemeService.getDarkMode().subscribe(isDark => {
+    this.dynamicThemeService.getDarkMode().subscribe((isDark) => {
       console.log('StoresDashboardComponent detectó isDarkMode:', isDark);
       document.documentElement.classList.toggle('dark', isDark);
     });
 
-    this.dynamicThemeService.getSection('pageContent').subscribe(colors => {
+    this.dynamicThemeService.getSection('pageContent').subscribe((colors) => {
       console.log('StoresDashboardComponent detectó pageContent:', colors);
-     
+
       const root = document.documentElement;
 
       this.pageContentColors = colors;
@@ -107,7 +103,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
       .convertImageToBase64('assets/logos/company-logo.png')
       .then((base64) => {
         this.logoBase64 = base64;
-        this.initDataTable(); 
+        this.initDataTable();
       });
   }
 
@@ -165,7 +161,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
         {
           extend: 'pdf',
           className: 'btn btn-danger',
-          title: '', 
+          title: '',
           exportOptions: {
             columns: function (idx: any, data: any, node: any) {
               return $(node).is(':visible') && !$(node).hasClass('no-export');
@@ -176,11 +172,10 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
                 const div = document.createElement('div');
                 div.innerHTML = data;
                 return div.textContent?.trim() || '';
-              }
+              },
             },
           },
           customize: (doc: any) => {
-            
             const fechaHora =
               this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm') || '';
 
@@ -237,7 +232,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
               fontSize: 9,
             });
             // Pie de página
-            
+
             // Encuentra la tabla y da estilo de tabla
             // Asegura que la tabla use el 100% del ancho disponible
             const table = doc.content.find((el: any) => el.table);
@@ -294,10 +289,13 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
           `,
         },*/
         { data: 'stock', title: 'Inventario' },
-        {  data: 'status',
-          render: function(data: boolean, type: any, row: any, meta: any) {
-            return data ? '<span class="badge bg-success"><i class="fa-solid fa-check"></i> Activa</span>' : '<span class="badge bg-danger"><i class="fa-solid fa-xmark"></i> Inactiva</span>';
-          } 
+        {
+          data: 'status',
+          render: function (data: boolean, type: any, row: any, meta: any) {
+            return data
+              ? '<span class="badge bg-success"><i class="fa-solid fa-check"></i> Activa</span>'
+              : '<span class="badge bg-danger"><i class="fa-solid fa-xmark"></i> Inactiva</span>';
+          },
         },
         {
           data: null,
@@ -386,73 +384,134 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
     this.productModal.show();
   }
 
+  private showSuccessAlert(message: string): void {
+    Swal.fire({
+      icon: 'success',
+      title: 'Guardado',
+      text: message,
+      didOpen: () => {
+        const titleEl = document.querySelector('.swal2-title');
+        if (titleEl) {
+          titleEl.setAttribute('style', 'color: black;');
+        }
+      },
+    });
+  }
+
+  private showErrorAlert(title: string, err: any): void {
+    Swal.fire({
+      icon: 'error',
+      title,
+      text: `Mensaje del servidor: ${err?.error?.message || 'Error desconocido.'}`,
+      didOpen: () => {
+        const titleEl = document.querySelector('.swal2-title');
+        if (titleEl) {
+          titleEl.setAttribute('style', 'color: black;');
+        }
+      },
+    });
+  }
+
   saveProductChanges(): void {
-    console.log('Guardando cambios...');
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
     form.classList.add('was-validated');
-
-    if (!this.bootstrapValidation.validateForm(form)) {
-      return;
-    }
-
+  
+    if (!this.bootstrapValidation.validateForm(form)) return;
     if (!this.selectedProduct) return;
 
+    const storeId = Number(localStorage.getItem('storeid') ?? '0');
+    const categoryId = Number(localStorage.getItem('categoryId') ?? '0');
+    const userId = Number(localStorage.getItem('user_id') ?? '0');
+
+    if (!storeId || !categoryId || !userId) {
+      Swal.fire('Error', 'Faltan datos del storeId, categoryId o userId en localStorage', 'error');
+      return;
+    }
+    
     const productData = {
+      storeId,
+      categoryId,
+      userId,
       name: this.selectedProduct.name,
       description: this.selectedProduct.description,
       price: this.selectedProduct.price,
       stock: this.selectedProduct.stock,
-      status: this.selectedProduct.status,
+      url: this.selectedProduct.url || '',
+      ratingRate: this.selectedProduct.ratingRate || 0,
+      ratingCount: this.selectedProduct.ratingCount || 0,
+      status: true
     };
 
+    /*const productData = {
+      storeId: this.selectedProduct.storeId,
+      categoryId: this.selectedProduct.categoryId,
+      userId: this.selectedProduct.userId,
+      name: this.selectedProduct.name,
+      description: this.selectedProduct.description,
+      price: this.selectedProduct.price,
+      stock: this.selectedProduct.stock,
+      url: this.selectedProduct.url || '',
+      ratingRate: this.selectedProduct.ratingRate || 0,
+      ratingCount: this.selectedProduct.ratingCount || 0,
+      status: this.selectedProduct.status,
+    };*/
     const formData = new FormData();
-
-    // JSON como archivo binario
-    const jsonBlob = new Blob([JSON.stringify(productData)], {
-      type: 'application/json',
-    });
+    const jsonBlob = new Blob([JSON.stringify(productData)], { type: 'application/json' });
     formData.append('product', jsonBlob);
-
-    // Imagen como archivo binario
+  
+    /*if (this.selectedImageFile) {
+      formData.append('file', this.selectedImageFile);
+    } else {
+      const emptyFile = new Blob([], { type: 'application/octet-stream' });
+      formData.append('file', new File([emptyFile], 'empty.txt'));
+    }*/
     if (this.selectedImageFile) {
       formData.append('file', this.selectedImageFile);
     }
-
+  
+    formData.forEach((value, key) => {
+      console.log('KEY:', key);
+      if (value instanceof Blob) {
+        value.text().then((text) => console.log('BLOB VALUE:', text));
+      } else {
+        console.log('VALUE:', value);
+      }
+    });
+  
     if (this.modalMode === 'create') {
       this.productsService.createProduct(formData).subscribe({
         next: (data) => {
+          console.log('Producto creado:', data);
           this.products.push(data);
           this.redrawTable();
           this.productModal.hide();
           Swal.fire('Éxito', 'Producto creado correctamente', 'success');
           this.selectedImageFile = null;
         },
-        error: () => {
-          Swal.fire('Error', 'Hubo un problema al crear el producto', 'error');
+        error: (err) => {
+          console.error(err);
+          Swal.fire('Error', err.error?.message || 'Error al crear el producto', 'error');
         },
       });
     } else if (this.modalMode === 'edit' && this.selectedProduct.id) {
-      this.productsService
-        .updateProduct(this.selectedProduct.id, formData)
-        .subscribe({
-          next: (data) => {
-            const index = this.products.findIndex((p) => p.id === data.id);
-            if (index !== -1) this.products[index] = data;
-            this.redrawTable();
-            this.productModal.hide();
-            Swal.fire('Éxito', 'Producto actualizado correctamente', 'success');
-            this.selectedImageFile = null;
-          },
-          error: () => {
-            Swal.fire(
-              'Error',
-              'Hubo un problema al actualizar el producto',
-              'error',
-            );
-          },
-        });
+      this.productsService.updateProduct(this.selectedProduct.id, formData).subscribe({
+        next: (data) => {
+          console.log('Producto actualizado:', data);
+          const index = this.products.findIndex((p) => p.id === data.id);
+          if (index !== -1) this.products[index] = data;
+          this.redrawTable();
+          this.productModal.hide();
+          Swal.fire('Éxito', 'Producto actualizado correctamente', 'success');
+          this.selectedImageFile = null;
+        },
+        error: (err) => {
+          console.error(err);
+          Swal.fire('Error', err.error?.message || 'Error al actualizar el producto', 'error');
+        },
+      });
     }
   }
+  
 
   deleteProduct(product: Product): void {
     Swal.fire({
@@ -474,10 +533,40 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   }
 
   handleImageUpload(event: any): void {
-    const file = event.target.files[0];
+    const file = event?.target?.files?.[0];
     if (file) {
       this.selectedImageFile = file;
       console.log('Imagen cargada:', file);
+
+      // Cargar vista previa
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedProduct.url = reader.result as string;
+      };
+      reader.readAsDataURL(file);
     }
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.handleImageUpload({ target: { files } } as any);
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  onSelectImage(event: MouseEvent): void {
+    event.preventDefault();
+    const fileInput =
+      document.querySelector<HTMLInputElement>('input[type="file"]');
+    fileInput?.click();
   }
 }
