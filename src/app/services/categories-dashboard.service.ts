@@ -28,11 +28,13 @@ export class CategoriesService {
     return this.http.put<Category>(`${environment.API_URL_CATEGORIA_UPDATE}${categoryId}`, category);
   }
 
-  createCategory(idStore: number, category: Category): Observable<Category> {
+  createCategory(storeId: number, category: Category): Observable<Category> {
     const payload = {
-      store: { id: idStore },
+      store: { id: storeId },
       ...category
     };
     return this.http.post<Category>(environment.API_URL_CATEGORIA_CREATE, payload);
   }
+
+  
 }
