@@ -15,9 +15,7 @@ export class OrdersService {
   // Obtener todas las ventas de una tienda específica
 getSalesByStore(storeId: number): Observable<Order[]> {
   return this.http.get<Order[]>(`${this.baseUrl}/store/${storeId}`);
-}
-
-  
+} 
 
 createOrder(order: Order): Observable<Order> {
   return this.http.post<Order>(this.baseUrl, order);
@@ -32,7 +30,4 @@ createOrder(order: Order): Observable<Order> {
     const url = `${this.baseUrl}/${id}`;
     return this.http.delete<void>(url);
   }
-
- 
-  
 }

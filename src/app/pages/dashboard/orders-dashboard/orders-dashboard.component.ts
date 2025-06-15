@@ -120,6 +120,7 @@ export class OrdersDashboardComponent implements OnInit, AfterViewInit {
     } else {
       this.ordersService.getSalesByStore(this.storeId).subscribe({
   next: (data) => {
+    this.orders = data;
     this.orders.forEach((order) =>  ({
       ...order,
      storeId: (order as any).store?.id || null

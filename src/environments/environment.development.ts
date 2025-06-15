@@ -18,12 +18,12 @@ export const environment = {
   API_URL: API_URL_BASE,
 
   // Productos
-  API_URL_PRODUCTO_CREATE: `${API_URL_BASE}api/products/`,
-  API_URL_PRODUCTO_UPDATE: `${API_URL_BASE}api/products/`,
-  API_URL_PRODUCTO_DELETELOGICALLY: `${API_URL_BASE}api/products/`,
-  API_URL_PRODUCTO_READALL: `${API_URL_BASE}api/products/`,
+  API_URL_PRODUCTO_CREATE: `${API_URL_BASE}api/products`,
+  API_URL_PRODUCTO_UPDATE: `${API_URL_BASE}api/products`,
+  API_URL_PRODUCTO_DELETELOGICALLY: `${API_URL_BASE}api/products`,
+  API_URL_PRODUCTO_READALL: `${API_URL_BASE}api/products`,
   
-  API_URL_PRODUCTO_READBYSTORE: `${API_URL_BASE}api/products/store/`, 
+  API_URL_PRODUCTO_READBYSTORE: `${API_URL_BASE}api/products/store/`, //NOTA: Necesita tener el slash al final porque se concatena el ID de la tienda
  
 // Ventas
 API_URL_SALES_BY_STORE: `${API_URL_BASE}api/sales/store/2`,
@@ -34,13 +34,13 @@ API_URL_SALES_BY_CREATE: `${API_URL_BASE}api/sales`,
   API_URL_CATEGORIA_CREATE: `${API_URL_BASE}api/categories`,
   API_URL_CATEGORIA_READALL: `${API_URL_BASE}/products/categories`,
   API_URL_CATEGORIA_READBYID: `${API_URL_BASE}api/categories/store/2`,
-  API_URL_CATEGORIA_UPDATE: `${API_URL_BASE}api/categories/`,
-  API_URL_CATEGORIA_DELETELOGICALLY: `${API_URL_BASE}api/categories/`,
+  API_URL_CATEGORIA_UPDATE: `${API_URL_BASE}api/categories`,
+  API_URL_CATEGORIA_DELETELOGICALLY: `${API_URL_BASE}api/categories`,
 
   // Login (autenticación)
   API_URL_USUARIO_LOGIN: `${API_URL_BASE}rest/auth/login`, // URL de login actualizada
   API_URL_USUARIO_REGISTRO: `${API_URL_BASE}api/users`,
-  API_URL_USUARIO_UPDATE: `${API_URL_BASE}api/users/`,
+  API_URL_USUARIO_UPDATE: `${API_URL_BASE}api/users`,
 
   //roles
   API_URL_ROLES_READALL: `${API_URL_BASE}api/roles`,
