@@ -419,26 +419,26 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
     if (!this.bootstrapValidation.validateForm(form)) return;
     if (!this.selectedProduct) return;
 
-    const storeId = Number(localStorage.getItem('storeid') ?? '0');
-    const categoryId = Number(localStorage.getItem('categoryId') ?? '0');
-    const userId = Number(localStorage.getItem('user_id') ?? '0');
+    //const storeId = Number(localStorage.getItem('storeid') ?? '0');
+    //const categoryId = Number(localStorage.getItem('categoryId') ?? '0');
+    //const userId = Number(localStorage.getItem('user_id') ?? '0');
 
-    if (!storeId || !categoryId || !userId) {
+    /*if (!storeId || !categoryId || !userId) {
       Swal.fire('Error', 'Faltan datos del storeId, categoryId o userId en localStorage', 'error');
       return;
-    }
+    }*/
     
     const productData = {
-      storeId,
-      categoryId,
-      userId,
+      storeId: this.selectedProduct.storeId = 2,
+      categoryId: this.selectedProduct.categoryId = 1,
+      userId: 7,
       name: this.selectedProduct.name,
       description: this.selectedProduct.description,
       price: this.selectedProduct.price,
       stock: this.selectedProduct.stock,
       url: this.selectedProduct.url || '',
-      ratingRate: this.selectedProduct.ratingRate || 0,
-      ratingCount: this.selectedProduct.ratingCount || 0,
+      ratingRate: this.selectedProduct.ratingRate,
+      ratingCount: this.selectedProduct.ratingCount,
       status: true
     };
 
