@@ -21,7 +21,7 @@ import { DatePipe } from '@angular/common';
 import { DynamicThemeService } from '../../../services/dynamic-theme.service';// Copy Paste aquí
 import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';// Copy Paste aquí
 
-import { getPdfHeader, getPdfFooter } from '../../../utils/pdf-utils';
+//import { getPdfHeader, getPdfFooter } from '../../../utils/pdf-utils';
 import { ImageUtilService } from '../../../services/image-util.service';
 
 interface UserWithMessage extends User {
@@ -36,6 +36,7 @@ interface UserWithMessage extends User {
   styleUrls: ['./users-dashboard.component.css'],
   providers: [DatePipe],
 })
+
 export class UsersDashboardComponent implements OnInit, AfterViewInit {
   // ========== PROPIEDADES ==========
   // @ViewChild para el input de archivo
