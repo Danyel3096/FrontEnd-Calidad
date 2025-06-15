@@ -1,28 +1,28 @@
 <div class="container mt-4">
   <div id="metricas-container">
     <h2 class="text-center mb-2">Centro de Métricas</h2>
-    <p class="text-center text-muted mb-5">📅 {{ fechaActual }}</p>
+    <p class="text-center mb-5">📅 {{ fechaActual }}</p>
 
     <!-- KPIs -->
     <div class="row mb-5 justify-content-center text-center">
       <div class="col-md-2 col-6 mb-3" *ngFor="let kpi of kpis">
-        <div class="card p-3 shadow-sm h-100">
-          <small class="text-muted">{{ kpi.label }}</small>
+        <div class="card p-3 shadow-sm h-100" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
+          <small class="" [ngStyle]="{ 'color': pageContentColors.textTitle }">{{ kpi.label }}</small>
           <h4 class="fw-bold mt-2">{{ kpi.value }}</h4>
         </div>
       </div>
     </div>
 
-    <!-- Ticket Promedio por Día y Ingresos del Mes -->
+    <!-- Ticket/Valor Promedio Ventas por Día y Ingresos del Mes -->
     <div class="row mb-5">
       <div class="col-md-6 mb-4">
-        <div class="card p-3 shadow-sm h-100">
-          <h5 class="mb-3">📊 Ticket promedio por día</h5>
+        <div class="card p-3 shadow-sm h-100" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
+          <h5 class="mb-3">📊 Valor promedio en ventas por día</h5>
           <canvas #ticketPromedioCanvas style="width:100%; height:300px;"></canvas>
         </div>
       </div>
       <div class="col-md-6 mb-4">
-        <div class="card p-3 shadow-sm h-100">
+        <div class="card p-3 shadow-sm h-100" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
           <h5 class="mb-3">📈 Ingresos del mes</h5>
           <canvas #ingresosMesCanvas style="width:100%; height:300px;"></canvas>
         </div>
@@ -32,19 +32,19 @@
     <!-- Pie, Horizontal y Doble eje -->
     <div class="row mb-5 align-items-stretch">
       <div class="col-md-4 mb-4">
-        <div class="card p-3 shadow-sm h-100">
+        <div class="card p-3 shadow-sm h-100" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
           <h5 class="mb-3">🥧 Productos por categoría</h5>
           <canvas #categoriasCanvas style="width:100%; height:250px;"></canvas>
         </div>
       </div>
       <div class="col-md-4 mb-4">
-        <div class="card p-3 shadow-sm h-100">
+        <div class="card p-3 shadow-sm h-100" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
           <h5 class="mb-3">🔝 Top productos vendidos</h5>
           <canvas #topProductosCanvas style="width:100%; height:250px;"></canvas>
         </div>
       </div>
       <div class="col-md-4 mb-4">
-        <div class="card p-3 shadow-sm h-100">
+        <div class="card p-3 shadow-sm h-100" [ngStyle]="{ 'background-color': pageContentColors.backgroundPage }">
           <h5 class="mb-3">📊 Ingresos vs Ventas</h5>
           <canvas #ingresosVsVentasCanvas style="width:100%; height:250px;"></canvas>
         </div>

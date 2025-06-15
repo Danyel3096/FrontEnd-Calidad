@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import {Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import printJS from 'print-js';
+import { Component, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+//import printJS from 'print-js';
 import {
   Chart,
   BarElement,
@@ -16,6 +16,12 @@ import {
   Legend,
   Title,
 } from 'chart.js';
+
+import { WebsocketService } from '../../../services/websocket.service'; // ajusta la ruta
+import { Subscription } from 'rxjs';
+
+import { DynamicThemeService } from '../../../services/dynamic-theme.service';// Copy Paste aquí
+import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';// Copy Paste aquí
 
 Chart.register(
   BarElement,
@@ -39,15 +45,71 @@ Chart.register(
   templateUrl: './metrics-dashboard.component.html',
   styleUrls: ['./metrics-dashboard.component.css'],
 })
-export class MetricsDashboardComponent implements AfterViewInit {
+
+export class MetricsDashboardComponent implements AfterViewInit, OnDestroy {
   fechaActual: string = new Date().toLocaleDateString();
+
+  //Propiedades de las instancias de socketticket
+  ticketPromedioChart!: Chart;
+  ingresosMesChart!: Chart;
+  categoriasChart!: Chart;
+  topProductosChart!: Chart;
+  ingresosVsVentasChart!: Chart;
+
+  mensajesSocket: string[] = [];
+  private socketSubscription!: Subscription;
+
+  constructor(
+    private dynamicThemeService: DynamicThemeService,// Copy Paste aquí
+    private websocketService: WebsocketService
+  ) {}
+
+  // Copy Paste desde aquí
+  pageContentColors: ThemeColors['pageContent'] = {
+      backgroundPage: '',
+      backgroundSecondary: '',
+      textTitle: '',
+      textBody: '',
+      fontFamily: '',
+      fontSizeH1: '',
+      fontSizeH2: '',
+      fontSizeH3: '',
+      fontSizeH4: '',
+      fontSizeH5: '',
+      fontSizeH6: '',
+      fontSizeText: ''
+    };
+    // Copy Paste hasta aquí
+
+    ngOnInit(): void {
+    // Copy Paste desde aquí
+    this.dynamicThemeService.getDarkMode().subscribe(isDark => {
+      console.log('MetricsDashboardComponent detectó isDarkMode:', isDark);
+      document.documentElement.classList.toggle('dark', isDark);
+    });
+
+    this.dynamicThemeService.getSection('pageContent').subscribe(colors => {
+      console.log('MetricsDashboardComponent detectó pageContent:', colors);
+      // Aplica los estilos globales al body o al root
+      const root = document.documentElement;
+
+      this.pageContentColors = colors;
+
+      Object.entries(colors).forEach(([key, value]) => {
+        root.style.setProperty(`--${key}`, value);
+      });
+    });
+    // Copy Paste hasta aquí
+    
+    //this.getMetrics();
+  }
 
   kpis = [
     { label: 'Ventas del día', value: 35 },
     { label: 'Ingresos del día', value: '$4,500' },
     { label: 'Ventas del mes', value: 530 },
     { label: 'Ingreso del mes', value: '$68,000' },
-    { label: 'Ticket promedio', value: '$128.50' },
+    { label: 'Promedio ventas del día', value: '$128.50' },
   ];
 
   dias = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
@@ -89,7 +151,7 @@ export class MetricsDashboardComponent implements AfterViewInit {
 
   ventasTopProductos = [150, 140, 130, 120, 110, 100, 95, 90, 85, 80];
 
-   @ViewChild('ticketPromedioCanvas') ticketPromedioCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('ticketPromedioCanvas') ticketPromedioCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('ingresosMesCanvas') ingresosMesCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('categoriasCanvas') categoriasCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('topProductosCanvas') topProductosCanvas!: ElementRef<HTMLCanvasElement>;
@@ -101,6 +163,32 @@ export class MetricsDashboardComponent implements AfterViewInit {
     this.initCategoriasChart();
     this.initTopProductosChart();
     this.initIngresosVsVentasChart();
+    
+    this.iniciarSocket();
+  }
+
+  iniciarSocket(): void {
+    const socketUrl = 'ws://localhost:8080/ws/statistics';
+    this.socketSubscription = this.websocketService.connect(socketUrl).subscribe(rawMsg => {
+      try {
+        const data = JSON.parse(rawMsg);
+        this.actualizarDatosConSocket(data); // 👇 función que debes crear
+      } catch (e) {
+        console.error('Mensaje no JSON:', rawMsg);
+      }
+    });
+  }
+
+  actualizarDatosConSocket(data: any) {
+    if (data.kpis) this.kpis = data.kpis;
+    if (data.ticketPromedio) {
+      this.ticketPromedioPorDia = data.ticketPromedio;
+      this.initTicketPromedioChart(); // O actualiza el chart directamente
+    }
+    if (data.ingresosMes) {
+      this.ingresosDelMes = data.ingresosMes;
+      this.initIngresosMesChart();
+    }
   }
 
   initTicketPromedioChart(): void {
@@ -220,27 +308,33 @@ export class MetricsDashboardComponent implements AfterViewInit {
   }
 
   imprimirMetricas() {
-  const canvases = document.querySelectorAll('canvas');
-  canvases.forEach((canvas) => {
-    const img = document.createElement('img');
-    img.src = (canvas as HTMLCanvasElement).toDataURL();
-    img.style.width = '100%';
-    img.style.maxHeight = '400px';
-    img.style.marginBottom = '20px';
-    canvas.parentElement?.appendChild(img);
-    canvas.style.display = 'none';
-  });
-
-  setTimeout(() => {
-    window.print();
-
-    // Restaurar canvas después de imprimir
+    const canvases = document.querySelectorAll('canvas');
     canvases.forEach((canvas) => {
-      canvas.style.display = 'block';
-      const imgs = canvas.parentElement?.querySelectorAll('img');
-      imgs?.forEach((img) => img.remove());
+      const img = document.createElement('img');
+      img.src = (canvas as HTMLCanvasElement).toDataURL();
+      img.style.width = '100%';
+      img.style.maxHeight = '400px';
+      img.style.marginBottom = '20px';
+      canvas.parentElement?.appendChild(img);
+      canvas.style.display = 'none';
     });
-  }, 500);
-}
 
+    setTimeout(() => {
+      window.print();
+
+      // Restaurar canvas después de imprimir
+      canvases.forEach((canvas) => {
+        canvas.style.display = 'block';
+        const imgs = canvas.parentElement?.querySelectorAll('img');
+        imgs?.forEach((img) => img.remove());
+      });
+    }, 500);
+  }
+
+  ngOnDestroy(): void {
+    if (this.socketSubscription) {
+      this.socketSubscription.unsubscribe();
+    }
+    this.websocketService.close();
+  }
 }
