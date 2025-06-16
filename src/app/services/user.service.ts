@@ -35,15 +35,31 @@ export class UserService {
   /**
    * Crea un nuevo usuario
    */
-  createUser(productData: FormData): Observable<User> {
-    return this.http.post<User>(environment.API_URL_USUARIO_REGISTRO,  productData);
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(environment.API_URL_USUARIO_REGISTRO, user);
   }
 
   /**
    * Actualiza un usuario
    */
-  updateUser(userId: number, productData: FormData): Observable<User> {
-    return this.http.put<User>(`${environment.API_URL_USUARIO_UPDATE}${userId}`, productData);
+  updateUser(userId: number, user: User): Observable<User> {
+    const formData = new FormData();
+
+    // Limpieza de propiedades innecesarias
+    delete user.photoUrl;
+    delete user.id;
+
+    const file = user.photo;
+    delete user.photo;
+
+    const jsonBlob = new Blob([JSON.stringify(user)], { type: 'application/json' });
+    formData.append('user', jsonBlob);
+
+    if (file) {
+      formData.append('file', file);
+    }
+
+    return this.http.put<User>(`${environment.API_URL_USUARIO_UPDATE}${userId}`, formData);
   }
 
   /**

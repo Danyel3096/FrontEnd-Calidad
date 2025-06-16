@@ -377,7 +377,7 @@ getSalesByStore(): void {
 createOrder(): void {
   this.selectedOrder = {
     storeId: 2, // ✅ Puedes cambiarlo según el contexto
-    userId: null,
+    userId: 7,
     saleDate: new Date().toISOString().split('T')[0], // YYYY-MM-DD
     paymentMethod: '',
     totalAmount: 0,

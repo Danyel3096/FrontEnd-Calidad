@@ -23,7 +23,6 @@ import { ThemeColors } from '../../../interfaces/dynamic-colors.interface';// Co
 
 //import { getPdfHeader, getPdfFooter } from '../../../utils/pdf-utils';
 import { ImageUtilService } from '../../../services/image-util.service';
-import { first } from 'rxjs';
 
 interface UserWithMessage extends User {
   message?: string;
@@ -69,21 +68,21 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       fontSizeH6: '',
       fontSizeText: ''
     };
-      //TAREA: Utilizar localStorage o un servicio para obtener el ID de la tienda actual
+    // Copy Paste hasta aquí
+
+  selectedUser: any = null;
+  tempUser: User | null = null;
+  modalMode: 'view' | 'edit' | 'create' = 'view';
+  userModal: any;
+  dataTable: any;
+  users: User[] = [];
+  storeId: number = 2;
+
+  //TAREA: Utilizar localStorage o un servicio para obtener el ID de la tienda actual
   logoBase64: string = ''; // Asegúrate de asignar el valor base64 de tu logo aquí
   companyName: string = 'Nombre de la Empresa';
   reportTitle: string = 'usuarios';
   userName: string = 'Nombre del Usuario'; // Puedes obtenerlo desde tu servicio de autenticación
-
-    // Copy Paste hasta aquí
-  users: User[] = [];
-  selectedUser: any = null;
-  modalMode: 'view' | 'edit' | 'create' = 'view';
-  storeId: number = 2;
-  userModal: any;
-  dataTable: any;
-  selectedImageFile: File | null = null;
-
 
   ngOnInit(): void {
     // Copy Paste desde aquí
@@ -129,10 +128,15 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
   }
 
   getUsers(): void {
-    this.usersService.getUsersByStore(this.storeId,).subscribe({
+    this.usersService.getUsersByStore(this.storeId).subscribe({
       next: (data) => {
-        this.users = data || []; //content falta xddddd
-        console.log('Usuarios cargados:', data);
+        this.users = data;
+        this.users.forEach((user) => {
+          if (user.createdAt) {
+            user.createdAt = this.datePipe.transform(user.createdAt, 'dd/MM/yyyy HH:mm') || '';
+          }
+        });
+        console.log('Usuarios cargados:', this.users);
         this.redrawTable();
       },
       error: (err) => {
@@ -330,16 +334,6 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-    redrawTable(): void {
-    if (this.dataTable) {
-      this.dataTable.clear();
-      this.dataTable.rows.add(this.users);
-      this.dataTable.draw();
-      this.bindTableActions();
-    }
-  }
-
-
   bindTableActions(): void {
     $('#usersTable').off('click', '.btn-see-user');
     $('#usersTable').off('click', '.btn-edit-user');
@@ -363,21 +357,9 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
       if (user) this.deleteUser(user);
     });
   }
-   seeUser(user: User): void {
-    this.selectedUser = { ...user };
-    this.modalMode = 'view';
-    this.userModal.show();
-  }
-
-  editUser(user: User): void {
-    this.selectedUser = { ...user };
-    this.modalMode = 'edit';
-    this.userModal.show();
-  }
 
   createUser(): void {
     this.selectedUser = {
-      id: 0,
       firstName: '',
       lastName: '',
       email: '',
@@ -392,111 +374,19 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
     this.modalMode = 'create';
     this.userModal.show();
   }
-   private showSuccessAlert(message: string): void {
-      Swal.fire({
-        icon: 'success',
-        title: 'Guardado',
-        text: message,
-        didOpen: () => {
-          const titleEl = document.querySelector('.swal2-title');
-          if (titleEl) {
-            titleEl.setAttribute('style', 'color: black;');
-          }
-        },
-      });
-    }
-      private showErrorAlert(title: string, err: any): void {
-        Swal.fire({
-          icon: 'error',
-          title,
-          text: `Mensaje del servidor: ${err?.error?.message || 'Error desconocido.'}`,
-          didOpen: () => {
-            const titleEl = document.querySelector('.swal2-title');
-            if (titleEl) {
-              titleEl.setAttribute('style', 'color: black;');
-            }
-          },
-        });
-      }
-    
-    saveUserChanges(): void {
-    const form = document.querySelector('form.needs-validation',) as HTMLFormElement;
-    form.classList.add('was-validated');
 
-    if (!this.bootstrapValidation.validateForm(form)) return;
-    if (!this.selectedUser) return;
+  seeUser(user: User): void {
+    this.selectedUser = { ...user };
+    this.modalMode = 'view';
+    this.userModal.show();
+  }
 
-    const userPayload = {
-      storeId: this.selectedUser.storeId = 2,
-      userId: 7,
-      firstName: this.selectedUser.firstName,
-      lastName: this.selectedUser.lastName,
-      email: this.selectedUser.email,
-      password: this.selectedUser.password,
-      role: this.selectedUser.role,
-      photoUrl: this.selectedUser.photoUrl || '',
-      phoneNumber: this.selectedUser.phoneNumber,
-      address: this.selectedUser.address,
-      status: true
-    };
-      /*for (const key in this.selectedUser) {
-        const value = (this.selectedUser as any)[key];
-        if (value !== undefined && value !== null) {
-          formData.append(key, value);
-        }
-      }
-      */
-    const formData = new FormData();
-    const jsonBlob = new Blob([JSON.stringify(userPayload)], { type: 'application/json' });
-    formData.append('product', jsonBlob);
-    if (this.selectedImageFile) {
-      formData.append('file', this.selectedImageFile);
-    }
-
-     formData.forEach((value, key) => {
-      console.log('KEY:', key);
-      if (value instanceof Blob) {
-        value.text().then((text) => console.log('BLOB VALUE:', text));
-      } else {
-        console.log('VALUE:', value);
-      }
-    });
-
-     if (this.modalMode === 'create') {
-          this.usersService.createUser(formData).subscribe({
-            next: (data) => {
-              console.log('Producto creado:', data);
-              this.users.push(data);
-              this.redrawTable();
-              this.userModal.hide();
-              Swal.fire('Éxito', 'Producto creado correctamente', 'success');
-              this.selectedImageFile = null;
-            },
-            error: (err) => {
-              console.error(err);
-              Swal.fire('Error', err.error?.message || 'Error al crear el producto', 'error');
-            },
-          });
-        }else if (this.modalMode === 'edit' && this.selectedUser.id) {
-              this.usersService.updateUser(this.selectedUser.id, formData).subscribe({
-                next: (data) => {
-                  console.log('Producto actualizado:', data);
-                  const index = this.users.findIndex((p) => p.id === data.id);
-                  if (index !== -1) this.users[index] = data;
-                  this.redrawTable();
-                  this.userModal.hide();
-                  Swal.fire('Éxito', 'Producto actualizado correctamente', 'success');
-                  this.selectedImageFile = null;
-                },
-                error: (err) => {
-                  console.error(err);
-                  Swal.fire('Error', err.error?.message || 'Error al actualizar el producto', 'error');
-                },
-              });
-            }
-          }
-
-      
+  editUser(user: User): void {
+    this.tempUser = { ...user };
+    this.selectedUser = { ...this.tempUser };
+    this.modalMode = 'edit';
+    this.userModal.show();
+  }
 
   deleteUser(user: User): void {
     Swal.fire({
@@ -519,47 +409,173 @@ export class UsersDashboardComponent implements OnInit, AfterViewInit {
 
 
 
-  handleImageUpload(event: any): void {
-    const file = event?.target?.files?.[0];
-    if (file) {
-      this.selectedImageFile = file;
-      console.log('Imagen cargada:', file);
+  handleImageUpload(event: any) {
+    const file = event.target.files[0];
+    if (file && this.selectedUser) {
+      this.selectedUser.photo = file; // Guarda el archivo
 
-      // Cargar vista previa
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedUser.url = reader.result as string;
-      };
+
+    // Crear vista previa
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const preview = reader.result as string;
+      if (this.selectedUser !== null) {
+        this.selectedUser.photoUrl = preview;
+        this.selectedUser.photoUrl = e.target.result; // Usar photoUrl para la vista previa
+        this.cdRef.detectChanges(); // Forzar detección de cambios
+        console.log('Imagen cargada:', this.selectedUser.photoUrl); // Debug
+      }
+    };
+    
+    reader.onerror = (error) => {
+      console.error('Error al leer el archivo:', error);
+    };
       reader.readAsDataURL(file);
     }
   }
 
+  saveUserChanges(): void {
+    const form = document.querySelector(
+      'form.needs-validation',
+    ) as HTMLFormElement;
+    form.classList.add('was-validated');
 
+    if (!this.bootstrapValidation.validateForm(form)) return;
+    if (!this.selectedUser) return;
 
+    if (this.modalMode === 'edit') {
+      this.selectedUser.password = '12345'; // temporal o requerido por el backend
 
+      /*for (const key in this.selectedUser) {
+        const value = (this.selectedUser as any)[key];
+        if (value !== undefined && value !== null) {
+          formData.append(key, value);
+        }
+      }
+      */
 
+      this.usersService
+        .updateUser(this.selectedUser.id!, this.selectedUser!)
+        .subscribe({
+          next: (updatedUser: UserWithMessage) => {
+            const index = this.users.findIndex((u) => u.id === updatedUser.id);
+            if (index !== -1) {
+              this.users[index] = updatedUser;
+            }
 
-  onDrop(event: DragEvent): void {
-    event.preventDefault();
-    const files = event.dataTransfer?.files;
-    if (files && files.length > 0) {
-      this.handleImageUpload({ target: { files } } as any);
+            Swal.fire({
+              icon: 'success',
+              title: 'Guardado',
+              text: `Los cambios han sido guardados correctamente.\nMensaje del servidor: ${updatedUser.message || 'Actualización exitosa.'}`,
+              didOpen: () => {
+                const titleEl = document.querySelector('.swal2-title');
+                if (titleEl) {
+                  titleEl.setAttribute('style', 'color: black;');
+                }
+              },
+            });
+
+            this.redrawTable();
+            this.userModal.hide();
+          },
+          error: (err) => {
+            console.error('Error al actualizar:', err);
+
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: `No se pudo actualizar el usuario.\nMensaje del servidor: ${err.error?.message || 'Error desconocido.'}`,
+              didOpen: () => {
+                const titleEl = document.querySelector('.swal2-title');
+                if (titleEl) {
+                  titleEl.setAttribute('style', 'color: black;');
+                }
+              },
+            });
+          },
+        });
+    } else if (this.modalMode === 'create') {
+       delete this.selectedUser.photo;
+       delete this.selectedUser.photoUrl;
+       delete this.selectedUser.createdAt;
+       this.selectedUser.status=JSON.parse(this.selectedUser.status);
+      this.usersService.createUser(this.selectedUser).subscribe({
+        next: (newUser: UserWithMessage) => {
+          this.users.push(newUser);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Guardado',
+            text: `El nuevo usuario ha sido creado.\nMensaje del servidor: ${newUser.message || 'Creación exitosa.'}`,
+            didOpen: () => {
+              const titleEl = document.querySelector('.swal2-title');
+              if (titleEl) {
+                titleEl.setAttribute('style', 'color: black;');
+              }
+            },
+          });
+
+          this.redrawTable();
+          this.userModal.hide();
+        },
+        error: (err) => {
+          console.error('Error al crear usuario:', err);
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `No se pudo crear el usuario.\nMensaje del servidor: ${err.error?.message || 'Error desconocido.'}`,
+            didOpen: () => {
+              const titleEl = document.querySelector('.swal2-title');
+              if (titleEl) {
+                titleEl.setAttribute('style', 'color: black;');
+              }
+            },
+          });
+        },
+      });
     }
+  }
+  redrawTable(): void {
+    this.dataTable.clear();
+    this.dataTable.rows.add(this.users);
+    this.dataTable.draw();
+    this.bindTableActions();
+  }
+
+  onSelectImage(event: Event) {
+    event.preventDefault(); // Previene el comportamiento por defecto
+    this.fileInput.nativeElement.click(); // Activa el input de archivo
   }
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();
+    event.stopPropagation();
+    // Feedback visual (opcional)
+    const dropArea = event.target as HTMLElement;
+    dropArea.classList.add('dragover');
   }
 
   onDragLeave(event: DragEvent): void {
     event.preventDefault();
+    event.stopPropagation();
+    // Remover feedback visual
+    const dropArea = event.target as HTMLElement;
+    dropArea.classList.remove('dragover');
   }
 
-  onSelectImage(event: MouseEvent): void {
+  onDrop(event: DragEvent): void {
     event.preventDefault();
-    const fileInput =
-      document.querySelector<HTMLInputElement>('input[type="file"]');
-    fileInput?.click();
-  
+    event.stopPropagation();
+    // Remover clase de feedback
+    const dropArea = event.target as HTMLElement;
+    dropArea.classList.remove('dragover');
+
+    if (event.dataTransfer?.files?.length) {
+      const file = event.dataTransfer.files[0];
+      // Reutilizamos el método existente
+      const fakeEvent = { target: { files: [file] } } as unknown as Event;
+      this.handleImageUpload(fakeEvent);
+    }
   }
 }

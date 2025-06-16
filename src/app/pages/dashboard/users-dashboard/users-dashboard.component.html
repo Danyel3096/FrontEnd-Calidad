@@ -88,8 +88,8 @@
           <!-- ROLE SE OMITE PORQUE VA EN OTRO MÓDULO -->
           <div class="mb-3">
             <p *ngIf="modalMode === 'view'" hidden>{{ selectedUser.password }}</p>
-            <input *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedUser.password" name="password" hidden placeholder="12345"/>
-            <div class="valid-feedback">
+            <input *ngIf="modalMode === 'create'" type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password" placeholder="Escribe una contraseña" required>
+          <div class="valid-feedback">
               Perfectoo!
             </div>
             <div class="invalid-feedback">
