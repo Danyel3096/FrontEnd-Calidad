@@ -168,10 +168,15 @@ export class MetricsDashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   iniciarSocket(): void {
-    const socketUrl = 'ws://localhost:8080/ws/statistics';
+    const socketUrl = 'ws://tdd-billing-backend.onrender.com/ws/statistics';
+    
     this.socketSubscription = this.websocketService.connect(socketUrl).subscribe(rawMsg => {
       try {
         const data = JSON.parse(rawMsg);
+        
+        this.mensajesSocket.push(rawMsg);
+        //console.log('📩 Nuevo mensaje recibido:', rawMsg);
+        
         this.actualizarDatosConSocket(data); // 👇 función que debes crear
       } catch (e) {
         console.error('Mensaje no JSON:', rawMsg);
@@ -181,13 +186,45 @@ export class MetricsDashboardComponent implements AfterViewInit, OnDestroy {
 
   actualizarDatosConSocket(data: any) {
     if (data.kpis) this.kpis = data.kpis;
+
+    // Suponiendo que estos son los únicos valores recibidos por ahora
+    if (data.salesToday !== undefined && data.incomeToday !== undefined && data.salesThisMonth !== undefined && data.incomeThisMonth !== undefined) {
+      this.kpis = [
+        { label: 'Ventas del día', value: data.salesToday },
+        { label: 'Ingresos del día', value: `$${data.incomeToday.toFixed(2)}` },
+        { label: 'Ventas del mes', value: data.salesThisMonth },
+        { label: 'Ingreso del mes', value: `$${data.incomeThisMonth.toFixed(2)}` },
+        {
+          label: 'Promedio ventas del día',
+          value: `$${(data.incomeToday / (data.salesToday || 1)).toFixed(2)}` // Evita división por cero
+        }
+      ];
+    }
+
     if (data.ticketPromedio) {
       this.ticketPromedioPorDia = data.ticketPromedio;
       this.initTicketPromedioChart(); // O actualiza el chart directamente
     }
+
     if (data.ingresosMes) {
       this.ingresosDelMes = data.ingresosMes;
       this.initIngresosMesChart();
+    }
+
+    if (data.categorias && data.productosPorCategoria) {
+      this.categorias = data.categorias;
+      this.productosPorCategoria = data.productosPorCategoria;
+      this.initCategoriasChart();
+    }
+
+    if (data.topProductos && data.ventasTopProductos) {
+      this.topProductos = data.topProductos;
+      this.ventasTopProductos = data.ventasTopProductos;
+      this.initTopProductosChart();
+    }
+
+    if (data.ingresosVsVentas) {
+      this.initIngresosVsVentasChartDesdeSocket(data.ingresosVsVentas.ingresos, data.ingresosVsVentas.ventas);
     }
   }
 
@@ -306,6 +343,48 @@ export class MetricsDashboardComponent implements AfterViewInit, OnDestroy {
       },
     });
   }
+
+  initIngresosVsVentasChartDesdeSocket(ingresos: number[], ventas: number[]): void {
+    new Chart(this.ingresosVsVentasCanvas.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.dias,
+        datasets: [
+          {
+            label: 'Ingresos',
+            data: ingresos,
+            backgroundColor: '#4e73df',
+            yAxisID: 'y1',
+          },
+          {
+            label: 'Ventas',
+            data: ventas,
+            backgroundColor: '#1cc88a',
+            yAxisID: 'y2',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y1: {
+            type: 'linear',
+            position: 'left',
+            beginAtZero: true,
+            title: { display: true, text: 'Ingresos ($)' },
+          },
+          y2: {
+            type: 'linear',
+            position: 'right',
+            beginAtZero: true,
+            title: { display: true, text: 'Cantidad de Ventas' },
+            grid: { drawOnChartArea: false },
+          },
+        },
+      },
+    });
+  }
+
 
   imprimirMetricas() {
     const canvases = document.querySelectorAll('canvas');
