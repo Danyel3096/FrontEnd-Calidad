@@ -20,7 +20,7 @@ export const environment = {
   // Productos
   API_URL_PRODUCTO_CREATE: `${API_URL_BASE}api/products`,
   API_URL_PRODUCTO_UPDATE: `${API_URL_BASE}api/products/`, //NOTA: Necesita tener el slash al final porque se concatena el ID de la tienda
-  API_URL_PRODUCTO_DELETELOGICALLY: `${API_URL_BASE}api/products/`, //NOTA: Necesita tener el slash al final porque se concatena el ID de la tienda
+  API_URL_PRODUCTO_DELETELOGICALLY: `${API_URL_BASE}api/products`,
   API_URL_PRODUCTO_READALL: `${API_URL_BASE}api/products`,
   
   API_URL_PRODUCTO_READBYSTORE: `${API_URL_BASE}api/products/store/`, //NOTA: Necesita tener el slash al final porque se concatena el ID de la tienda
@@ -40,7 +40,10 @@ API_URL_SALES_BY_CREATE: `${API_URL_BASE}api/sales`,
   // Login (autenticación)
   API_URL_USUARIO_LOGIN: `${API_URL_BASE}rest/auth/login`, // URL de login actualizada
   API_URL_USUARIO_REGISTRO: `${API_URL_BASE}api/users`,
-  API_URL_USUARIO_UPDATE: `${API_URL_BASE}api/users`,
+  API_URL_USUARIO_UPDATE: `${API_URL_BASE}api/users/`,
+  API_URL_USUARIO_READALL: `${API_URL_BASE}api/users`, //visualizar usuarios
+  API_URL_USUARIO_BY_STORE: `${API_URL_BASE}api/users`, //NOTA: Necesita tener el slash al final porque se concatena el ID de la tienda
+ 
 
   //roles
   API_URL_ROLES_READALL: `${API_URL_BASE}api/roles`,

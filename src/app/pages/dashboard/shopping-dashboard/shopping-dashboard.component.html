@@ -44,7 +44,7 @@
             </div>
                <div class="mb-3">
               <label class="form-label">Total</label>
-              <textarea *ngIf="selectedOrder" class="form-control" [(ngModel)]="selectedOrder.paymentMethod" name="description" [disabled]="modalMode === 'view'"></textarea>
+              <textarea *ngIf="selectedOrder" class="form-control" [(ngModel)]="selectedOrder.totalAmount" name="description" [disabled]="modalMode === 'view'"></textarea>
                 </div>
             <div class="mb-3">
               <label class="form-label">Estado</label>
