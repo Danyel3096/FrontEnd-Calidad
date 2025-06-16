@@ -115,9 +115,10 @@
             <label class="form-label">Rol</label>
             <p *ngIf="modalMode === 'view'">{{ selectedUser.role }}</p>
             <select *ngIf="modalMode === 'edit' || modalMode === 'create'" class="form-control" [(ngModel)]="selectedUser.role" name="status">
-              <option value="administrator">Administrador</option>
-              <option value="warehouse">Warehouse</option>
-              <option value="customer">Cliente</option>
+              <option value="ADMIN">Administrador</option>
+              <option value="WAREHOUSE">Warehouse</option>
+              <option value="CUSTOMER">Cliente</option>
+              <option value="CASHIER">Cajero</option>
             </select>
             <div class="valid-feedback">
               Perfectoo!

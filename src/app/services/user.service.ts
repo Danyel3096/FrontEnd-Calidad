@@ -15,51 +15,35 @@ export class UserService {
    * Obtiene todos los usuarios
    */
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(environment.API_URL_USUARIO_REGISTRO);
+    return this.http.get<User[]>(environment.API_URL_USUARIO_READALL);
   }
 
   /**
    * Obtiene los usuarios por tienda
    */
   getUsersByStore(storeId: number): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.API_URL_USUARIO_REGISTRO}/store/${storeId}`);
+    return this.http.get<User[]>(`${environment.API_URL_USUARIO_BY_STORE}/store/${storeId}`);
   }
 
   /**
    * Obtiene un usuario por ID
    */
   getUserById(userId: number): Observable<User> {
-    return this.http.get<User>(`${environment.API_URL_USUARIO_UPDATE}${userId}`);
+    return this.http.get<User>(`${environment.API_URL_USUARIO_BY_STORE}${userId}`);
   }
 
   /**
    * Crea un nuevo usuario
    */
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(environment.API_URL_USUARIO_REGISTRO, user);
+  createUser(productData: FormData): Observable<User> {
+    return this.http.post<User>(environment.API_URL_USUARIO_REGISTRO,  productData);
   }
 
   /**
    * Actualiza un usuario
    */
-  updateUser(userId: number, user: User): Observable<User> {
-    const formData = new FormData();
-
-    // Limpieza de propiedades innecesarias
-    delete user.photoUrl;
-    delete user.id;
-
-    const file = user.photo;
-    delete user.photo;
-
-    const jsonBlob = new Blob([JSON.stringify(user)], { type: 'application/json' });
-    formData.append('user', jsonBlob);
-
-    if (file) {
-      formData.append('file', file);
-    }
-
-    return this.http.put<User>(`${environment.API_URL_USUARIO_UPDATE}${userId}`, formData);
+  updateUser(userId: number, productData: FormData): Observable<User> {
+    return this.http.put<User>(`${environment.API_URL_USUARIO_UPDATE}${userId}`, productData);
   }
 
   /**
