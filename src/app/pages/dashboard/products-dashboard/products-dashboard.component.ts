@@ -28,6 +28,7 @@ import { DatatableLanguageService } from '../../../services/datatable-language.s
   styleUrls: ['./products-dashboard.component.css'],
   providers: [DatePipe],
 })
+
 export class ProductsDashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private productsService: ProductsService,
@@ -384,49 +385,12 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
     this.productModal.show();
   }
 
-  private showSuccessAlert(message: string): void {
-    Swal.fire({
-      icon: 'success',
-      title: 'Guardado',
-      text: message,
-      didOpen: () => {
-        const titleEl = document.querySelector('.swal2-title');
-        if (titleEl) {
-          titleEl.setAttribute('style', 'color: black;');
-        }
-      },
-    });
-  }
-
-  private showErrorAlert(title: string, err: any): void {
-    Swal.fire({
-      icon: 'error',
-      title,
-      text: `Mensaje del servidor: ${err?.error?.message || 'Error desconocido.'}`,
-      didOpen: () => {
-        const titleEl = document.querySelector('.swal2-title');
-        if (titleEl) {
-          titleEl.setAttribute('style', 'color: black;');
-        }
-      },
-    });
-  }
-
   saveProductChanges(): void {
     const form = document.querySelector('form.needs-validation') as HTMLFormElement;
     form.classList.add('was-validated');
   
     if (!this.bootstrapValidation.validateForm(form)) return;
     if (!this.selectedProduct) return;
-
-    //const storeId = Number(localStorage.getItem('storeid') ?? '0');
-    //const categoryId = Number(localStorage.getItem('categoryId') ?? '0');
-    //const userId = Number(localStorage.getItem('user_id') ?? '0');
-
-    /*if (!storeId || !categoryId || !userId) {
-      Swal.fire('Error', 'Faltan datos del storeId, categoryId o userId en localStorage', 'error');
-      return;
-    }*/
     
     const productData = {
       storeId: this.selectedProduct.storeId = 2,
@@ -442,29 +406,25 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
       status: true
     };
 
-    /*const productData = {
-      storeId: this.selectedProduct.storeId,
-      categoryId: this.selectedProduct.categoryId,
-      userId: this.selectedProduct.userId,
+    const transformedData = {
+      store: { id: this.selectedProduct.storeId },
+      category: { id: this.selectedProduct.categoryId },
+      user: { id: this.selectedProduct.userId },
       name: this.selectedProduct.name,
       description: this.selectedProduct.description,
       price: this.selectedProduct.price,
       stock: this.selectedProduct.stock,
-      url: this.selectedProduct.url || '',
-      ratingRate: this.selectedProduct.ratingRate || 0,
-      ratingCount: this.selectedProduct.ratingCount || 0,
-      status: this.selectedProduct.status,
-    };*/
+      url: this.selectedProduct.url,
+      ratingRate: this.selectedProduct.ratingRate,
+      ratingCount: this.selectedProduct.ratingCount,
+      status: this.selectedProduct.status
+    };
+
     const formData = new FormData();
+    console.log('Creando producto con el formaData');
     const jsonBlob = new Blob([JSON.stringify(productData)], { type: 'application/json' });
     formData.append('product', jsonBlob);
-  
-    /*if (this.selectedImageFile) {
-      formData.append('file', this.selectedImageFile);
-    } else {
-      const emptyFile = new Blob([], { type: 'application/octet-stream' });
-      formData.append('file', new File([emptyFile], 'empty.txt'));
-    }*/
+
     if (this.selectedImageFile) {
       formData.append('file', this.selectedImageFile);
     }
@@ -494,7 +454,7 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
         },
       });
     } else if (this.modalMode === 'edit' && this.selectedProduct.id) {
-      this.productsService.updateProduct(this.selectedProduct.id, formData).subscribe({
+      this.productsService.updateProduct(this.selectedProduct.id, transformedData).subscribe({
         next: (data) => {
           console.log('Producto actualizado:', data);
           const index = this.products.findIndex((p) => p.id === data.id);
@@ -511,7 +471,6 @@ export class ProductsDashboardComponent implements OnInit, AfterViewInit {
       });
     }
   }
-  
 
   deleteProduct(product: Product): void {
     Swal.fire({

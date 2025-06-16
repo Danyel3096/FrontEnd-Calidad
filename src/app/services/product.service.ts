@@ -31,7 +31,7 @@ export class ProductsService {
     return this.http.post<Product>(environment.API_URL_PRODUCTO_CREATE, productData);
   }
 
-  updateProduct(productId: number, productData: FormData): Observable<Product> {
+  updateProduct(productId: number, productData: any): Observable<Product> {
     return this.http.put<Product>(`${environment.API_URL_PRODUCTO_UPDATE}${productId}`, productData);
   }
 
